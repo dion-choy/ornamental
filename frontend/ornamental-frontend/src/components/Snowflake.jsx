@@ -7,16 +7,15 @@ function Snowflake(props) {
 
     const particleCount = props.count;
     const positions = useMemo(() => {
-        const pos = new Float32Array(particleCount * 3); // x, y, z for each particle
+        const pos = new Float32Array(particleCount * 3);
         for (let i = 0; i < particleCount; i++) {
-            pos[i * 3] = (Math.random() - 0.5) * 100; // x position
-            pos[i * 3 + 1] = Math.random() * 50; // y position (height)
-            pos[i * 3 + 2] = (Math.random() - 0.5) * 100; // z position
+            pos[i * 3] = (Math.random() - 0.5) * 100;
+            pos[i * 3 + 1] = Math.random() * 50;
+            pos[i * 3 + 2] = (Math.random() - 0.5) * 100;
         }
         return pos;
     }, []);
 
-    // Animate the snow particles
     useFrame(() => {
         if (!points.current) return;
 
@@ -39,8 +38,8 @@ function Snowflake(props) {
                 <bufferAttribute attach="attributes-position" count={particleCount} array={positions} itemSize={3} />
             </bufferGeometry>
             <pointsMaterial
-                size={0.5} // Adjust particle size
-                color="#ffffff" // Snow color
+                size={0.5}
+                color="#ffffff"
                 sizeAttenuation={true}
                 transparent={true}
                 blending={AdditiveBlending}
