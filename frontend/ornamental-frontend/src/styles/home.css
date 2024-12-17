@@ -9,7 +9,7 @@
 body {
     background-color: #0d0f13;
     color: #fff;
-    height: 100vh;
+    /* height: 100vh; */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -17,32 +17,44 @@ body {
     position: relative;
 }
 
+.info-container {
+    height: 100vh;
+}
 
 .container {
+    height: 90vh;
     text-align: center;
     position: relative;
 }
 
-
-
-.logo img {
-    width: 250px;
-    margin-bottom: 10px;
+h2 {
+    font-size: xx-large;
+    text-align: center;
 }
 
-
-.candy-cane img {
-    width: 150px;
+.logo img {
+    width: 25vw;
+    margin-top: 15vh;
     margin-bottom: 20px;
 }
 
 
+.candy-cane img {
+    width: 15vw;
+    margin: 20px;
+}
 
 .buttons {
     display: flex;
     flex-direction: column;
     gap: 15px;
 }
+
+button.btn:hover {
+    background-color: #0b4f1b;
+    color: white;
+}
+
 
 .btn {
     background-color: #fff;
@@ -53,12 +65,14 @@ body {
     font-size: 16px;
     font-weight: bold;
     cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    z-index: 1;
+
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-.btn.create, .btn.join, .btn.code {
-    width: 200px;
+.btn.create, .btn.join {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    width: 25vw;
     margin: 0 auto;
 }
 
@@ -67,15 +81,39 @@ body {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
-.btn.code {
+.btn#code {
     color: #888;
+    cursor: text;
+    text-align: center;
+    z-index: 0;
 }
 
 /* Snowflakes */
 .snowflake {
     position: absolute;
     width: 50px;
-    opacity: 0.5;
+    opacity: 0;
+    animation: fall 5s linear;
+    z-index: -1;
+}
+
+@keyframes fall {
+    0% {
+        opacity: 0;
+    }
+
+    3% {
+        opacity: 0.9;
+    }
+
+    90% {
+        opacity: 0.9;
+    }
+
+    100% {
+        transform: translate(0, 97vh);
+        opacity: 0;
+    }
 }
 
 .snowflake img {
