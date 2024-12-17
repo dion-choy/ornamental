@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { useLoader, useFrame } from "@react-three/fiber";
 
@@ -11,6 +11,15 @@ function Model(props) {
             rotate.current.rotation.y += props.rotate;
         }
     });
+
+    useEffect(() => {
+        gltf.scene.traverse(function (child) {
+            if (child.isMesh) {
+                child.castShadow = true;
+                child.receiveShadow = true;
+            }
+        });
+    }, gltf);
 
     return (
         <mesh castShadow receiveShadow>

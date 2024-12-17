@@ -25,17 +25,13 @@ export default function Home() {
             >
                 {/* <Skybox /> */}
 
-                <ambientLight intensity={1} />
+                <ambientLight intensity={2} />
                 <Draggable>
-                    <Box />
-                    <Box />
                     <LightBulb position={[0, 3, 0]} />
                 </Draggable>
 
-                <Box size={[20, 1, 20]} position={[0, -2, 0]} />
-
                 <Model file="/christmas_tree.glb" />
-                {/* <Model file="/room.glb" /> */}
+                <Model file="/room.glb" />
                 <Controls />
             </Canvas>
         </div>
