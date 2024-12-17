@@ -34,7 +34,7 @@ export default function Home() {
 
                 <Box size={[20, 1, 20]} position={[0, -2, 0]} />
 
-                {/* <Model file="/christmas_tree.glb" /> */}
+                <Model file="/christmas_tree.glb" />
                 {/* <Model file="/room.glb" /> */}
                 <Controls />
             </Canvas>
