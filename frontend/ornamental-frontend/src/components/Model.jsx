@@ -19,7 +19,7 @@ function Model(props) {
                 child.receiveShadow = true;
             }
         });
-    }, gltf);
+    }, [gltf]);
 
     return (
         <mesh castShadow receiveShadow>

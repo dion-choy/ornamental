@@ -23,7 +23,7 @@ export default function Home() {
                     fov: 100,
                 }}
             >
-                {/* <Skybox /> */}
+                <Skybox />
 
                 {/* <ambientLight intensity={2} /> */}
                 <Draggable>

@@ -1,25 +1,18 @@
-import React from "react";
-import { useThree } from "@react-three/fiber";
-import CubeTextureLoader from "three";
+import React, { useEffect } from "react";
+import { useLoader, useThree } from "@react-three/fiber";
+import { CubeTextureLoader } from "three";
 
 function Skybox(props) {
-    const size = props.size;
     const { scene } = useThree();
 
-    const loader = new CubeTextureLoader();
-    const texture = loader.load("/test.png");
+    const [texture] = useLoader(CubeTextureLoader, [
+        ["./test.png", "./test.png", "./test.png", "./test.png", "./test.png", "./test.png"],
+    ]);
 
-    scene.background.set(texture);
+    scene.background = texture;
+    scene.environment = texture;
 
-    return (
-        <mesh
-            position={props.position}
-            rotateX={props.rotateX}
-            rotateY={props.rotateY}
-            recieveShadow={true}
-            castShadow
-        ></mesh>
-    );
+    return null;
 }
 
 export default Skybox;
