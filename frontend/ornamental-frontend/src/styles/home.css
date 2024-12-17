@@ -1,4 +1,4 @@
-/* General Reset */
+
 * {
     margin: 0;
     padding: 0;
@@ -14,31 +14,34 @@ body {
     justify-content: center;
     align-items: center;
     overflow: hidden;
+    position: relative;
 }
 
-/* Container */
+
 .container {
     text-align: center;
     position: relative;
 }
 
-/* Logo */
+
+
 .logo img {
     width: 250px;
+    margin-bottom: 10px;
 }
 
-/* Candy Cane Divider */
+
 .candy-cane img {
     width: 150px;
-    margin: 15px 0;
+    margin-bottom: 20px;
 }
 
-/* Buttons */
+
+
 .buttons {
     display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin-top: 20px;
+    flex-direction: column;
+    gap: 15px;
 }
 
 .btn {
@@ -47,22 +50,25 @@ body {
     border: none;
     border-radius: 8px;
     padding: 12px 20px;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: bold;
     cursor: pointer;
-    transition: transform 0.2s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-.btn.create {
-    color: #0b4f1b;
-}
-
-.btn.join {
-    color: #0b4f1b;
+.btn.create, .btn.join, .btn.code {
+    width: 200px;
+    margin: 0 auto;
 }
 
 .btn:hover {
     transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.btn.code {
+    color: #888;
 }
 
 /* Snowflakes */

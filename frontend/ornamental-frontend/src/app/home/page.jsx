@@ -16,6 +16,7 @@ function Home() {
         <div className="buttons">
           <button className="btn create">Create your Room</button>
           <button className="btn join">Join a Room</button>
+          <button className="btn code">Enter Room code</button>
         </div>
       </div>
 
