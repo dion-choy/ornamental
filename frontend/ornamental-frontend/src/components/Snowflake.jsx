@@ -1,6 +1,6 @@
 import React, { useRef, useMemo } from "react";
 import { useLoader, useFrame } from "@react-three/fiber";
-import { TextureLoader, additiveBlending } from "three";
+import { TextureLoader, AdditiveBlending } from "three";
 
 function Snowflake(props) {
     const points = useRef();
@@ -43,7 +43,7 @@ function Snowflake(props) {
                 color="#ffffff" // Snow color
                 sizeAttenuation={true}
                 transparent={true}
-                blending={additiveBlending}
+                blending={AdditiveBlending}
                 depthWrite={false}
                 opacity={0.8}
                 alphaTest={0.5}
