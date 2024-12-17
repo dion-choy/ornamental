@@ -18,7 +18,7 @@ export default function Home() {
                 shadows
                 className={css.canvas}
                 camera={{
-                    position: [7, 5, 7],
+                    position: [7, 4, 7],
                     fov: 100,
                 }}
             >

@@ -16,12 +16,12 @@ function Snowflake(props) {
         return pos;
     }, []);
 
-    useFrame(() => {
+    useFrame((state, delta) => {
         if (!points.current) return;
 
         const positions = points.current.geometry.attributes.position.array;
         for (let i = 0; i < particleCount; i++) {
-            positions[i * 3 + 1] -= 0.1;
+            positions[i * 3 + 1] -= 2 * delta;
 
             if (positions[i * 3 + 1] < -10) {
                 positions[i * 3 + 1] = 50;

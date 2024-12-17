@@ -26,7 +26,7 @@ function Controls(props) {
             ref={control}
             attach={"orbitControls"}
             args={[camera, gl.domElement]}
-            maxDistance={5}
+            maxDistance={3.5}
             minPolarAngle={0}
             maxPolarAngle={Math.PI / 2 - 0.1}
             enablePan={false}
