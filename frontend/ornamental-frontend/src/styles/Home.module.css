@@ -1,8 +1,15 @@
 .scene {
     width: 100vw;
     height: 100vh;
+    position: relative;
 }
 
 .canvas {
+    position: absolute;
     background: #000;
+}
+
+.overlay {
+    position: absolute;
+    z-index: 265
 }

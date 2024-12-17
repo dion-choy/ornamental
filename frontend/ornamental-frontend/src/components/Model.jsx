@@ -32,7 +32,7 @@ function Model(props) {
     }, [gltf]);
 
     return (
-        <mesh castShadow receiveShadow>
+        <mesh position={props.position}>
             <primitive object={gltf.scene} ref={rotate} scale={2} />
         </mesh>
     );

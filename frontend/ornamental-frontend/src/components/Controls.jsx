@@ -9,9 +9,14 @@ function Controls(props) {
 
     const control = useRef();
 
+    useEffect(() => {
+        control.current.target.set(0, 1, 0);
+    });
+
     useFrame(() => {
         if (props.rotate) {
             control.current.autoRotate = true;
+            control.current.autoRotateSpeed = props.rotate;
             control.current.update();
         }
     });
@@ -21,9 +26,9 @@ function Controls(props) {
             ref={control}
             attach={"orbitControls"}
             args={[camera, gl.domElement]}
-            maxDistance={20}
+            maxDistance={3.5}
             minPolarAngle={0}
-            maxPolarAngle={Math.PI / 2}
+            maxPolarAngle={Math.PI / 2 - 0.1}
             enablePan={false}
         />
     );
