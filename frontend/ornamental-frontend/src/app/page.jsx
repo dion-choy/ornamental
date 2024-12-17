@@ -33,7 +33,7 @@ export default function Home() {
                     <LightBulb position={[0, 3, 0]} size={[0.2, 30, 10]} intensity={5} color={"beige"} />
                 </Draggable>
 
-                {/* <Model file="/christmas_tree.glb" position={[0, -0.5, 0]} /> */}
+                <Model file="/christmas_tree.glb" position={[0, -0.5, 0]} />
                 <Model file="/room.glb" position={[0, -0.5, 0]} />
                 <Controls rotate={0.7} />
             </Canvas>
