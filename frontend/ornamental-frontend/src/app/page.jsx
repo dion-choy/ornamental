@@ -25,7 +25,7 @@ export default function Home() {
             >
                 {/* <Skybox /> */}
 
-                <ambientLight intensity={2} />
+                {/* <ambientLight intensity={2} /> */}
                 <Draggable>
                     <LightBulb position={[0, 3, 0]} />
                 </Draggable>
