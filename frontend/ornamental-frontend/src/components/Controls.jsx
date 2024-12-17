@@ -9,6 +9,10 @@ function Controls(props) {
 
     const control = useRef();
 
+    useEffect(() => {
+        control.current.target.set(0, 1, 0);
+    });
+
     useFrame(() => {
         if (props.rotate) {
             control.current.autoRotate = true;
