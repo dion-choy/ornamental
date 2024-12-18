@@ -35,7 +35,6 @@
 
 .container {
     position: absolute;
-    top: 20px; /* Moves timer down slightly */
     left: 50%;
     transform: translateX(-50%);
     background-color: rgba(0, 0, 0, 0.6);
@@ -46,9 +45,20 @@
     z-index: 15;
 }
 
+.timerUI {
+    width: auto; 
+    height: 10vh; 
+    display: inline-block; 
+    margin-right: 8px;
+    vertical-align: middle; 
+}
+
 .timer {
-    font-size: 24px;
+    font-size: 15px; /* Matches image height */
     font-weight: bold;
+    color: #fff;
+    display: inline-block; /* Keeps timer in line with the image */
+    vertical-align: middle; 
 }
 
 #admin-panel {

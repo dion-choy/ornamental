@@ -53,6 +53,7 @@ export default function Home() {
             </Canvas>
 
             <div className={css.overlay}>
+                <img className={css.timerUI}src="/Time.svg" alt="Gift!" />
                 <div className={css.container}>
                     <div className={css.timer}>10 days 10 hours 10 minutes 10 seconds</div>
                 </div>
