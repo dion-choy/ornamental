@@ -11,13 +11,13 @@ function Controls(props) {
 
     useEffect(() => {
         control.current.target.set(0, 1, 0);
+        control.current.autoRotate = true;
+        control.current.autoRotateSpeed = props.rotate;
     });
 
-    useFrame(() => {
+    useFrame((state, delta) => {
         if (props.rotate) {
-            control.current.autoRotate = true;
-            control.current.autoRotateSpeed = props.rotate;
-            control.current.update();
+            control.current.update(delta);
         }
     });
 

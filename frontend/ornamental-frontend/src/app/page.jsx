@@ -3,6 +3,7 @@ import css from "@/styles/Home.module.css";
 import { useRef, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import MyScene from "@/components/CanvasScene";
+import Controls from "@/components/Controls";
 
 import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
 import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
@@ -49,11 +50,12 @@ export default function Home() {
                     gl.setAnimationLoop(() => composer.render());
                 }}
             >
+                <Controls rotate={0.4} />
                 <MyScene numReindeers={numReindeers} />
             </Canvas>
 
             <div className={css.overlay}>
-                <img className={css.timerUI}src="assets/Time.svg" alt="Gift!" />
+                <img className={css.timerUI} src="assets/Time.svg" alt="Gift!" />
                 <div className={css.container}>
                     <div className={css.timer}>10 days 10 hours 10 minutes 10 seconds</div>
                 </div>
