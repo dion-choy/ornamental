@@ -1,20 +1,22 @@
 "use client";
 import css from "@/styles/Home.module.css";
-import { useRef, useState } from "react";
+import { useRef, useState,useEffect } from "react";
 import { Canvas } from "@react-three/fiber";
 import MyScene from "@/components/CanvasScene";
 import Controls from "@/components/Controls";
-
+import { useParams } from 'next/navigation'
 import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
+import {getNoPlayers } from "@/components/api/api";
 import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
 import { SAOPass } from "three/addons/postprocessing/SAOPass.js";
 import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
 
 export default function Home() {
+    const {id}=useParams();
     const cam = useRef();
     const [numReindeers, setNumReindeers] = useState(0);
     const [chooseOrnament, setChooseOrnament] = useState(false);
-
+    useEffect(()=>{console.log(id);getNoPlayers(id).then((no)=>{setNumReindeers(no)})},[])
     return (
         <div className={css.scene}>
             <Canvas
