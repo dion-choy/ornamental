@@ -1,12 +1,13 @@
 import React, { useRef, useEffect } from "react";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
-import { useLoader, useFrame } from "@react-three/fiber";
-import { AnimationMixer } from "three";
+import { useLoader, useFrame, useThree } from "@react-three/fiber";
+import { PointLight, AnimationMixer, MeshBasicMaterial } from "three";
 
 function Model(props) {
     const gltf = useLoader(GLTFLoader, props.file);
     const rotate = useRef();
     let mixer;
+    const { scene } = useThree();
 
     useFrame((state, delta) => {
         if (props.rotate) {
@@ -20,6 +21,24 @@ function Model(props) {
             if (child.isMesh) {
                 child.castShadow = true;
                 child.receiveShadow = true;
+            }
+
+            if (child.name.substring(0, 11) == "GN_Instance") {
+                child.material.emissiveIntensity = 3;
+            }
+
+            if (child.name == "Fire") {
+                const fireLight = new PointLight(0xf7ad00, 5, 100, 0.1);
+                fireLight.position.set(0, 0, 0);
+                fireLight.castShadow = true;
+                fireLight.shadow.bias = -0.006;
+
+                child.add(fireLight);
+                child.receiveShadow = false;
+                child.castShadow = false;
+                const color = child.material.color;
+                child.material = new MeshBasicMaterial({ color: 0xffffff });
+                child.material.color = color;
             }
         });
 
