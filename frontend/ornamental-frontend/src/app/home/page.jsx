@@ -47,16 +47,12 @@ function Home() {
     <div>
       <div className="header-container" >
         <div className="header-card"></div>
-        <div className="logo">
-          <img src="assets/logo.svg" alt="Ornamental Logo" />
-        </div>
+        <img className="logo inline" src="assets/logo.svg" alt="Ornamental Logo" />
 
         <p style={{ fontSize: "40px" }}>It's secret santa</p>
         <p style={{ fontSize: "20px" }}>but <b>better</b></p>
 
-        <div className="candy-cane">
-          <img src="assets/candycane.svg" alt="Candy Cane Divider" />
-        </div>
+        <img className="inline candy-cane" src="assets/candycane.svg" alt="Candy Cane Divider" />
 
         <div className="buttons">
           <button className="btn create" onClick={() => redirect("/createRoom")}>Create a Room</button>
@@ -94,7 +90,7 @@ function Home() {
         ))}
       </div>
 
-      <div className="info-container">
+      <div className="info-container ">
         <h2>About</h2>
       </div>
     </div>

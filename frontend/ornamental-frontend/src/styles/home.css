@@ -33,14 +33,14 @@ h2 {
     text-align: center;
 }
 
-.logo img {
+img.logo {
     width: 25vw;
     margin-top: 15vh;
     margin-bottom: 20px;
 }
 
 
-.candy-cane img {
+img.candy-cane {
     width: 15vw;
     margin: 20px;
 }
