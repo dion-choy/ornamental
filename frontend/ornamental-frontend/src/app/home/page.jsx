@@ -60,11 +60,15 @@ function Home() {
 
         <div className="buttons">
           <button className="btn create" onClick={() => redirect("/createRoom")}>Create a Room</button>
-          <button className="btn join" onClick={() => {setDisplayInputCode(true); inputCodeRef.current.focus()}}>Join a Room</button>
+          
+          {!displayInputCode ? 
+          <button className="btn join" onClick={() => {setDisplayInputCode(true)}}>Join a Room</button>
+          : null}
+          
 
           {displayInputCode ?
             (<>
-              <motion.input initial={{ opacity: 0, y: -50 }}
+              <motion.input initial={{ opacity: 0, y: -60 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, y: { type: "spring", visualDuration: 0.4, bounce: 0.5 } }}
 
@@ -75,6 +79,7 @@ function Home() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, y: { type: "spring", visualDuration: 0.4, bounce: 0.5 } }}
                 whileHover={{scale: 1.05, transition:{duration:0.2, ease:"linear"}}}
+                onAnimationComplete={() => inputCodeRef.current.focus()}
                 className="btn" id="enter" onClick={() => { checkCode(code).then((c) => { if (!c) { setCan(c) } else { redirect("/rooms/" + code) }}) }}>Enter!</motion.button>
               {(can) ? "" : "Wrong Code"}
             </>)
