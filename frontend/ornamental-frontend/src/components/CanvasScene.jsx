@@ -14,15 +14,15 @@ export default function MyScene(props) {
 
             <Snowflake count={500} />
 
-            <ambientLight intensity={0.7} color={"white"} />
+            <ambientLight intensity={0.5} color={"white"} />
             <Draggable>
-                <LightBulb position={[0, 3, 0]} size={[0.2, 30, 10]} intensity={5} color={"beige"} />
+                <LightBulb position={[0, 4, 0]} size={[0.2, 30, 10]} intensity={5} color={"beige"} />
             </Draggable>
 
             <DeerSpawner deerCount={props.numReindeers}></DeerSpawner>
             <Model file="/christmas_tree.glb" position={[0, 0, 0]} />
             <Model file="/room.glb" position={[0, 0, 0]} />
-            <Controls rotate={0.7} />
+            <Controls rotate={0.4} />
         </group>
     );
 }
