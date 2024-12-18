@@ -2,13 +2,14 @@
     width: 100vw;
     height: 100vh;
     position: relative;
-    overflow: hidden; /* Ensures no content spills */
+    overflow: hidden;
 }
 
 .canvas {
     position: absolute;
-    background: #000;
-    z-index: 0; /* Keeps canvas behind the overlay */
+    top: 0;
+    left: 0;
+    z-index: 0; /* Keeps the 3D canvas behind the overlay */
 }
 
 .overlay {
@@ -17,36 +18,37 @@
     left: 0;
     right: 0;
     bottom: 0;
-    z-index: 1;
+    z-index: 10; /* Ensures overlay is on top */
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    align-items: center;
-    padding: 20px;
+    pointer-events: none; /* Prevents blocking the canvas interactions */
 }
 
 .body {
     margin: 0;
     padding: 0;
-    background-color: #1b1846;
     color: white;
     font-family: Arial, sans-serif;
+    position: relative;
 }
 
 .container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
     position: absolute;
-    top: 10px;
-    font-size: 24px;
-    color: #fff;
+    top: 20px; /* Moves timer down slightly */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: 18px;
+    z-index: 15;
 }
 
 .timer {
-    background: #0f0f0f;
-    padding: 10px;
-    border-radius: 10px;
+    font-size: 24px;
+    font-weight: bold;
 }
 
 #admin-panel {
@@ -56,6 +58,8 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
+    z-index: 15;
+    pointer-events: auto; /* Allows interaction */
 }
 
 #admin-panel button {
@@ -64,8 +68,8 @@
     border: none;
     padding: 10px 15px;
     border-radius: 5px;
-    cursor: pointer;
     font-size: 14px;
+    cursor: pointer;
 }
 
 #admin-panel button:hover {
@@ -74,24 +78,23 @@
 
 .giftbutton {
     position: absolute;
-    bottom: 30px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 15;
+    pointer-events: auto;
 }
 
 .giftbutton button {
     background-color: #0F8F0F;
     color: white;
-    border: none;
     padding: 10px 20px;
-    border-radius: 10px;
-    cursor: pointer;
-    font-size: 18px;
+    font-size: 20px;
     display: flex;
     align-items: center;
     gap: 10px;
+    border-radius: 10px;
+    cursor: pointer;
 }
 
 .giftbutton button img {
