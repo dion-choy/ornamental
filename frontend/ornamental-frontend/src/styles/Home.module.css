@@ -2,14 +2,99 @@
     width: 100vw;
     height: 100vh;
     position: relative;
+    overflow: hidden; /* Ensures no content spills */
 }
 
 .canvas {
     position: absolute;
     background: #000;
+    z-index: 0; /* Keeps canvas behind the overlay */
 }
 
 .overlay {
     position: absolute;
-    z-index: 265
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+}
+
+.body {
+    margin: 0;
+    padding: 0;
+    background-color: #1b1846;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 10px;
+    font-size: 24px;
+    color: #fff;
+}
+
+.timer {
+    background: #0f0f0f;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+#admin-panel {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#admin-panel button {
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+#admin-panel button:hover {
+    background-color: #555;
+}
+
+.giftbutton {
+    position: absolute;
+    bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.giftbutton button {
+    background-color: #0F8F0F;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.giftbutton button img {
+    width: 30px;
+    height: 30px;
 }
