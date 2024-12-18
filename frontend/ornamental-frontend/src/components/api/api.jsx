@@ -12,7 +12,7 @@ export async function checkCode(code){
   return (room!=null)
 
 }
-export async function createRoom(code, name, endDate, budget, description){
+export async function createRoom(code, name, endDate, budget, description, maxQ, questions){
   let schema={"code":{
     "$numberInt":code
   },
@@ -27,6 +27,9 @@ export async function createRoom(code, name, endDate, budget, description){
       ]
     },
     "admin_id":"",
+    "max_questions":maxQ,
+    "current_question":0,
+    "questions":questions,
     "list_of_users":[],
     "gifts":[],
 
@@ -46,7 +49,8 @@ export async function createUser(password, room, name, isAdmin){
     "target": "" ,
     "general_information": "",
     "giftbought": false,
-    "is_admin": isAdmin
+    "is_admin": isAdmin,
+    "answers":[]
   }
   const client = await clientPromise;
   const db = client.db("Ornamental");
