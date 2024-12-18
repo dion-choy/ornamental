@@ -15,32 +15,32 @@ function Home() {
     console.log("amongus")
     const value = e.target.value;
     setCode(value
-        );
+    );
     console.log(value);
   };
 
   function createSnowflake() {
     return ({
-id: Math.random().toString(36).substr(2, 9),
-leftOffset:Math.random() * window.innerWidth,
-animationDelay: Math.random() * 5
-});
-}
+      id: Math.random().toString(36).substr(2, 9),
+      leftOffset:Math.random() * window.innerWidth,
+      animationDelay: Math.random() * 5
+    });
+  }
 
-function replaceSnowPos(id) {
-  setSnowPos((prevSnow) =>
+  function replaceSnowPos(id) {
+    setSnowPos((prevSnow) =>
       prevSnow.map((flake) =>
         flake.id === id ? createSnowflake() : flake
-        )
-      );
-}
+      )
+    );
+  }
 
-useEffect(() => {
+  useEffect(() => {
     const initialSnow = Array.from({ length: 10 }, createSnowflake);
     setSnowPos(initialSnow);
-    }, []);
+  }, []);
 
-return (
+  return (
     <div>
     <div className="container" >
     <div className="logo">
@@ -58,38 +58,38 @@ return (
     <button className="btn create" onClick={()=>redirect("/createRoom")}>Create a Room</button>
     <button className="btn join" onClick={() => setDisplayInputCode(true)}>Join a Room</button>
 
-    {displayInputCode? 
-    (<div style={{display:'flex', flexDirection:'column' }}><motion.input initial={{ opacity: 0, y: -50 }}
-     animate={{opacity: 1, y: 0}}
-     transition={{duration: 0.4, y: {type: "spring", visualDuration: 0.4, bounce: 0.5}}}
+    {displayInputCode?
+      (<div style={{display:'flex', flexDirection:'column' }}><motion.input initial={{ opacity: 0, y: -50 }}
+        animate={{opacity: 1, y: 0}}
+        transition={{duration: 0.4, y: {type: "spring", visualDuration: 0.4, bounce: 0.5}}}
 
-     onChange={handleCode}
-     placeholder="Enter Room code" id="code" className="btn"  ></motion.input>
-     <motion.button initial={{ opacity: 0, y: -50 }}
-     animate={{opacity: 1, y: 0}}
-     transition={{duration: 0.4, y: {type: "spring", visualDuration: 0.4, bounce: 0.5}}}
+        onChange={handleCode}
+        placeholder="Enter Room code" id="code" className="btn"  ></motion.input>
+        <motion.button initial={{ opacity: 0, y: -50 }}
+        animate={{opacity: 1, y: 0}}
+        transition={{duration: 0.4, y: {type: "spring", visualDuration: 0.4, bounce: 0.5}}}
 
-     className="btn" onClick={()=>{checkCode(code).then((c)=>{if (!c){setCan(c)}else{redirect("/rooms/"+code)}})}} style={{marginTop:'10px', backgroundColor:'#DDDBFF', '&hover':{color:'white', backgroundColor:'#24223F'}}} >Enter!</motion.button>
-      {(can)?"":"Wrong Code"}
-     </div>)
+        className="btn" onClick={()=>{checkCode(code).then((c)=>{if (!c){setCan(c)}else{redirect("/rooms/"+code)}})}} style={{marginTop:'10px', backgroundColor:'#DDDBFF', '&hover':{color:'white', backgroundColor:'#24223F'}}} >Enter!</motion.button>
+        {(can)?"":"Wrong Code"}
+        </div>)
       : null}
 
-      </div>
-      
-{snowPos.map((snowflake, index) => (
+    </div>
+
+    {snowPos.map((snowflake, index) => (
       <div key={snowflake.id} className="snowflake" style={{ top: "-10%", left: `${snowflake.leftOffset}px`, animationDelay: `${snowflake.animationDelay}s` }} onAnimationEnd={() => replaceSnowPos(snowflake.id)}>
       <img src="/snowflake.png" alt="Snowflake" />
       </div>
-      ))}
-</div>
+    ))}
+    </div>
 
-<div className="info-container">
-<h2>About</h2>
-</div>
+    <div className="info-container">
+    <h2>About</h2>
+    </div>
 
 
-</div>
-);
+    </div>
+  );
 }
 
 export default Home;
