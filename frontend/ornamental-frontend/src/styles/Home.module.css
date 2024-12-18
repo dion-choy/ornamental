@@ -46,11 +46,11 @@
 }
 
 .timerUI {
-    width: auto; 
-    height: 10vh; 
-    display: inline-block; 
+    width: auto;
+    height: 10vh;
+    display: inline-block;
     margin-right: 8px;
-    vertical-align: middle; 
+    vertical-align: middle;
 }
 
 .timer {
@@ -58,7 +58,7 @@
     font-weight: bold;
     color: #fff;
     display: inline-block; /* Keeps timer in line with the image */
-    vertical-align: middle; 
+    vertical-align: middle;
 }
 
 #admin-panel {
@@ -96,7 +96,7 @@
 }
 
 .giftbutton button {
-    background-color: #0F8F0F;
+    background-color: #0f8f0f;
     color: white;
     padding: 10px 20px;
     font-size: 20px;

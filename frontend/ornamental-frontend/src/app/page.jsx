@@ -13,6 +13,8 @@ import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
 export default function Home() {
     const cam = useRef();
     const [numReindeers, setNumReindeers] = useState(0);
+    const [chooseOrnament, setChooseOrnament] = useState(false);
+
     return (
         <div className={css.scene}>
             <Canvas
@@ -35,7 +37,6 @@ export default function Home() {
                     composer.addPass(outputPass);
                     saoPass.resolution.set(1024, 1024);
                     saoPass.setSize(1024, 1024);
-                    console.log(saoPass);
 
                     saoPass.params.saoBias = -1;
                     saoPass.params.saoIntensity = 0.5;
@@ -51,7 +52,7 @@ export default function Home() {
                 }}
             >
                 <Controls rotate={0.4} />
-                <MyScene numReindeers={numReindeers} />
+                <MyScene numReindeers={numReindeers} choose={chooseOrnament} />
             </Canvas>
 
             <div className={css.overlay}>
@@ -60,10 +61,17 @@ export default function Home() {
                     <div className={css.timer}>10 days 10 hours 10 minutes 10 seconds</div>
                 </div>
 
-                <div id="admin-panel">
+                <div id={css["admin-panel"]}>
                     <strong>ADMIN</strong>
                     <button>Start Secret Santa</button>
                     <button>Start Next Activity</button>
+                    <button
+                        onClick={() => {
+                            setChooseOrnament(!chooseOrnament);
+                        }}
+                    >
+                        Choose/cancel
+                    </button>
                 </div>
 
                 <div className={css.giftbutton}>

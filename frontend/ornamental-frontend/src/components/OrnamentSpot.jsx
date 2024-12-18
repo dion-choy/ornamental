@@ -24,12 +24,14 @@ export default function OrnamentSpot(props) {
 
     return (
         <group>
-            {availSpots.map((coord, index) => (
-                <mesh name={"free_ornament"} position={coord} key={index}>
-                    <sphereGeometry args={[0.1, 30, 10]} />
-                    <meshPhysicalMaterial color={"white"} transparent={true} opacity={0.3} />
-                </mesh>
-            ))}
+            <group visible={props.choose}>
+                {availSpots.map((coord, index) => (
+                    <mesh name={"avail_ornament"} position={coord} key={index}>
+                        <sphereGeometry args={[0.1, 30, 10]} />
+                        <meshPhysicalMaterial color={"white"} transparent={true} opacity={0.3} />
+                    </mesh>
+                ))}
+            </group>
             {taken.map((coord, index) => (
                 <mesh name={"ornament"} position={coord} key={index + availSpots.length}>
                     <sphereGeometry args={[0.1, 30, 10]} />
