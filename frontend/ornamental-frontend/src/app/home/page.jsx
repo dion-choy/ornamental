@@ -44,14 +44,14 @@ return (
     <div>
     <div className="container" >
     <div className="logo">
-    <img src="/logo.png" alt="Ornamental Logo" />
+    <img src="/logo.svg" alt="Ornamental Logo" />
     </div>
 
     <p style={{fontSize: "40px"}}>It's secret santa</p>
     <p style={{fontSize: "20px"}}>but <b>better</b></p>
 
     <div className="candy-cane">
-    <img src="/candycane.png" alt="Candy Cane Divider" />
+    <img src="/candycane.svg" alt="Candy Cane Divider" />
     </div>
 
     <div className="buttons">
