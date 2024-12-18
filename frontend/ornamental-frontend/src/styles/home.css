@@ -66,10 +66,13 @@ button.btn:hover {
     font-size: 16px;
     font-weight: bold;
     cursor: pointer;
-    z-index: 1;
     width: 25vw;
     margin: 0 auto;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.btn.create {
+    z-index: 1;
 }
 
 .btn.create, .btn.join {
@@ -89,6 +92,7 @@ button.btn:hover {
 }
 
 .btn#enter {
+    width: 15vw;
     background-color: #404f1b;
     color: white;
 }
