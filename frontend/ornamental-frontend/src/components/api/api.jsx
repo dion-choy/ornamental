@@ -58,6 +58,28 @@ export async function createUser(password, name){
     .insertOne(schema))
 
 }
+export async function getUser(userid){
+  userid=EJSON.parse(userid)
+
+  const client = await clientPromise;
+  const db = client.db("Ornamental");
+  let user=await db
+    .collection("users")
+    .findOne({ _id: userid })
+  user=EJSON.stringify(user)
+  return user
+}
+export async function getRoom(roomid){
+  roomid=EJSON.parse(roomid)
+
+  const client = await clientPromise;
+  const db = client.db("Ornamental");
+  let user=await db
+    .collection("rooms")
+    .findOne({ "code": roomid })
+  roomid=EJSON.stringify(roomid)
+  return roomid
+}
 export async function addPlayer(playerid, roomcode){
   playerid=EJSON.parse(playerid)
   const client = await clientPromise;
@@ -88,4 +110,21 @@ export async function checkPlayer(username, password){
   }else{
     return EJSON.stringify(user);
   }
+}
+
+export async function addOrnament(roomcode, author, position, ornamentId){
+  author=EJSON.parse(author)
+  const client = await clientPromise;
+  const db = client.db("Ornamental");
+  return await db.collection("rooms").updateOne({"code":roomcode.toString()},{$push:{'ornaments':{"authorid":author,"position":position,"ornament_id":ornamentId}}})
+
+}
+
+export async function addGift(roomcode, author, recepient, position, rotation,shape, size ){
+  author=EJSON.parse(author)
+  recepient=EJSON.parse(recepient)
+  const client = await clientPromise;
+  const db = client.db("Ornamental");
+  return await db.collection("rooms").updateOne({"code":roomcode.toString()},{$push:{'ornaments':{"authorid":author,"recepient":recepient,"position":position,"rotation":rotation, "shape":shape,"size":size}}})
+
 }

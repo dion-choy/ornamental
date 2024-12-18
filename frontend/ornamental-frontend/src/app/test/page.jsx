@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { redirect } from 'next/navigation'
 import css from "@/styles/home.css";
-import { checkPlayer, checkCode, getNoPlayers, createRoom,createUser,addPlayer } from "@/components/api/api";
+import {getUser, checkPlayer, checkCode, getNoPlayers, createRoom,createUser,addPlayer, addOrnament } from "@/components/api/api";
 import { motion } from "motion/react"
 import { BSON, EJSON, ObjectId } from 'bson';
 function test() {
@@ -15,11 +15,14 @@ async function createU(){
     let text=(await createUser("password","amongus"))
     let json=EJSON.parse(text)
     console.log(await addPlayer(EJSON.stringify(json.insertedId),1325))
+    console.log(await getUser(EJSON.stringify(json.insertedId)))
+    console.log(await addOrnament(1325,EJSON.stringify(json.insertedId),1,2))
     console.log(json)
   }
   async function getp(){
     console.log(await getNoPlayers(1325))
   }
+
   async function checkp(){
     console.log(EJSON.parse(await checkPlayer("amongus", "password")))
     console.log(EJSON.parse(await checkPlayer("amongjs", "password")))
