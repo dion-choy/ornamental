@@ -38,7 +38,7 @@ export async function createRoom(code, name, endDate, budget, description){
     .insertOne(schema)
 
 }
-export async function createRoom(password, room, name, isAdmin){
+export async function createUser(password, room, name, isAdmin){
   let schema={
     "room": room,
     "name": name,

@@ -1,8 +1,8 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { redirect } from 'next/navigation'
 import css from "@/styles/home.css";
-import {checkCode}from "@/components/api/api";
+import { checkCode } from "@/components/api/api";
 import { motion } from "motion/react"
 
 function Home() {
@@ -22,7 +22,7 @@ function Home() {
   function createSnowflake() {
     return ({
       id: Math.random().toString(36).substr(2, 9),
-      leftOffset:Math.random() * window.innerWidth,
+      leftOffset: Math.random() * window.innerWidth,
       animationDelay: Math.random() * 5
     });
   }
@@ -39,55 +39,59 @@ function Home() {
     const initialSnow = Array.from({ length: 10 }, createSnowflake);
     setSnowPos(initialSnow);
   }, []);
+  
+
+  const inputCodeRef = useRef(null);
 
   return (
     <div>
-    <div className="container" >
-    <div className="logo">
-    <img src="/logo.svg" alt="Ornamental Logo" />
-    </div>
+      <div className="header-container" >
+        <div className="header-card"></div>
+        <div className="logo">
+          <img src="assets/logo.svg" alt="Ornamental Logo" />
+        </div>
 
-    <p style={{fontSize: "40px"}}>It's secret santa</p>
-    <p style={{fontSize: "20px"}}>but <b>better</b></p>
+        <p style={{ fontSize: "40px" }}>It's secret santa</p>
+        <p style={{ fontSize: "20px" }}>but <b>better</b></p>
 
-    <div className="candy-cane">
-    <img src="/candycane.svg" alt="Candy Cane Divider" />
-    </div>
+        <div className="candy-cane">
+          <img src="assets/candycane.svg" alt="Candy Cane Divider" />
+        </div>
 
-    <div className="buttons">
-    <button className="btn create" onClick={()=>redirect("/createRoom")}>Create a Room</button>
-    <button className="btn join" onClick={() => setDisplayInputCode(true)}>Join a Room</button>
+        <div className="buttons">
+          <button className="btn create" onClick={() => redirect("/createRoom")}>Create a Room</button>
+          <button className="btn join" onClick={() => {setDisplayInputCode(true); inputCodeRef.current.focus()}}>Join a Room</button>
 
-    {displayInputCode?
-      (<div style={{display:'flex', flexDirection:'column' }}><motion.input initial={{ opacity: 0, y: -50 }}
-        animate={{opacity: 1, y: 0}}
-        transition={{duration: 0.4, y: {type: "spring", visualDuration: 0.4, bounce: 0.5}}}
+          {displayInputCode ?
+            (<>
+              <motion.input initial={{ opacity: 0, y: -50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, y: { type: "spring", visualDuration: 0.4, bounce: 0.5 } }}
 
-        onChange={handleCode}
-        placeholder="Enter Room code" id="code" className="btn"  ></motion.input>
-        <motion.button initial={{ opacity: 0, y: -50 }}
-        animate={{opacity: 1, y: 0}}
-        transition={{duration: 0.4, y: {type: "spring", visualDuration: 0.4, bounce: 0.5}}}
+              onChange={handleCode}
+              ref={inputCodeRef}
+              placeholder="Enter Room code" id="code" className="btn"  ></motion.input>
+              <motion.button initial={{ opacity: 0, y: -50 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, y: { type: "spring", visualDuration: 0.4, bounce: 0.5 } }}
+                whileHover={{scale: 1.05, transition:{duration:0.2, ease:"linear"}}}
+                className="btn" id="enter" onClick={() => { checkCode(code).then((c) => { if (!c) { setCan(c) } else { redirect("/rooms/" + code) }}) }}>Enter!</motion.button>
+              {(can) ? "" : "Wrong Code"}
+            </>)
+            : null}
 
-        className="btn" onClick={()=>{checkCode(code).then((c)=>{if (!c){setCan(c)}else{redirect("/rooms/"+code)}})}} style={{marginTop:'10px', backgroundColor:'#DDDBFF', '&hover':{color:'white', backgroundColor:'#24223F'}}} >Enter!</motion.button>
-        {(can)?"":"Wrong Code"}
-        </div>)
-      : null}
+        </div>
 
-    </div>
-
-    {snowPos.map((snowflake, index) => (
-      <div key={snowflake.id} className="snowflake" style={{ top: "-10%", left: `${snowflake.leftOffset}px`, animationDelay: `${snowflake.animationDelay}s` }} onAnimationEnd={() => replaceSnowPos(snowflake.id)}>
-      <img src="/snowflake.png" alt="Snowflake" />
+        {snowPos.map((snowflake, index) => (
+          <div key={snowflake.id} className="snowflake" style={{ top: "-10%", left: `${snowflake.leftOffset}px`, animationDelay: `${snowflake.animationDelay}s` }} onAnimationEnd={() => replaceSnowPos(snowflake.id)}>
+            <img src="assets/snowflake.png" alt="Snowflake" />
+          </div>
+        ))}
       </div>
-    ))}
-    </div>
 
-    <div className="info-container">
-    <h2>About</h2>
-    </div>
-
-
+      <div className="info-container">
+        <h2>About</h2>
+      </div>
     </div>
   );
 }

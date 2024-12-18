@@ -6,7 +6,7 @@ import Model from "@/components/Model";
 import Skybox from "@/components/Skybox";
 import Snowflake from "@/components/Snowflake";
 import DeerSpawner from "@/components/DeerSpawner";
-import GiftSpawner from "./GiftSpawner";
+import GiftSpawner from "@/components/GiftSpawner";
 
 export default function MyScene(props) {
     return (
@@ -22,8 +22,8 @@ export default function MyScene(props) {
 
             <GiftSpawner></GiftSpawner>
             <DeerSpawner deerCount={props.numReindeers}></DeerSpawner>
-            <Model file="/christmas_tree.glb" position={[0, 0, 0]} />
-            <Model file="/room.glb" position={[0, 0, 0]} />
+            <Model file="models/christmas_tree.glb" position={[0, 0, 0]} />
+            <Model file="models/room.glb" position={[0, 0, 0]} />
             <Controls rotate={0.4} />
         </group>
     );

@@ -30,7 +30,7 @@ function Snowflake(props) {
         points.current.geometry.attributes.position.needsUpdate = true;
     });
 
-    const texture = useLoader(TextureLoader, "/snow.png");
+    const texture = useLoader(TextureLoader, "assets/snow.png");
 
     return (
         <points ref={points}>

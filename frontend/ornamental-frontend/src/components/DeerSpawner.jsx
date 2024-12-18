@@ -7,7 +7,7 @@ const DeerSpawner = ({ deerCount = 0 }) => {
     const centralPoint = new THREE.Vector3(0, 0, 0); // Center position (x, y, z)
 
     // Load the deer model
-    const deerModel = useLoader(GLTFLoader, "/reindeer.glb"); // Place deer.glb in /public/models
+    const deerModel = useLoader(GLTFLoader, "models/reindeer.glb"); // Place deer.glb in /public/models
 
     // Generate deer positions and rotations
     const deerPositions = useMemo(() => {
