@@ -1,4 +1,16 @@
 import React from "react";
+import * as THREE from "three";
+
+function removeAvail(event) {
+    const sphere = new THREE.SphereGeometry(0.1, 30, 10);
+    const material = new THREE.MeshPhysicalMaterial({ color: 0x000000 });
+    const usedOrn = new THREE.Mesh(sphere, material);
+    usedOrn.name = "ornament";
+    usedOrn.position.set(...event.object.position);
+    event.object.copy(usedOrn, true);
+    event.object.parent.add(usedOrn);
+    event.object.parent.remove(event.object);
+}
 
 export default function OrnamentSpot(props) {
     const viableSpots = [
@@ -24,14 +36,20 @@ export default function OrnamentSpot(props) {
 
     return (
         <group>
-            <group visible={props.choose}>
-                {availSpots.map((coord, index) => (
-                    <mesh name={"avail_ornament"} position={coord} key={index}>
-                        <sphereGeometry args={[0.1, 30, 10]} />
-                        <meshPhysicalMaterial color={"white"} transparent={true} opacity={0.3} />
-                    </mesh>
-                ))}
-            </group>
+            {availSpots.map((coord, index) => (
+                <mesh
+                    visible={props.choose}
+                    name={"avail_ornament"}
+                    position={coord}
+                    key={index}
+                    onClick={(event) => {
+                        removeAvail(event);
+                    }}
+                >
+                    <sphereGeometry args={[0.1, 30, 10]} />
+                    <meshPhysicalMaterial color={"white"} transparent={true} opacity={0.3} />
+                </mesh>
+            ))}
             {taken.map((coord, index) => (
                 <mesh name={"ornament"} position={coord} key={index + availSpots.length}>
                     <sphereGeometry args={[0.1, 30, 10]} />
