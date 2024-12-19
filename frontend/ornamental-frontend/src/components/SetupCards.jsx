@@ -31,10 +31,15 @@ export function SetupCard(props) {
           }}
         />
 
-        {!(textValue === "") ? <button className="next-btn" onClick={() => props.sendDataToParent({
+        {!(textValue === "") ? <motion.button
+        className="next-btn" 
+        initial={{opacity: 0}}
+        animate={{opacity: 1, transition:{duration: 0.2}}}
+        onClick={() => props.sendDataToParent({
           stage: props.index,
           value: textValue
-        })}>Next</button>
+        })}
+        >Next</motion.button>
           : null}
 
       </div>
@@ -66,10 +71,18 @@ export function ResultCard(props) {
         <p className="subtitle">{props.description}</p> */}
 
         <div className='w-full my-6 flex grow flex-col justify-between'>
-          <button className="next-btn" onClick={() => props.confirmation()}>Yep</button>
-
-          <button className="next-btn" onClick={() => props.sendDataToParent({
-          })}>Uhh nope</button>
+          <motion.button className="next-btn" onClick={() => props.confirmation()}
+            initial={{opacity:0}}
+            animate={{opacity:1}}
+            transition={{duration: 1, delay: 5.5}}
+            >Yep</motion.button>
+          <motion.button className="next-btn italic" 
+          initial={{opacity:0}}
+          animate={{opacity:1}}
+          transition={{duration: 1, delay: 7}}
+          onClick={() => props.sendDataToParent({
+            stage: -1
+          })}>uhh no...</motion.button>
         </div>
       </div>
     </div>

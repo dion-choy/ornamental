@@ -7,7 +7,7 @@
 }
 
 body {
-    background-color: #0d0f13;
+    background-color: #0D1117;
     color: #fff;
     /* height: 100vh; */
     display: flex;
@@ -36,8 +36,6 @@ h2 {
 
 img.logo {
     width: 25vw;
-    margin-top: 15vh;
-    margin-bottom: 20px;
 }
 
 
