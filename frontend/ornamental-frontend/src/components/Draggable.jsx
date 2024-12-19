@@ -37,7 +37,6 @@ function Draggable(props) {
         });
         controlsRef.current.addEventListener("hoveroff", function (event) {
             scene.orbitControls.enabled = true;
-            console.log("run");
             if (event.object.name == "avail_ornament") {
                 event.object.material.opacity = 0.3;
             }
@@ -55,12 +54,20 @@ function Draggable(props) {
 
     useEffect(() => {
         controlsRef.current.addEventListener("dragstart", function (event) {
-            if (event.object.name == "avail_ornament" || event.object.name == "ornament") {
+            if (
+                event.object.name == "avail_ornament" ||
+                event.object.name == "ornament" ||
+                event.object.name == "gift"
+            ) {
                 event.object.oldPos = event.object.position.clone();
             }
         });
         controlsRef.current.addEventListener("drag", function (event) {
-            if (event.object.name == "avail_ornament" || event.object.name == "ornament") {
+            if (
+                event.object.name == "avail_ornament" ||
+                event.object.name == "ornament" ||
+                event.object.name == "gift"
+            ) {
                 event.object.position.set(...event.object.oldPos); // lock position
             }
         });

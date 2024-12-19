@@ -12,12 +12,27 @@ export default function Gift(props) {
         const clonedGift = gltf.scene.clone(true);
         clonedGift.traverse((child) => {
             child.name = "gift";
+            if (child.isMesh) {
+                child.onClick = () => {
+                    console.log("clicked");
+                };
+            }
         });
         setGift(clonedGift);
     }, [gltf]);
 
+    useEffect(() => {
+        console.log(object.current);
+    }, [object]);
+
     return (
-        <mesh position={props.position}>
+        <mesh
+            ref={object}
+            onClick={() => {
+                console.log("clicked");
+            }}
+            position={props.position}
+        >
             <primitive object={gift} scale={props.scale} />
         </mesh>
     );

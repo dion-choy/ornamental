@@ -1,9 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { addOrnament } from "@/components/api/api";
 import * as THREE from "three";
 import { useParams } from "next/navigation";
+import { useCookies } from "next-client-cookies";
+import { EJSON } from "bson";
 
 export default function OrnamentSpot(props) {
+    const cookies = useCookies();
+
     function removeAvail(event) {
         const sphere = new THREE.SphereGeometry(0.1, 30, 10);
         const material = new THREE.MeshPhysicalMaterial({ color: 0x000000 });
@@ -12,7 +16,7 @@ export default function OrnamentSpot(props) {
         usedOrn.position.set(...event.object.position);
         usedOrn.showAuthor = props.showAuthor;
         usedOrn.hideAuthor = props.hideAuthor;
-        // usedOrn.authorId = getID()
+        usedOrn.authorId = EJSON.parse(cookies.get("userId"));
         event.object.parent.add(usedOrn);
         event.object.parent.remove(event.object);
         console.log(event.object);
@@ -72,7 +76,7 @@ export default function OrnamentSpot(props) {
                                     break;
                                 }
                             }
-                            // addOrnament(id, authorId, position, style);
+                            addOrnament(id, cookies.get("userId"), position, 0);
                         }
                     }}
                 >
