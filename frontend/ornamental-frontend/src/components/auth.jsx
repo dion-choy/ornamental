@@ -3,7 +3,7 @@ import {addPlayer, checkPlayer, createUser} from "@/components/api/api";
 import { useCookies } from 'next-client-cookies';
 import React, { useState, useEffect } from 'react'
 import { BSON, EJSON, ObjectId } from 'bson';
-import css from "@/styles/home.css";
+import css from "@/styles/Home.css";
 export default  function Auth(props){
 
   const cookies = useCookies();
@@ -49,7 +49,6 @@ export default  function Auth(props){
   function handleUsername(e){setuserN(e.target.value);}
   function handlePassword(e){setPassword(e.target.value);}
   return (<>
-    <div>nig</div>
     {(isLoggedIn)?"":
       <>
       <div style={{display:'flex',flexDirection:'column',position:'absolute',top:'50vh',left:'50vw',transform: `translate(-50%, -50%)`,zIndex:'101',backgroundColor:'#24223F', padding:'20px', borderRadius:'20px'}}>

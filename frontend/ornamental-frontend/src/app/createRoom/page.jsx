@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { redirect } from 'next/navigation'
 import "@/styles/name.css";
 import "@/styles/Cards.css"
-import { ResultCard, SetupCard } from "@/components/SetupCards";
+import { ResultCard, InputCard, CalendarCard } from "@/components/SetupCards";
 import SnowingBG from "@/components/SnowingBG";
 import { motion } from "motion/react";
 import { delay, easeIn, easeInOut } from "motion";
@@ -53,9 +53,9 @@ function createRoomPage() {
     }
   }
 
-  const [groupName, setGroupName] = useState("");
-  const [date, setDate] = useState("");
-  const [groupDesc, setGroupDesc] = useState("");
+  const [groupName, setGroupName] = useState();
+  const [date, setDate] = useState();
+  const [groupDesc, setGroupDesc] = useState();
 
   const [finalCard, setFinalCard] = useState(false);
 
@@ -110,18 +110,21 @@ function createRoomPage() {
   async function conf() {
     let ok = false
     let code = Math.floor(Math.random() * 90000) + 10000;
+    console.log(code)
     while (!ok) {
       if (!await checkCode(code)) {
         ok = true
       } else {
-        let code = Math.floor(Math.random() * 90000) + 10000;
+        code = Math.floor(Math.random() * 90000) + 10000;
       }
     }
     const selectedQuestions = questions
       .sort(() => Math.random() - 0.5) // Shuffle the array
       .slice(0, 5); // Take the first 5 items
 
-    createRoom(code, groupName, date, 50, groupDesc, 5, selectedQuestions).then((res) => { redirect("/room/" + code.toString()) })
+    console.log(date)
+
+    createRoom(code, groupName, "ballls", 50, groupDesc, 5, selectedQuestions).then((res) => { redirect("/room/" + code.toString()) })
   }
 
 
@@ -142,13 +145,24 @@ function createRoomPage() {
 
       {cards.map((card, index) => {
         let rotation = (45 / 3 * index) - 45 / 3 - 45;
+        if (index == 1) {
+          return (
+            <motion.div key={index}
+            animate={animations[index]}
+            initial={{ transformOrigin: "50% 100%", rotateZ: rotation, left: "100%" }}
+
+            style={{ position: "absolute", zIndex: `${3 - index}`, backfaceVisibility: "hidden", transformStyle: "preserve-3d" }}>
+            <CalendarCard index={index} sendDataToParent={dataHandler} subtitle={card.subtitle} placeholder={card.placeholder} cardNum={card.cardNum}/>
+          </motion.div>
+          )
+        }
         return (
           <motion.div key={index}
             animate={animations[index]}
             initial={{ transformOrigin: "50% 100%", rotateZ: rotation, left: "100%" }}
 
             style={{ position: "absolute", zIndex: `${3 - index}`, backfaceVisibility: "hidden", transformStyle: "preserve-3d" }}>
-            <SetupCard index={index} sendDataToParent={dataHandler} subtitle={card.subtitle} placeholder={card.placeholder} cardNum={card.cardNum}></SetupCard>
+            <InputCard index={index} sendDataToParent={dataHandler} subtitle={card.subtitle} placeholder={card.placeholder} cardNum={card.cardNum}></InputCard>
           </motion.div>
         )
       })}

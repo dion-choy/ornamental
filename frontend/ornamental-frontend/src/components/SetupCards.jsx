@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
 import css from "@/styles/name.css";
 import { motion } from "motion/react";
+import Calendar from 'react-calendar';
+import { dateToString } from '@/lib/myDateFunction';
 
 
 
-export function SetupCard(props) {
+export function InputCard(props) {
   const [textValue, setTextValue] = useState("")
   return (
     <div className="card">
@@ -48,8 +50,8 @@ export function SetupCard(props) {
   )
 }
 
-export function ResultCard(props) {
-  const [textValue, setTextValue] = useState("")
+export function CalendarCard(props) {
+  const [calendarValue, setCalendarValue] = useState(null)
   return (
     <div className="card">
       <div className="card-back" style={{ transform: "rotateY(180deg)" }}></div>
@@ -59,11 +61,45 @@ export function ResultCard(props) {
         <img className="logo" src="assets/logo.svg" alt="Ornamental" />
         <p className="subtitle">{props.subtitle}</p>
         <img src="assets/candycane.svg" alt="Candy Cane" />
-        <table className='w-full font-semibold text-2xl'>
+
+        <Calendar onChange={(value) => setCalendarValue(dateToString(value))}/>
+
+        <p>{calendarValue}</p>
+
+        {!(calendarValue === "") ? <motion.button
+        className="next-btn" 
+        initial={{opacity: 0}}
+        animate={{opacity: 1, transition:{duration: 0.2}}}
+        onClick={() => props.sendDataToParent({
+          stage: props.index,
+          value: calendarValue
+        })}
+        >Next</motion.button>
+          : null}
+
+      </div>
+
+    </div>
+  )
+}
+
+
+
+export function ResultCard(props) {
+  return (
+    <div className="card">
+      <div className="card-back" style={{ transform: "rotateY(180deg)" }}></div>
+
+      <div className='card-front' style={{ transform: "rotateY(0deg)" }}>
+        <p className="circle text-4xl font-bold">{props.cardNum}</p>
+        <img className="logo" src="assets/logo.svg" alt="Ornamental" />
+        <p className="subtitle">{props.subtitle}</p>
+        <img src="assets/candycane.svg" alt="Candy Cane" />
+        <table className='w-full font-semibold text-1xl'>
           <tbody>
-            <tr><td>Room Name: </td><td>{props.groupName}</td></tr>
-            <tr><td>Gift Date: </td><td>{props.date}</td></tr>
-            <tr><td>Description: </td><td>{props.description}</td></tr>
+            <tr><td>Room Name: </td><td className='text-right'>{props.groupName}</td></tr>
+            <tr><td>Gift Date: </td><td className='text-right'>{props.date}</td></tr>
+            <tr><td>Description: </td><td className='text-right'>{props.description}</td></tr>
           </tbody>
         </table>
         {/* <p className="subtitle">{props.groupName}</p>
