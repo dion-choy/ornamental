@@ -1,16 +1,21 @@
-import React, { useMemo } from "react";
+import React, { useCallback, useMemo } from "react";
 import { useLoader } from "@react-three/fiber";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+import { useEffect } from "react";
 import * as THREE from "three";
 
 const DeerSpawner = ({ deerCount = 0 }) => {
     const centralPoint = new THREE.Vector3(0, 0, 0); // Center position (x, y, z)
 
+    useEffect (() => {
+        console.log("balls")
+    }, [])
     // Load the deer model
     const deerModel = useLoader(GLTFLoader, "../models/reindeer.glb"); // Place deer.glb in /public/models
 
     // Generate deer positions and rotations
     const deerPositions = useMemo(() => {
+        console.log(deerCount)
         const positions = [];
 
         for (let i = 0; i < deerCount; i++) {
@@ -32,9 +37,9 @@ const DeerSpawner = ({ deerCount = 0 }) => {
         return positions;
     }, [deerCount]);
 
-    const uniqueDeer = () => {
+    const uniqueDeer = useCallback(() => {
         const clonedDeer = deerModel.scene.clone(true); // Deep clone of the model
-
+        console.log("I am rerunning")
         // Find the "nose" mesh and apply a unique material
         clonedDeer.traverse((child) => {
             if (child.isMesh) {
@@ -51,21 +56,26 @@ const DeerSpawner = ({ deerCount = 0 }) => {
         });
 
         return clonedDeer;
-    };
+    }, [deerModel]);
+
+    const deerObjects = useMemo(
+        () =>
+            deerPositions.map((deer, index) => ({
+                key: index,
+                object: uniqueDeer(),
+                position: deer.position,
+                rotation: [0, deer.rotation, 0],
+            })),
+        [deerPositions, uniqueDeer]
+    );
 
     return (
         <group>
-            {deerPositions.map((deer, index) => (
-                <mesh key={index}>
-                    <primitive
-                        key={index}
-                        object={uniqueDeer()}
-                        position={deer.position}
-                        rotation={[0, deer.rotation, 0]} // Rotate deer to face center
-                        scale={[0.5, 0.5, 0.5]} // Adjust scale if needed
-                    />
-                </mesh>
-            ))}
+            {deerObjects.map(({ key, object, position, rotation }) => (
+            <mesh key={key}>
+                <primitive object={object} position={position} rotation={rotation} scale={[0.5, 0.5, 0.5]} />
+            </mesh>
+        ))}
         </group>
     );
 };

@@ -78,7 +78,7 @@ export default function Home() {
 
                 <div className={css.giftbutton}>
                     <button>
-                        <img src="assets/Gift.png" alt="Gift!" />
+                        <img src="/assets/Gift.png" alt="Gift!" />
                         Gift!
                     </button>
                 </div>
