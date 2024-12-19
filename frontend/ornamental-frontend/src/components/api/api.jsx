@@ -99,14 +99,15 @@ export async function getNoPlayers(roomcode ){
     .findOne({"code":roomcode.toString()})
   return (user["list_of_users"].length)
 }
-export async function checkPlayer(username, password){
+export async function checkPlayer(username, password, roomId){
   const client = await clientPromise;
   const db = client.db("Ornamental");
   let user=await db
     .collection("users")
     .findOne({"name":username})
-  console.log(user)
-  if (user===null||user["password"]!=password){return false
+  console.log(user.room)
+  console.log(roomId.toString())
+  if (user===null||user["password"]!=password||user.room!=roomId.toString()){return false
   }else{
     return EJSON.stringify(user);
   }

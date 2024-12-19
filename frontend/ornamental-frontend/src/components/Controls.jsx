@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { extend, useFrame, useThree } from "@react-three/fiber";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import * as THREE from "three"
+import * as THREE from "three";
 
 extend({ OrbitControls });
 
@@ -24,7 +24,7 @@ function Controls(props) {
                 targetPosition.current.set(0, 2, 5); // Example orbit position
                 targetFocus.current.set(0, 1, 0); // Example orbit target
                 break;
-            
+
             case 1:
                 control.current.autoRotate = false;
                 control.current.enableRotate = true;
@@ -39,16 +39,14 @@ function Controls(props) {
     }, [props.camSetting, camera]);
 
     useFrame((state, delta) => {
-        
-
-        switch(props.camSetting) {
+        switch (props.camSetting) {
             case 0:
                 control.current.update(delta);
                 break;
 
             case 1:
-                 // Smoothly interpolate the camera position and target
-                const lerpFactor = 0.06; // Adjust for speed (smaller = slower, larger = faster)
+                // Smoothly interpolate the camera position and target
+                const lerpFactor = 2 * delta; // Adjust for speed (smaller = slower, larger = faster)
                 camera.position.lerp(targetPosition.current, lerpFactor);
                 control.current.target.lerp(targetFocus.current, lerpFactor);
 
@@ -56,9 +54,6 @@ function Controls(props) {
                 camera.updateProjectionMatrix();
                 control.current.update(delta);
         }
-
-       
-
     });
 
     return (
@@ -72,7 +67,6 @@ function Controls(props) {
             enablePan={false}
         />
     );
-    
 }
 
 export default Controls;

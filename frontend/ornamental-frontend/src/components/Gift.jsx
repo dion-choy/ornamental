@@ -30,9 +30,8 @@ export default function Gift(props) {
     return (
         <mesh
             position={props.position}
-            onClick={(event, test) => {
-                console.log(event);
-                console.log(test);
+            onClick={(event) => {
+                console.log("Clicked");
             }}
         >
             <primitive object={gltf.scene} ref={rotate} scale={props.scale} />
