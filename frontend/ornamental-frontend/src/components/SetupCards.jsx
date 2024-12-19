@@ -56,8 +56,7 @@ export function ResultCard(props) {
         <p className="subtitle">{props.description}</p> */}
 
         <div className='w-full my-6 flex grow flex-col justify-between'>
-          <button className="next-btn" onClick={() => props.sendDataToParent({
-          })}>Yep</button>
+          <button className="next-btn" onClick={() => props.confirmation()}>Yep</button>
 
           <button className="next-btn" onClick={() => props.sendDataToParent({
           })}>Uhh nope</button>

@@ -6,8 +6,9 @@ import { ResultCard, SetupCard } from "@/components/SetupCards";
 import SnowingBG from "@/components/SnowingBG";
 import { motion } from "motion/react";
 import { delay, easeIn, easeInOut } from "motion";
+import {checkCode,createRoom} from "@/components/api/api";
 
-function createRoom() {
+function createRoomPage() {
   const [cards, setCards] = useState([
     { subtitle: "Every iconic group has a name", placeholder: "Enter your iconic name", cardNum: "1" },
     { subtitle: "When should the gifts be exchanged?", placeholder: "Select a date", cardNum: "2" },
@@ -93,7 +94,18 @@ function createRoom() {
         break;
     }
   }
-
+  async function conf(){
+    let ok=false
+    let code=Math.floor(Math.random() * 90000) + 10000;
+    while (!ok){
+      if (!await checkCode(code)){
+        ok=true
+      }else{
+        let code=Math.floor(Math.random() * 90000) + 10000;
+      }
+    }
+    createRoom(code, groupName, date, 50, groupDesc,5,[]).then((res)=>{redirect("/room/"+code.toString())})
+  }
 
 
   return (
@@ -103,7 +115,7 @@ function createRoom() {
         initial={{top: "-50vh", left: "50vw", transform: "translate(-50%, -50%)"}}
         animate={animateToCenter(4)}
         style={{position: "absolute"}}>
-        <ResultCard subtitle={"Does this sound like your room?"} cardNum={4} groupName={groupName} date={date} description={groupDesc} />
+        <ResultCard subtitle={"Does this sound like your room?"} cardNum={4} groupName={groupName} date={date} description={groupDesc}  confirmation={conf}/>
       </motion.div> : null}
       {cards.map((card, index) => {
         let rotation = (45 / 3 * index) - 45 / 3 - 45;
@@ -127,4 +139,4 @@ function createRoom() {
   );
 }
 
-export default createRoom;
+export default createRoomPage;
