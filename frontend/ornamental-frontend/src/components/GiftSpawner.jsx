@@ -8,7 +8,7 @@ const GiftSpawner = ({ giftCount = 4 }) => {
     const centralPoint = new THREE.Vector3(0, 0, 0); // Center position (x, y, z)
 
     // Load the deer model
-    const giftModel = useLoader(GLTFLoader, "models/giftModel.glb"); // Place deer.glb in /public/models
+    const giftModel = useLoader(GLTFLoader, "../models/giftModel.glb"); // Place deer.glb in /public/models
 
     // Generate deer positions and rotations
     const giftPositions = useMemo(() => {
@@ -31,14 +31,13 @@ const GiftSpawner = ({ giftCount = 4 }) => {
         }
 
         return positions;
-
     }, [giftCount]);
 
     const loadGiftDatas = () => {
         // To be replaced with database access
-        const giftList = [{ id: 3, scale: 1, author: "Me", rotation: 2, giftType: "small", color: "#FF0000" }]
-        return giftList
-    }
+        const giftList = [{ id: 3, scale: 1, author: "Me", rotation: 2, giftType: "small", color: "#FF0000" }];
+        return giftList;
+    };
 
     const prepareGift = (giftType = null, color) => {
         const clonedGift = giftModel.scene.clone(true); // Deep clone of the model
@@ -49,7 +48,7 @@ const GiftSpawner = ({ giftCount = 4 }) => {
                 child.castShadow = true;
                 child.receiveShadow = true;
                 if (child.material.name === "RibbonMaterial") {
-                    const threeColor = new THREE.Color().setRGB(1,0,0);
+                    const threeColor = new THREE.Color().setRGB(1, 0, 0);
                     // randColor.setHSL(Math.random(), 1, 0.5);
                     child.material = new THREE.MeshStandardMaterial({
                         color: threeColor, // Random color
@@ -58,26 +57,24 @@ const GiftSpawner = ({ giftCount = 4 }) => {
             }
         });
 
-        console.log(clonedGift);
+        // console.log(clonedGift);
         return clonedGift;
     };
 
-    const [giftDatas, setGiftDatas] = useState([])
+    const [giftDatas, setGiftDatas] = useState([]);
 
     useEffect(() => {
-        setGiftDatas(loadGiftDatas())
+        setGiftDatas(loadGiftDatas());
         // setGiftDatas([{ id: 3, scale: 1, author: "Me", rotation: 2, giftType: "small", color: "#FF0000" }]);
     }, []);
-
-
 
     return (
         <group>
             {giftPositions.map((giftPos, gpIndex) => {
-                console.log(giftPos)
+                // console.log(giftPos);
                 for (let i = 0; i < giftDatas.length; i++) {
                     if (giftPos.id === giftDatas[i].id) {
-                        console.log("ITEM FOUND")
+                        // console.log("ITEM FOUND")
                         return (
                             <mesh key={giftPos.id} position={giftPos.position} scale={giftDatas[i].scale}>
                                 <primitive
@@ -87,11 +84,11 @@ const GiftSpawner = ({ giftCount = 4 }) => {
                                     scale={[0.2, 0.2, 0.2]} // Adjust scale if needed
                                 />
                             </mesh>
-                        )
+                        );
                     }
                 }
 
-                // 
+                //
             })}
         </group>
     );

@@ -14,11 +14,28 @@ function Draggable(props) {
     }, [groupRef]);
 
     useEffect(() => {
-        controlsRef.current.addEventListener("hoveron", () => {
+        controlsRef.current.addEventListener("hoveron", function (event) {
             scene.orbitControls.enabled = false;
+            if (event.object.name == "avail_ornament") {
+                event.object.material.opacity = 1;
+            }
         });
-        controlsRef.current.addEventListener("hoveroff", () => {
+        controlsRef.current.addEventListener("hoveroff", function (event) {
             scene.orbitControls.enabled = true;
+            if (event.object.name == "avail_ornament") {
+                event.object.material.opacity = 0.3;
+            }
+        });
+
+        controlsRef.current.addEventListener("dragstart", function (event) {
+            if (event.object.name == "avail_ornament" || event.object.name == "ornament") {
+                event.object.oldPos = event.object.position.clone();
+            }
+        });
+        controlsRef.current.addEventListener("drag", function (event) {
+            if (event.object.name == "avail_ornament" || event.object.name == "ornament") {
+                event.object.position.set(...event.object.oldPos); // lock position
+            }
         });
     }, [objects]);
 
