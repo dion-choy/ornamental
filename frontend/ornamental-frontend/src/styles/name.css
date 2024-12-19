@@ -4,16 +4,22 @@
     box-sizing: border-box;
     font-family: Arial, sans-serif;
 }
+
+html {
+    height: 100%;
+    overflow: hidden;
+}
   
 body {
     background-color: #0d0f13;
     color: #fff;
-    display: flex;
+    display: fixed;
     justify-content: center;
     align-items: center; 
     height: 100vh;
     margin: 0;
     overflow: hidden;
+    perspective: none;
 }
 
 .container {
@@ -21,21 +27,37 @@ body {
     justify-content: center;
     align-items: center;
     height: 100%; 
-    position: relative;
+    position: absolute;
 }
   
 .card {
-    background-color: #1e1f2a;
-    border-radius: 20px;
-    padding: 30px 20px; 
-    width: 320px;
+    width: 480px;
+    height: 720px;
+    position: relative;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+}
+
+.card-front, .card-back {
     display: flex;
     flex-direction: column; 
-    justify-content: center; 
+    justify-content: start; 
     align-items: center; 
     gap: 20px; 
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-    position: relative;
+    box-shadow: 5px 5px #181728;
+    background-color: #24223F;
+    border-radius: 50px;
+    padding: 70px 70px; 
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+.card-back {
+    box-shadow: 0 5px 20px rgb(0 0 0 / 1)
 }
   
 .title {
@@ -48,7 +70,7 @@ body {
 .subtitle {
     font-size: 20px;
     color: #ffffff;
-    margin-bottom: 20px;
+    /* margin-bottom: 20px; */
     text-align: center;
 }
   
@@ -65,8 +87,8 @@ body {
     border-radius: 10px;
     border: none;
     outline: none;
-    background-color: #0d0f13;
-    color: #fff;
+    background-color: white;
+    color: black;
     text-align: center;
     font-size: 16px;
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
@@ -98,18 +120,25 @@ body {
     gap: 10px; 
     margin-top: 10px;
 }
-  
+ 
+img.logo {
+    width: 100%;
+}
+
 .circle {
-    width: 12px;
-    height: 12px;
-    background-color: #555; 
+    top: 10%;
+    vertical-align: middle;
+    line-height: 70px;
+    width: 70px;
+    height: 70px;
+    color: black;
+    text-align: center;
+    z-index: 255;
+    background-color: #cfc5f8; 
+    /* border: 5px #cfc5f8 solid; */
     border-radius: 50%;
-    transition: background-color 0.3s ease;
 }
   
-.circle.active {
-    background-color: #cfc5f8; 
-}
   
   
 /* Snowflakes */

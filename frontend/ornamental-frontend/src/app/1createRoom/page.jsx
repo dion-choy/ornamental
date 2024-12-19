@@ -2,69 +2,128 @@
 import React, { useState, useEffect } from "react";
 import { redirect } from 'next/navigation'
 import css from "@/styles/name.css";
+import { ResultCard, SetupCard } from "@/components/SetupCards";
+import SnowingBG from "@/components/SnowingBG";
+import { motion } from "motion/react";
+import { delay, easeIn, easeInOut } from "motion";
 
 function createRoom() {
-  const [snowPos, setSnowPos] = useState([]);
+  const [cards, setCards] = useState([
+    { subtitle: "Every iconic group has a name", placeholder: "Enter your iconic name", cardNum: "1" },
+    { subtitle: "When should the gifts be exchanged?", placeholder: "Select a date", cardNum: "2" },
+    { subtitle: "Let's make this room uniquely yours", placeholder: "Enter description", cardNum: "3" },
+  ])
 
-  // Function to create a single snowflake
-  function createSnowflake() {
+  const animateToCenter = (delay = 0) => { return {
+    top: "50vh", left: "50vw",
+    transform: "translate(-50%, -50%) rotateZ(0deg)",
+    transition: { easeInOut, duration: 1, delay: delay }
+  }
+  };
+
+  const animateToSide = (offset) => {
+    let randAngle = Math.random() * 5;
+    console.log(randAngle)
     return {
-      id: Math.random().toString(36).substr(2, 9),
-      leftOffset: Math.random() * window.innerWidth,
-      animationDelay: Math.random() * 5,
-    };
+      top: "50vh", left: `15.${offset}vw`,
+      transform: `translate(-50%, -50%) rotateY(180deg) rotateZ(${randAngle}deg)`,
+      zIndex: 0,
+      transition: { easeInOut, duration: 1 }
+    }
   }
 
-  // Continuously add new snowflakes at intervals
-  useEffect(() => {
-    const initialSnow = Array.from({ length: 20 }, createSnowflake); // Start with 20 snowflakes
-    setSnowPos(initialSnow);
 
-    const interval = setInterval(() => {
-      setSnowPos((prevSnow) => [
-        ...prevSnow.filter((flake) => flake.id !== prevSnow[0]?.id), // Remove oldest flake
-        createSnowflake(), // Add new snowflake
-      ]);
-    }, 1000); // Add a new snowflake every second
+  const [animations, setAnimations] = useState([
+    animateToCenter,
+    {},
+    {},
+  ])
 
-    return () => clearInterval(interval); // Clean up interval
-  }, []);
+  const animateFlyUp = (delay) => {
+    return {
+      top: "-50vh", left: "15vw",
+      transform: `translate(-50%, -50%) rotateY(180deg) rotateZ(0deg)`,
+      zIndex: 0,
+      transition: { delay: delay, easeInOut, duration: 0.5 }
+    }
+  }
+
+  const [groupName, setGroupName] = useState("");
+  const [date, setDate] = useState("");
+  const [groupDesc, setGroupDesc] = useState("");
+
+  const [finalCard, setFinalCard] = useState(false);
+
+
+
+  const dataHandler = (data) => {
+    switch (data.stage) {
+      case 0:
+        setGroupName(data.value)
+        setAnimations([
+          animateToSide(3),
+          animateToCenter,
+          {},
+        ])
+        break;
+      case 1:
+        setDate(data.value)
+        setAnimations([
+          animateToSide(3),
+          animateToSide(6),
+          animateToCenter,
+        ])
+        break;
+      case 2:
+        setGroupDesc(data.value)
+        setAnimations([
+          animateFlyUp(1),
+          animateFlyUp(1),
+          {
+            top: [null, "50vh", "-50vh"], left: [null, "15vw", "15vw"],
+            transform: [null,
+              "translate(-50%, -50%) rotateY(180deg) rotateZ(0deg)",
+              "translate(-50%, -50%) rotateY(180deg) rotateZ(0deg)"
+            ],
+            zIndex: 0,
+            transition: { easeInOut, duration: 2, times: [0, 0.5, 1] }
+          },
+        ])
+        setFinalCard(true);
+        break;
+    }
+  }
+
+
 
   return (
-    <div className="container">
-      <div className="card">
-        <img src="assets/logo.svg" alt="Ornamental" />
-        <p className="subtitle">Every great group has a name</p>
-        <img src="assets/candycane.svg" alt="Candy Cane" />
-        <input
-          className="input-field"
-          type="text"
-          placeholder="Enter an Iconic Name"
-        />
-        <button className="next-btn" onClick={() => redirect("/2end")}>Next</button>
-        <div className="progress-indicator">
-          <span className="circle active"></span>
-          <span className="circle"></span>
-          <span className="circle"></span>
-          <span className="circle"></span>
-        </div>
-      </div>
+    <>
+      {finalCard ? 
+      <motion.div
+        initial={{top: "-50vh", left: "50vw", transform: "translate(-50%, -50%)"}}
+        animate={animateToCenter(4)}
+        style={{position: "absolute"}}>
+        <ResultCard subtitle={"Does this sound like your room?"} cardNum={4} groupName={groupName} date={date} description={groupDesc} />
+      </motion.div> : null}
+      {cards.map((card, index) => {
+        let rotation = (45 / 3 * index) - 45 / 3 - 45;
+        return (
+          <motion.div key={index}
+            animate={animations[index]}
+            initial={{ transformOrigin: "50% 100%", rotateZ: rotation, left: "100%" }}
+
+            style={{ position: "absolute", zIndex: `${3 - index}`, backfaceVisibility: "hidden", transformStyle: "preserve-3d" }}>
+            <SetupCard index={index} sendDataToParent={dataHandler} subtitle={card.subtitle} placeholder={card.placeholder} cardNum={card.cardNum}></SetupCard>
+          </motion.div>
+        )
+      })}
+
 
       {/* Snowflakes */}
-      {snowPos.map((snowflake) => (
-        <div
-          key={snowflake.id}
-          className="snowflake"
-          style={{
-            top: "-10%",
-            left: `${snowflake.leftOffset}px`,
-            animationDelay: `${snowflake.animationDelay}s`,
-          }}
-        >
-          <img src="assets/snowflake.png" alt="Snowflake" />
-        </div>
-      ))}
-    </div>
+      <SnowingBG></SnowingBG>
+    </>
+
+
   );
 }
 
