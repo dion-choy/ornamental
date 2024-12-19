@@ -49,6 +49,7 @@ export default function Home() {
     function showAuthor() {
         console.log("SHOW");
         console.log(this);
+        console.log(this.authorId);
         setAuthorVisible(true);
     }
 
