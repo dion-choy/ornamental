@@ -1,22 +1,39 @@
 "use client";
 import css from "@/styles/Home.module.css";
-import { useRef, useState,useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 import { Canvas } from "@react-three/fiber";
 import MyScene from "@/components/CanvasScene";
 import Controls from "@/components/Controls";
-import { useParams } from 'next/navigation'
+import { useParams } from "next/navigation";
 import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
-import {getNoPlayers } from "@/components/api/api";
+import { getNoPlayers, getRoom } from "@/components/api/api";
 import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
 import { SAOPass } from "three/addons/postprocessing/SAOPass.js";
 import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
+import { EJSON } from "bson";
 
 export default function Home() {
-    const {id}=useParams();
+    const { id } = useParams();
     const cam = useRef();
     const [numReindeers, setNumReindeers] = useState(0);
     const [chooseOrnament, setChooseOrnament] = useState(false);
-    useEffect(()=>{console.log(id);getNoPlayers(id).then((no)=>{setNumReindeers(no)})},[])
+    const [ornaments, setOrnaments] = useState([]);
+
+    useEffect(() => {
+        console.log(id);
+        getNoPlayers(id).then((no) => {
+            setNumReindeers(no);
+        });
+        getRoom(id).then((roomStr) => {
+            const room = EJSON.parse(roomStr);
+            setOrnaments(room.ornaments);
+        });
+    }, []);
+
+    useEffect(() => {
+        console.log(ornaments);
+    }, [ornaments]);
+
     return (
         <div className={css.scene}>
             <Canvas
@@ -54,11 +71,11 @@ export default function Home() {
                 }}
             >
                 <Controls rotate={0.4} />
-                <MyScene numReindeers={numReindeers} choose={chooseOrnament} />
+                <MyScene numReindeers={numReindeers} choose={chooseOrnament} ornaments={ornaments} />
             </Canvas>
 
             <div className={css.overlay}>
-                <img className={css.timerUI} src="assets/Time.svg" alt="Gift!" />
+                <img className={css.timerUI} src="/assets/Time.svg" alt="Gift!" />
                 <div className={css.container}>
                     <div className={css.timer}>10 days 10 hours 10 minutes 10 seconds</div>
                 </div>

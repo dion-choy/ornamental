@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { use } from "react";
 import * as THREE from "three";
 
 function removeAvail(event) {
@@ -24,24 +25,35 @@ export default function OrnamentSpot(props) {
         [-0.85, 1.45, -0.34],
     ];
 
-    const availSpots = [];
-    const taken = [];
-    for (let i = 0; i < viableSpots.length; i++) {
-        if (!props.taken?.includes(i)) {
-            availSpots.push(viableSpots[i]);
-        } else {
-            taken.push(viableSpots[i]);
-        }
-    }
+    const [taken, setTaken] = useState([]);
+    const [avail, setAvail] = useState([]);
+
+    useEffect(() => {
+        const availIndex = [...viableSpots.keys()];
+        setTaken(
+            props.ornaments?.map((orn) => {
+                if (availIndex.includes(orn.position)) {
+                    availIndex.splice(availIndex.indexOf(orn.position), 1);
+                }
+                return viableSpots[orn.position];
+            })
+        );
+
+        setAvail(
+            availIndex.map((index) => {
+                return viableSpots[index];
+            })
+        );
+    }, [props.ornaments]);
 
     return (
         <group>
-            {availSpots.map((coord, index) => (
+            {avail.map((coord, index) => (
                 <mesh
                     visible={props.choose}
                     name={"avail_ornament"}
                     position={coord}
-                    key={index}
+                    key={index + taken.length}
                     onClick={(event) => {
                         removeAvail(event);
                     }}
@@ -51,7 +63,7 @@ export default function OrnamentSpot(props) {
                 </mesh>
             ))}
             {taken.map((coord, index) => (
-                <mesh name={"ornament"} position={coord} key={index + availSpots.length}>
+                <mesh name={"ornament"} position={coord} key={index}>
                     <sphereGeometry args={[0.1, 30, 10]} />
                     <meshPhysicalMaterial color={"black"} />
                 </mesh>
