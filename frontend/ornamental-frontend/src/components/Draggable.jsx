@@ -20,6 +20,7 @@ function Draggable(props) {
                 event.object.material.opacity = 1;
             }
             if (event.object.name == "ornament") {
+                console.log(event.object);
                 event.object.showAuthor();
             }
         });
