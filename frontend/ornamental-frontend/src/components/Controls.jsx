@@ -21,6 +21,10 @@ function Controls(props) {
             case 0:
                 control.current.autoRotate = true;
                 control.current.enableRotate = true;
+                control.current.minDistance = 1.5;
+                control.current.maxDistance = 3.5;
+                control.current.minPolarAngle = Math.PI / 4;
+                control.current.maxPolarAngle = Math.PI / 2 - 0.1;
 
                 targetPosition.current.set(0, 2, 5); // Example orbit position
                 targetFocus.current.set(0, 1, 0); // Example orbit target
@@ -29,6 +33,10 @@ function Controls(props) {
             case 1:
                 control.current.autoRotate = false;
                 control.current.enableRotate = true;
+                control.current.minDistance = 1.5;
+                control.current.maxDistance = 3.5;
+                control.current.minPolarAngle = Math.PI / 3;
+                control.current.maxPolarAngle = Math.PI / 2 + 0.2;
 
                 targetPosition.current.set(0, 2, -2.5); // Fixed position
                 targetFocus.current.set(-5, 2, -2.5); // Fixed focus
@@ -57,17 +65,7 @@ function Controls(props) {
         }
     });
 
-    return (
-        <orbitControls
-            ref={control}
-            attach={"orbitControls"}
-            args={[camera, gl.domElement]}
-            maxDistance={3.5}
-            minPolarAngle={0}
-            maxPolarAngle={Math.PI / 2 - 0.1}
-            enablePan={false}
-        />
-    );
+    return <orbitControls ref={control} attach={"orbitControls"} args={[camera, gl.domElement]} enablePan={false} />;
 }
 
 export default Controls;

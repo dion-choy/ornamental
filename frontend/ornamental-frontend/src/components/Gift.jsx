@@ -12,11 +12,6 @@ export default function Gift(props) {
         const clonedGift = gltf.scene.clone(true);
         clonedGift.traverse((child) => {
             child.name = "gift";
-            if (child.isMesh) {
-                child.onClick = () => {
-                    console.log("clicked");
-                };
-            }
         });
         setGift(clonedGift);
     }, [gltf]);
