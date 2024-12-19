@@ -7,7 +7,7 @@ import Controls from "@/components/Controls";
 import { useParams } from "next/navigation";
 import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
 import { PerspectiveCamera } from "three";
-import { getNoPlayers, getRoom } from "@/components/api/api";
+import { getNoPlayers, getRoom, getUser } from "@/components/api/api";
 import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
 import { SAOPass } from "three/addons/postprocessing/SAOPass.js";
 import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
@@ -49,8 +49,10 @@ export default function Home() {
     function showAuthor() {
         console.log("SHOW");
         console.log(this);
-        console.log(this.authorId);
-        setAuthorVisible(true);
+        getUser(EJSON.stringify(this.authorId)).then((authorStr) => {
+            const author = EJSON.parse(authorStr);
+            setAuthorVisible(author.name);
+        });
     }
 
     function hideAuthor() {
@@ -117,7 +119,7 @@ export default function Home() {
                         display: authorVisible ? "block" : "none",
                     }}
                 >
-                    <p>Author</p>
+                    <p>{authorVisible}</p>
                 </div>
 
                 <div id={css["admin-panel"]}>

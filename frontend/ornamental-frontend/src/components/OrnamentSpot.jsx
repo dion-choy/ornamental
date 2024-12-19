@@ -63,18 +63,20 @@ export default function OrnamentSpot(props) {
                     position={coord}
                     key={index + taken.length}
                     onClick={(event) => {
-                        removeAvail(event);
-                        let position;
-                        for (position = 0; position < viableSpots.length; position++) {
-                            if (
-                                viableSpots[position].every((value, index) => {
-                                    return value == [...event.object.position][index];
-                                })
-                            ) {
-                                break;
+                        if (props.choose) {
+                            removeAvail(event);
+                            let position;
+                            for (position = 0; position < viableSpots.length; position++) {
+                                if (
+                                    viableSpots[position].every((value, index) => {
+                                        return value == [...event.object.position][index];
+                                    })
+                                ) {
+                                    break;
+                                }
                             }
+                            // addOrnament(id, authorId, position, style);
                         }
-                        // addOrnament(id, authorId, position, style);
                     }}
                 >
                     <sphereGeometry args={[0.1, 30, 10]} />
