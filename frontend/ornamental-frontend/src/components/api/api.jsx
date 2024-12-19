@@ -74,11 +74,11 @@ export async function getRoom(roomid){
 
   const client = await clientPromise;
   const db = client.db("Ornamental");
-  let user=await db
+  let room=await db
     .collection("rooms")
     .findOne({ "code": roomid })
-  roomid=EJSON.stringify(roomid)
-  return roomid
+  room=EJSON.stringify(room)
+  return room
 }
 export async function addPlayer(playerid, roomcode){
   playerid=EJSON.parse(playerid)
