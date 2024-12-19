@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 import { redirect } from 'next/navigation'
-import css from "@/styles/home.css";
+import css from "@/styles/Home.css";
 import { checkCode } from "@/components/api/api";
 import { motion } from "motion/react"
 

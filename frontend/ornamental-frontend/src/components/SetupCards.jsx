@@ -106,7 +106,7 @@ export function ResponseCollectedCard(props) {
 
         <motion.div initial={{opacity: 0}} animate={{opacity: 1, transition:{duration: 2, delay: 4+4}}}
         className='w-full my-6 flex grow flex-col justify-between'>
-          <button className="next-btn" onClick={() => props.confirmation()}>Awesome</button>
+          <button className="next-btn" onClick={() => props}>Awesome</button>
         </motion.div>
       </div>
     </div>
