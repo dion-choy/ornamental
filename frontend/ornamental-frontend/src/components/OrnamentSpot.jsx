@@ -15,6 +15,7 @@ export default function OrnamentSpot(props) {
         usedOrn.position.set(...event.object.position);
         usedOrn.showAuthor = props.showAuthor;
         usedOrn.hideAuthor = props.hideAuthor;
+        // usedOrn.authorId = getID()
         event.object.parent.add(usedOrn);
         event.object.parent.remove(event.object);
         console.log(event.object);
@@ -62,19 +63,20 @@ export default function OrnamentSpot(props) {
                     position={coord}
                     key={index + taken.length}
                     onClick={(event) => {
-                        removeAvail(event);
-                        let position;
-                        for (position = 0; position < viableSpots.length; position++) {
-                            if (
-                                viableSpots[position].every((value, index) => {
-                                    return value == [...event.object.position][index];
-                                })
-                            ) {
-                                break;
+                        if (props.choose) {
+                            removeAvail(event);
+                            let position;
+                            for (position = 0; position < viableSpots.length; position++) {
+                                if (
+                                    viableSpots[position].every((value, index) => {
+                                        return value == [...event.object.position][index];
+                                    })
+                                ) {
+                                    break;
+                                }
                             }
+                            // addOrnament(id, authorId, position, style);
                         }
-                        console.log(position);
-                        // addOrnament(id, author, position, style);
                     }}
                 >
                     <sphereGeometry args={[0.1, 30, 10]} />
@@ -88,6 +90,7 @@ export default function OrnamentSpot(props) {
                     key={index}
                     showAuthor={props.showAuthor}
                     hideAuthor={props.hideAuthor}
+                    authorId={props.ornaments[0].authorid}
                 >
                     <sphereGeometry args={[0.1, 30, 10]} />
                     <meshPhysicalMaterial color={"black"} />
