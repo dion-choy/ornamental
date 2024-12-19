@@ -3,19 +3,23 @@ import { addOrnament } from "@/components/api/api";
 import * as THREE from "three";
 import { useParams } from "next/navigation";
 
-function removeAvail(event) {
-    const sphere = new THREE.SphereGeometry(0.1, 30, 10);
-    const material = new THREE.MeshPhysicalMaterial({ color: 0x000000 });
-    const usedOrn = new THREE.Mesh(sphere, material);
-    usedOrn.name = "ornament";
-    usedOrn.position.set(...event.object.position);
-    usedOrn.showAuthor = props.showAuthor;
-    event.object.copy(usedOrn, true);
-    event.object.parent.add(usedOrn);
-    event.object.parent.remove(event.object);
-}
-
 export default function OrnamentSpot(props) {
+    props.hideAuthor;
+    props.showAuthor;
+
+    function removeAvail(event) {
+        const sphere = new THREE.SphereGeometry(0.1, 30, 10);
+        const material = new THREE.MeshPhysicalMaterial({ color: 0x000000 });
+        const usedOrn = new THREE.Mesh(sphere, material);
+        usedOrn.name = "ornament";
+        usedOrn.position.set(...event.object.position);
+        usedOrn.showAuthor = props.showAuthor;
+        usedOrn.hideAuthor = props.hideAuthor;
+        event.object.parent.add(usedOrn);
+        event.object.parent.remove(event.object);
+        console.log(event.object);
+    }
+
     const { id } = useParams();
     const viableSpots = [
         [0.1, 1.9, 0.7],

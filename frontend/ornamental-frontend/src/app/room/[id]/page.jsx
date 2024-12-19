@@ -29,7 +29,7 @@ export default function Home() {
         );
     }
     const [ornaments, setOrnaments] = useState([]);
-    const [authorVisible, setAuthorVisible] = useState([]);
+    const [authorVisible, setAuthorVisible] = useState(false);
 
     useEffect(() => {
         console.log(id);
@@ -49,11 +49,13 @@ export default function Home() {
     function showAuthor() {
         console.log("SHOW");
         console.log(this);
+        setAuthorVisible(true);
     }
 
     function hideAuthor() {
         console.log("HIDE");
         console.log(this);
+        setAuthorVisible(false);
     }
 
     return (
@@ -111,9 +113,7 @@ export default function Home() {
 
                 <div
                     style={{
-                        display: () => {
-                            authorVisible ? "block" : "none";
-                        },
+                        display: authorVisible ? "block" : "none",
                     }}
                 >
                     <p>Author</p>
