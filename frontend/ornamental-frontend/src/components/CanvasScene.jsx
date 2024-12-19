@@ -17,7 +17,12 @@ export default function MyScene(props) {
 
             <ambientLight intensity={0.5} color={"white"} />
             <Draggable>
-                <OrnamentSpot ornaments={props.ornaments} choose={props.choose} />
+                <OrnamentSpot
+                    ornaments={props.ornaments}
+                    choose={props.choose}
+                    showAuthor={props.showAuthor}
+                    hideAuthor={props.hideAuthor}
+                />
                 <LightBulb position={[0, 4, 0]} size={[0.2, 30, 10]} intensity={5} color={"beige"} />
             </Draggable>
 

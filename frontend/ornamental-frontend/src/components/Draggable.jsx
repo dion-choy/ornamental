@@ -19,11 +19,17 @@ function Draggable(props) {
             if (event.object.name == "avail_ornament") {
                 event.object.material.opacity = 1;
             }
+            if (event.object.name == "ornament") {
+                event.object.showAuthor();
+            }
         });
         controlsRef.current.addEventListener("hoveroff", function (event) {
             scene.orbitControls.enabled = true;
             if (event.object.name == "avail_ornament") {
                 event.object.material.opacity = 0.3;
+            }
+            if (event.object.name == "ornament") {
+                event.object.hideAuthor();
             }
         });
 

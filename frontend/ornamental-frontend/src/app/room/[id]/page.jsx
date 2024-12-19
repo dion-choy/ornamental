@@ -18,6 +18,7 @@ export default function Home() {
     const [numReindeers, setNumReindeers] = useState(0);
     const [chooseOrnament, setChooseOrnament] = useState(false);
     const [ornaments, setOrnaments] = useState([]);
+    const [authorVisible, setAuthorVisible] = useState([]);
 
     useEffect(() => {
         console.log(id);
@@ -33,6 +34,16 @@ export default function Home() {
     useEffect(() => {
         console.log(ornaments);
     }, [ornaments]);
+
+    function showAuthor() {
+        console.log("SHOW");
+        console.log(this);
+    }
+
+    function hideAuthor() {
+        console.log("HIDE");
+        console.log(this);
+    }
 
     return (
         <div className={css.scene}>
@@ -71,13 +82,29 @@ export default function Home() {
                 }}
             >
                 <Controls rotate={0.4} />
-                <MyScene numReindeers={numReindeers} choose={chooseOrnament} ornaments={ornaments} />
+                <MyScene
+                    numReindeers={numReindeers}
+                    choose={chooseOrnament}
+                    ornaments={ornaments}
+                    showAuthor={showAuthor}
+                    hideAuthor={hideAuthor}
+                />
             </Canvas>
 
             <div className={css.overlay}>
                 <img className={css.timerUI} src="/assets/Time.svg" alt="Gift!" />
                 <div className={css.container}>
                     <div className={css.timer}>10 days 10 hours 10 minutes 10 seconds</div>
+                </div>
+
+                <div
+                    style={{
+                        display: () => {
+                            authorVisible ? "block" : "none";
+                        },
+                    }}
+                >
+                    <p>Author</p>
                 </div>
 
                 <div id={css["admin-panel"]}>

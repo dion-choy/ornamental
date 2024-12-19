@@ -9,6 +9,7 @@ function removeAvail(event) {
     const usedOrn = new THREE.Mesh(sphere, material);
     usedOrn.name = "ornament";
     usedOrn.position.set(...event.object.position);
+    usedOrn.showAuthor = props.showAuthor;
     event.object.copy(usedOrn, true);
     event.object.parent.add(usedOrn);
     event.object.parent.remove(event.object);
@@ -77,7 +78,13 @@ export default function OrnamentSpot(props) {
                 </mesh>
             ))}
             {taken.map((coord, index) => (
-                <mesh name={"ornament"} position={coord} key={index}>
+                <mesh
+                    name={"ornament"}
+                    position={coord}
+                    key={index}
+                    showAuthor={props.showAuthor}
+                    hideAuthor={props.hideAuthor}
+                >
                     <sphereGeometry args={[0.1, 30, 10]} />
                     <meshPhysicalMaterial color={"black"} />
                 </mesh>
