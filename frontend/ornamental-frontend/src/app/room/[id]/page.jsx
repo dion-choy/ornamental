@@ -60,6 +60,10 @@ export default function Home() {
         setAuthorVisible(false);
     }
 
+    function giftClickHandler(object) {
+        console.log(object);
+    }
+
     return (
         <div className={css.scene}>
             <Auth code={id} />
@@ -104,6 +108,7 @@ export default function Home() {
                     showAuthor={showAuthor}
                     hideAuthor={hideAuthor}
                     camSetting={camSetting}
+                    giftClickHandler={giftClickHandler}
                 />
                 <CameraHelper />
                 <Controls rotate={0.4} camSetting={camSetting} />

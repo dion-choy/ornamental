@@ -28,7 +28,6 @@ function Draggable(props) {
                 event.object.showAuthor();
             }
             if (event.object.name == "gift" && props.camSetting == 1) {
-                console.log(event.object);
                 event.object.parent.children.map((object) => {
                     object.material.emissive.set("white");
                     object.material.emissiveIntensity = 0.2;
@@ -62,7 +61,7 @@ function Draggable(props) {
             }
 
             if (event.object.name == "gift" && props.camSetting) {
-                console.log("gift click");
+                props.giftClickHandler(event.object);
             }
         });
 
