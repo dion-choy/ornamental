@@ -76,7 +76,7 @@ function Home() {
                 transition={{ duration: 0.4, y: { type: "spring", visualDuration: 0.4, bounce: 0.5 } }}
                 whileHover={{scale: 1.05, transition:{duration:0.2, ease:"linear"}}}
                 onAnimationComplete={() => inputCodeRef.current.focus()}
-                className="btn" id="enter" onClick={() => { checkCode(code).then((c) => { if (!c) { setCan(c) } else { redirect("/rooms/" + code) }}) }}>Enter!</motion.button>
+                className="btn" id="enter" onClick={() => { checkCode(code).then((c) => { if (!c) { setCan(c) } else { redirect("/room/" + code) }}) }}>Enter!</motion.button>
               {(can) ? "" : "Wrong Code"}
             </>)
             : null}

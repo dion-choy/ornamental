@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { redirect } from 'next/navigation'
 import css from "@/styles/home.css";
-import {getUser, checkPlayer, checkCode, getNoPlayers, createRoom,createUser,addPlayer, addOrnament, getRoom } from "@/components/api/api";
+import {startSecretSanta,getUser, checkPlayer, checkCode, getNoPlayers, createRoom,createUser,addPlayer, addOrnament, getRoom } from "@/components/api/api";
 import { motion } from "motion/react"
 import { BSON, EJSON, ObjectId } from 'bson';
 function test() {
@@ -26,6 +26,9 @@ async function createU(){
   async function getR(){
     console.log(await getRoom(1325))
   }
+  async function startS(){
+    console.log(await startSecretSanta(1325))
+  }
   async function checkp(){
     console.log(EJSON.parse(await checkPlayer("amongus", "password")))
     console.log(EJSON.parse(await checkPlayer("amongjs", "password")))
@@ -38,6 +41,7 @@ async function createU(){
       <div onClick={()=>{getp()}}>getnoof players</div>   
       <div onClick={()=>{checkp()}}>check password</div>   
       <div onClick={()=>{getR()}}>getroom</div>   
+      <div onClick={()=>{startS()}}>start santa</div>   
     </div>
   )
 }
