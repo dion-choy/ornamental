@@ -1,22 +1,40 @@
 "use client";
 import css from "@/styles/Home.module.css";
-import { useRef, useState,useEffect } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
 import { Canvas } from "@react-three/fiber";
 import MyScene from "@/components/CanvasScene";
 import Controls from "@/components/Controls";
 import { useParams } from 'next/navigation'
 import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
-import {getNoPlayers } from "@/components/api/api";
+import { getNoPlayers } from "@/components/api/api";
 import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
 import { SAOPass } from "three/addons/postprocessing/SAOPass.js";
 import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
+import { PerspectiveCamera } from "three";
 
 export default function Home() {
-    const {id}=useParams();
+    const { id } = useParams();
     const cam = useRef();
     const [numReindeers, setNumReindeers] = useState(0);
     const [chooseOrnament, setChooseOrnament] = useState(false);
-    useEffect(()=>{console.log(id);getNoPlayers(id).then((no)=>{setNumReindeers(no)})},[])
+    const [camSetting, setCamSetting] = useState(0);
+
+    useEffect(() => {
+        console.log(id); 
+        getNoPlayers(id).then((no) => { setNumReindeers(no) }) 
+    }, [])
+
+    function CameraHelper() {
+        const camera = new PerspectiveCamera(60, 1, 1, 3);
+        return(
+        <group position={[0,2,-2.5]} rotation={[0,Math.PI/2,0]}>
+            {/* <cameraHelper args={[camera]} />; */}
+        </group> 
+        )
+        
+        
+    }
+
     return (
         <div className={css.scene}>
             <Canvas
@@ -53,7 +71,8 @@ export default function Home() {
                     gl.setAnimationLoop(() => composer.render());
                 }}
             >
-                <Controls rotate={0.4} />
+                <CameraHelper />
+                <Controls rotate={0.4} camSetting={camSetting} />
                 <MyScene numReindeers={numReindeers} choose={chooseOrnament} />
             </Canvas>
 
@@ -77,7 +96,10 @@ export default function Home() {
                 </div>
 
                 <div className={css.giftbutton}>
-                    <button>
+                    <button onClick={() => {
+                        let x = (camSetting == 1) ? 0: 1;
+                        setCamSetting(x);
+                    }}>
                         <img src="/assets/Gift.png" alt="Gift!" />
                         Gift!
                     </button>
