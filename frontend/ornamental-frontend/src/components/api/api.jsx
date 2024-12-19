@@ -87,7 +87,7 @@ export async function addPlayer(playerid, roomcode){
   let user=await db
     .collection("users")
     .updateOne({ _id: playerid },
-  { $set: { 'room': roomcode.toString() } })
+      { $set: { 'room': roomcode.toString() } })
   return await db.collection("rooms").updateOne({"code":roomcode.toString()},{$push:{'list_of_users':playerid}})
 }
 
@@ -127,4 +127,30 @@ export async function addGift(roomcode, author, recepient, position, rotation,sh
   const db = client.db("Ornamental");
   return await db.collection("rooms").updateOne({"code":roomcode.toString()},{$push:{'ornaments':{"authorid":author,"recepient":recepient,"position":position,"rotation":rotation, "shape":shape,"size":size}}})
 
+}
+export async function startSecretSanta(roomCode){
+  const client = await clientPromise;
+  const db = client.db("Ornamental")
+  let room=await db
+    .collection("rooms")
+    .findOne({"code":roomCode.toString()})
+  let users=room.list_of_users
+  let pairs=[]
+  let used=[]
+  for (let i=0; i<users.length; i++){
+    let index=Math.floor(Math.random()*users.length)
+    while (used.includes(index)||index==i){
+      index=Math.floor(Math.random()*users.length)
+      console.log(index)
+    }
+    used.push(index)
+    pairs.push({"author":users[i],"target":users[index],"has_been_bought":false})
+    console.log(i+': '+index)
+
+
+  }
+  console.log(pairs)
+  return await db
+    .collection("rooms")
+    .updateOne({"code":roomCode.toString()},{$set:{"secret_santa.user_pair":pairs,"secret_santa.started":true}})
 }
