@@ -7,7 +7,7 @@ export async function checkCode(code){
   const db = client.db("Ornamental");
   const room = await db
     .collection("rooms")
-    .findOne({"code":parseInt(code)})
+    .findOne({"code":code.toString()})
   return (room!=null)
 
 }
@@ -120,12 +120,17 @@ export async function addOrnament(roomcode, author, position, ornamentId){
 
 }
 
-export async function addGift(roomcode, author, recepient, position, rotation,shape, size ){
+export async function addGift(roomcode, author, position, rotation,shape, size ){
   author=EJSON.parse(author)
   recepient=EJSON.parse(recepient)
   const client = await clientPromise;
   const db = client.db("Ornamental");
-  return await db.collection("rooms").updateOne({"code":roomcode.toString()},{$push:{'ornaments':{"authorid":author,"recepient":recepient,"position":position,"rotation":rotation, "shape":shape,"size":size}}})
+  let room =db.collection("rooms").findOne({"code":roomcode.toString()})
+  let obj=room.secret_santa.user_pair.find(o=>o.author==author)
+  console.log(obj)
+
+  db.collection("rooms").updateOne({"code":roomcode.toString()},{$push:{'gifts':{"authorid":author,"recepient":obj.target,"position":position,"rotation":rotation, "shape":shape,"size":size}}})
+  return await db.collection("rooms").updateOne({"code":roomcode.toString(), "gifts.author":author},{$set:{'gifts.$.has_been_bought':true}})
 
 }
 export async function startSecretSanta(roomCode){
