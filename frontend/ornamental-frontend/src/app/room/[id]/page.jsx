@@ -6,6 +6,7 @@ import MyScene from "@/components/CanvasScene";
 import Controls from "@/components/Controls";
 import { useParams } from "next/navigation";
 import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
+import { PerspectiveCamera } from "three";
 import { getNoPlayers, getRoom } from "@/components/api/api";
 import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
 import { SAOPass } from "three/addons/postprocessing/SAOPass.js";
@@ -17,6 +18,16 @@ export default function Home() {
     const cam = useRef();
     const [numReindeers, setNumReindeers] = useState(0);
     const [chooseOrnament, setChooseOrnament] = useState(false);
+    const [camSetting, setCamSetting] = useState(0);
+
+    function CameraHelper() {
+        const camera = new PerspectiveCamera(60, 1, 1, 3);
+        return (
+            <group position={[0, 2, -2.5]} rotation={[0, Math.PI / 2, 0]}>
+                {/* <cameraHelper args={[camera]} />; */}
+            </group>
+        );
+    }
     const [ornaments, setOrnaments] = useState([]);
     const [authorVisible, setAuthorVisible] = useState([]);
 
@@ -81,7 +92,6 @@ export default function Home() {
                     gl.setAnimationLoop(() => composer.render());
                 }}
             >
-                <Controls rotate={0.4} />
                 <MyScene
                     numReindeers={numReindeers}
                     choose={chooseOrnament}
@@ -89,6 +99,8 @@ export default function Home() {
                     showAuthor={showAuthor}
                     hideAuthor={hideAuthor}
                 />
+                <CameraHelper />
+                <Controls rotate={0.4} camSetting={camSetting} />
             </Canvas>
 
             <div className={css.overlay}>
@@ -121,7 +133,12 @@ export default function Home() {
                 </div>
 
                 <div className={css.giftbutton}>
-                    <button>
+                    <button
+                        onClick={() => {
+                            let x = camSetting == 1 ? 0 : 1;
+                            setCamSetting(x);
+                        }}
+                    >
                         <img src="/assets/Gift.png" alt="Gift!" />
                         Gift!
                     </button>
