@@ -1,12 +1,15 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { redirect } from 'next/navigation'
-import css from "@/styles/name.css";
+import "@/styles/name.css";
+import "@/styles/Cards.css"
 import { ResultCard, SetupCard } from "@/components/SetupCards";
 import SnowingBG from "@/components/SnowingBG";
 import { motion } from "motion/react";
 import { delay, easeIn, easeInOut } from "motion";
-import {checkCode,createRoom} from "@/components/api/api";
+import { checkCode, createRoom } from "@/components/api/api";
+import questions from "@/lib/questions.json"
+import ReturnButton from "@/components/ReturnButton";
 
 function createRoomPage() {
   const [cards, setCards] = useState([
@@ -15,11 +18,12 @@ function createRoomPage() {
     { subtitle: "Let's make this room uniquely yours", placeholder: "Enter description", cardNum: "3" },
   ])
 
-  const animateToCenter = (delay = 0) => { return {
-    top: "50vh", left: "50vw",
-    transform: "translate(-50%, -50%) rotateZ(0deg)",
-    transition: { easeInOut, duration: 1, delay: delay }
-  }
+  const animateToCenter = (delay = 0) => {
+    return {
+      top: "50vh", left: "50vw",
+      transform: "translate(-50%, -50%) rotateZ(0deg)",
+      transition: { easeInOut, duration: 1, delay: delay }
+    }
   };
 
   const animateToSide = (offset) => {
@@ -55,10 +59,18 @@ function createRoomPage() {
 
   const [finalCard, setFinalCard] = useState(false);
 
-
-
   const dataHandler = (data) => {
     switch (data.stage) {
+      case -1:
+        // Refresh cards
+        setAnimations([
+          animateToCenter,
+          {},
+          {},
+        ])
+        setFinalCard(false);
+        break;
+
       case 0:
         setGroupName(data.value)
         setAnimations([
@@ -94,29 +106,40 @@ function createRoomPage() {
         break;
     }
   }
-  async function conf(){
-    let ok=false
-    let code=Math.floor(Math.random() * 90000) + 10000;
-    while (!ok){
-      if (!await checkCode(code)){
-        ok=true
-      }else{
-        let code=Math.floor(Math.random() * 90000) + 10000;
+
+  async function conf() {
+    let ok = false
+    let code = Math.floor(Math.random() * 90000) + 10000;
+    while (!ok) {
+      if (!await checkCode(code)) {
+        ok = true
+      } else {
+        let code = Math.floor(Math.random() * 90000) + 10000;
       }
     }
-    createRoom(code, groupName, date, 50, groupDesc,5,[]).then((res)=>{redirect("/room/"+code.toString())})
+    const selectedQuestions = questions
+      .sort(() => Math.random() - 0.5) // Shuffle the array
+      .slice(0, 5); // Take the first 5 items
+
+    createRoom(code, groupName, date, 50, groupDesc, 5, selectedQuestions).then((res) => { redirect("/room/" + code.toString()) })
   }
 
 
   return (
     <>
-      {finalCard ? 
-      <motion.div
-        initial={{top: "-50vh", left: "50vw", transform: "translate(-50%, -50%)"}}
-        animate={animateToCenter(4)}
-        style={{position: "absolute"}}>
-        <ResultCard subtitle={"Does this sound like your room?"} cardNum={4} groupName={groupName} date={date} description={groupDesc}  confirmation={conf}/>
-      </motion.div> : null}
+      <div className="absolute top-5 left-5">
+        <ReturnButton/>
+      </div>
+      {finalCard ?
+        <motion.div
+          initial={{ top: "-50vh", left: "50vw", transform: "translate(-50%, -50%)" }}
+          animate={animateToCenter(4)}
+          style={{ position: "absolute" }}>
+          <ResultCard subtitle={"Does this sound like your room?"} cardNum={4} 
+          groupName={groupName} date={date} description={groupDesc} sendDataToParent={dataHandler} confirmation={conf} />
+        </motion.div> : null}
+
+
       {cards.map((card, index) => {
         let rotation = (45 / 3 * index) - 45 / 3 - 45;
         return (

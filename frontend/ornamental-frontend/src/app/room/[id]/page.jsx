@@ -1,5 +1,5 @@
 "use client";
-import css from "@/styles/Home.module.css";
+import css from "@/styles/Room.module.css";
 import { useRef, useState, useEffect } from "react";
 import { Canvas } from "@react-three/fiber";
 import MyScene from "@/components/CanvasScene";
