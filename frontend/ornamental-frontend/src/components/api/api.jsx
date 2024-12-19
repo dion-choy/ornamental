@@ -76,7 +76,7 @@ export async function getRoom(roomid){
   const db = client.db("Ornamental");
   let room=await db
     .collection("rooms")
-    .findOne({ "code": roomid })
+    .findOne({ "code": roomid.toString() })
   room=EJSON.stringify(room)
   return room
 }
