@@ -62,7 +62,7 @@ export default  function Auth(props){
       <div className='btn' style={{width:'auto'}} onClick={signUp}>Sign up</div>
       </div>
       </div>
-      <div style={{width:'100vw', height:'100vh', position:'absolute', top:'0', left:'0', backgroundColor:'#00000055', zIndex:'100'}}>
+      <div style={{width:'100vw',backdropFilter:'blur(10px)', height:'100vh', position:'absolute', top:'0', left:'0', backgroundColor:'#00000055', zIndex:'100'}}>
 
       </div>
       </>
