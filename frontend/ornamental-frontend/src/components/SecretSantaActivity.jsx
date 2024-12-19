@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { redirect } from 'next/navigation'
 import "@/styles/name.css";
 import "@/styles/Cards.css"
-import { ResponseCollectedCard, ResultCard, SetupCard } from "@/components/SetupCards";
+import { ResponseCollectedCard, ResultCard, InputCard } from "@/components/SetupCards";
 import SnowingBG from "@/components/SnowingBG";
 import { motion } from "motion/react";
 import { delay, easeIn, easeInOut } from "motion";
@@ -137,7 +137,7 @@ function SecretSantaOnboarding( props ) {
                         initial={{ transformOrigin: "50% 100%", rotateZ: rotation, left: "100%" }}
 
                         style={{ position: "absolute", zIndex: `${5 - index}`, backfaceVisibility: "hidden", transformStyle: "preserve-3d" }}>
-                        <SetupCard index={index} sendDataToParent={dataHandler} subtitle={card.subtitle} placeholder={card.placeholder} cardNum={card.cardNum}/>
+                        <InputCard index={index} sendDataToParent={dataHandler} subtitle={card.subtitle} placeholder={card.placeholder} cardNum={card.cardNum}/>
                     </motion.div>
                 )
             })}
