@@ -103,6 +103,7 @@ export default function Home() {
                     ornaments={ornaments}
                     showAuthor={showAuthor}
                     hideAuthor={hideAuthor}
+                    camSetting={camSetting}
                 />
                 <CameraHelper />
                 <Controls rotate={0.4} camSetting={camSetting} />
@@ -119,10 +120,11 @@ export default function Home() {
                         display: authorVisible ? "block" : "none",
                     }}
                 >
-                    
                     <div className="namerectdiv">
-                        <div className={css.namerect}><p>{authorVisible}</p></div>
-                    </div> 
+                        <div className={css.namerect}>
+                            <p>{authorVisible}</p>
+                        </div>
+                    </div>
                 </div>
 
                 <div id={css["admin-panel"]}>

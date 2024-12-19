@@ -4,9 +4,6 @@ import * as THREE from "three";
 import { useParams } from "next/navigation";
 
 export default function OrnamentSpot(props) {
-    props.hideAuthor;
-    props.showAuthor;
-
     function removeAvail(event) {
         const sphere = new THREE.SphereGeometry(0.1, 30, 10);
         const material = new THREE.MeshPhysicalMaterial({ color: 0x000000 });
