@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { use } from "react";
+import { addOrnament } from "@/components/api/api";
 import * as THREE from "three";
+import { useParams } from "next/navigation";
 
 function removeAvail(event) {
     const sphere = new THREE.SphereGeometry(0.1, 30, 10);
@@ -14,6 +15,7 @@ function removeAvail(event) {
 }
 
 export default function OrnamentSpot(props) {
+    const { id } = useParams();
     const viableSpots = [
         [0.1, 1.9, 0.7],
         [-0.25, 2.38, 0.25],
@@ -56,6 +58,18 @@ export default function OrnamentSpot(props) {
                     key={index + taken.length}
                     onClick={(event) => {
                         removeAvail(event);
+                        let position;
+                        for (position = 0; position < viableSpots.length; position++) {
+                            if (
+                                viableSpots[position].every((value, index) => {
+                                    return value == [...event.object.position][index];
+                                })
+                            ) {
+                                break;
+                            }
+                        }
+                        console.log(position);
+                        // addOrnament(id, author, position, style);
                     }}
                 >
                     <sphereGeometry args={[0.1, 30, 10]} />
