@@ -55,7 +55,7 @@ function Home() {
         <img className="inline candy-cane" src="assets/candycane.svg" alt="Candy Cane Divider" />
 
         <div className="buttons">
-          <button className="btn create" onClick={() => redirect("/1createRoom")}>Create a Room</button>
+          <button className="btn create" onClick={() => redirect("/createRoom")}>Create a Room</button>
           
           {!displayInputCode ? 
           <button className="btn join" onClick={() => {setDisplayInputCode(true)}}>Join a Room</button>
