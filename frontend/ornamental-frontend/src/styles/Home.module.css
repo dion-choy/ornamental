@@ -54,12 +54,29 @@
 }
 
 .timer {
-    font-size: 15px; /* Matches image height */
+    font-size: 15px; 
     font-weight: bold;
     color: #fff;
-    display: inline-block; /* Keeps timer in line with the image */
+    display: inline-block; 
     vertical-align: middle;
 }
+
+.namerect{
+    position: absolute;
+    bottom: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 10px 20px;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    background-color: rgba(0,0,0, 0.5); 
+    border-radius: 15px; 
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); 
+    text-align: center;
+}
+
 
 #admin-panel {
     position: absolute;

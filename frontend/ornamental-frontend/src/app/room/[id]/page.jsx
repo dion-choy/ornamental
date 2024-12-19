@@ -119,7 +119,10 @@ export default function Home() {
                         display: authorVisible ? "block" : "none",
                     }}
                 >
-                    <p>{authorVisible}</p>
+                    
+                    <div className="namerectdiv">
+                        <div className={css.namerect}><p>{authorVisible}</p></div>
+                    </div> 
                 </div>
 
                 <div id={css["admin-panel"]}>
