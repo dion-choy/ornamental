@@ -49,7 +49,6 @@ export default  function Auth(props){
   function handleUsername(e){setuserN(e.target.value);}
   function handlePassword(e){setPassword(e.target.value);}
   return (<>
-    <div>nig</div>
     {(isLoggedIn)?"":
       <>
       <div style={{display:'flex',flexDirection:'column',position:'absolute',top:'50vh',left:'50vw',transform: `translate(-50%, -50%)`,zIndex:'101',backgroundColor:'#24223F', padding:'20px', borderRadius:'20px'}}>
