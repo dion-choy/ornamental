@@ -48,8 +48,7 @@ export default function Home() {
     }, [ornaments]);
 
     function showAuthor() {
-        console.log("SHOW");
-        console.log(this);
+        console.log("Show author");
         getUser(EJSON.stringify(this.authorId)).then((authorStr) => {
             const author = EJSON.parse(authorStr);
             setAuthorVisible(author.name);
@@ -57,14 +56,13 @@ export default function Home() {
     }
 
     function hideAuthor() {
-        console.log("HIDE");
-        console.log(this);
+        console.log("Hide author");
         setAuthorVisible(false);
     }
 
     return (
         <div className={css.scene}>
-		<Auth code={id}/>
+            <Auth code={id} />
             <Canvas
                 ref={cam}
                 shadows
