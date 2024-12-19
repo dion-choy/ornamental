@@ -16,8 +16,7 @@ function Draggable(props) {
 
     useEffect(() => {
         if (controlsRef.current._listeners) {
-            controlsRef.current._listeners.hoveron = [];
-            controlsRef.current._listeners.hoveroff = [];
+            controlsRef.current._listeners = {};
         }
 
         controlsRef.current.addEventListener("hoveron", function (event) {
@@ -29,12 +28,14 @@ function Draggable(props) {
                 event.object.showAuthor();
             }
             if (event.object.name == "gift" && props.camSetting == 1) {
+                console.log(event.object);
                 event.object.parent.children.map((object) => {
                     object.material.emissive.set("white");
                     object.material.emissiveIntensity = 0.2;
                 });
             }
         });
+
         controlsRef.current.addEventListener("hoveroff", function (event) {
             scene.orbitControls.enabled = true;
             if (event.object.name == "avail_ornament") {
@@ -50,9 +51,7 @@ function Draggable(props) {
                 });
             }
         });
-    }, [objects, props.camSetting]);
 
-    useEffect(() => {
         controlsRef.current.addEventListener("dragstart", function (event) {
             if (
                 event.object.name == "avail_ornament" ||
@@ -61,7 +60,12 @@ function Draggable(props) {
             ) {
                 event.object.oldPos = event.object.position.clone();
             }
+
+            if (event.object.name == "gift" && props.camSetting) {
+                console.log("gift click");
+            }
         });
+
         controlsRef.current.addEventListener("drag", function (event) {
             if (
                 event.object.name == "avail_ornament" ||
@@ -71,7 +75,7 @@ function Draggable(props) {
                 event.object.position.set(...event.object.oldPos); // lock position
             }
         });
-    }, [objects]);
+    }, [objects, props.camSetting]);
 
     return (
         <group ref={groupRef}>
