@@ -3,6 +3,7 @@ import css from "@/styles/Home.module.css";
 import { useRef, useState, useEffect } from "react";
 import { Canvas } from "@react-three/fiber";
 import MyScene from "@/components/CanvasScene";
+import Auth from "@/components/auth.jsx";
 import Controls from "@/components/Controls";
 import { useParams } from "next/navigation";
 import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
@@ -63,6 +64,7 @@ export default function Home() {
 
     return (
         <div className={css.scene}>
+		<Auth code={id}/>
             <Canvas
                 ref={cam}
                 shadows
