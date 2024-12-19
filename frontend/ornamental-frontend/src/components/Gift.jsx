@@ -1,40 +1,24 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { useLoader, useFrame, useThree } from "@react-three/fiber";
-import { PointLight, AnimationMixer, MeshBasicMaterial } from "three";
 
 export default function Gift(props) {
     const gltf = useLoader(GLTFLoader, props.file);
-    const rotate = useRef();
-    let mixer;
+    const object = useRef();
     const { scene } = useThree();
-
-    useFrame((state, delta) => {
-        if (props.rotate) {
-            rotate.current.rotation.y += props.rotate;
-        }
-        mixer?.update(delta);
-    });
+    const [gift, setGift] = useState({});
 
     useEffect(() => {
-        gltf.scene.traverse(function (child) {
-            if (child.isMesh) {
-                child.castShadow = true;
-                child.receiveShadow = true;
-                child.material.emissive.set("white");
-                child.material.emissive.set("white");
-            }
+        const clonedGift = gltf.scene.clone(true);
+        clonedGift.traverse((child) => {
+            child.name = "gift";
         });
+        setGift(clonedGift);
     }, [gltf]);
 
     return (
-        <mesh
-            position={props.position}
-            onClick={(event) => {
-                console.log("Clicked");
-            }}
-        >
-            <primitive object={gltf.scene} ref={rotate} scale={props.scale} />
+        <mesh position={props.position}>
+            <primitive object={gift} scale={props.scale} />
         </mesh>
     );
 }

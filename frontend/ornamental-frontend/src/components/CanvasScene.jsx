@@ -17,7 +17,7 @@ export default function MyScene(props) {
             <Snowflake count={500} />
 
             <ambientLight intensity={0.5} color={"white"} />
-            <Draggable>
+            <Draggable camSetting={props.camSetting}>
                 <OrnamentSpot
                     ornaments={props.ornaments}
                     choose={props.choose}

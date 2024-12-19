@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 import { redirect } from 'next/navigation'
-import css from "@/styles/home.css";
+import "@/styles/Home.css";
 import { checkCode } from "@/components/api/api";
 import { motion } from "motion/react"
 
@@ -47,7 +47,7 @@ function Home() {
     <div>
       <div className="header-container" >
         <div className="header-card"></div>
-        <img className="logo inline" src="assets/logo.svg" alt="Ornamental Logo" />
+        <img className="logo inline mt-40 mb-20px" src="assets/logo.svg" alt="Ornamental Logo" />
 
         <p style={{ fontSize: "40px" }}>It's secret santa</p>
         <p style={{ fontSize: "20px" }}>but <b>better</b></p>

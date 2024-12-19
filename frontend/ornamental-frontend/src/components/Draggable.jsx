@@ -20,8 +20,13 @@ function Draggable(props) {
                 event.object.material.opacity = 1;
             }
             if (event.object.name == "ornament") {
-                console.log(event.object);
                 event.object.showAuthor();
+            }
+            if (event.object.name == "gift" && props.camSetting == 1) {
+                event.object.parent.children.map((object) => {
+                    object.material.emissive.set("white");
+                    object.material.emissiveIntensity = 0.2;
+                });
             }
         });
         controlsRef.current.addEventListener("hoveroff", function (event) {
@@ -31,6 +36,13 @@ function Draggable(props) {
             }
             if (event.object.name == "ornament") {
                 event.object.hideAuthor();
+            }
+            console.log(props);
+            if (event.object.name == "gift" && props.camSetting == 1) {
+                event.object.parent.children.map((object) => {
+                    object.material.emissive.set("black");
+                    object.material.emissiveIntensity = 0.2;
+                });
             }
         });
 
@@ -44,7 +56,7 @@ function Draggable(props) {
                 event.object.position.set(...event.object.oldPos); // lock position
             }
         });
-    }, [objects]);
+    }, [objects, props.camSetting]);
 
     return (
         <group ref={groupRef}>
