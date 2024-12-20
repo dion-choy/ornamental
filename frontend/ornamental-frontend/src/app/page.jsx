@@ -90,11 +90,25 @@ function Home() {
                     ) : null}
 
                     {displayInputCode ? (
-                        <>
+                        <form
+                            onSubmit={(e) => {
+                                e.preventDefault();
+                                checkCode(code).then((c) => {
+                                    if (!c) {
+                                        setCan(false);
+                                    } else {
+                                        redirect("/room/" + code);
+                                    }
+                                });
+                            }}
+                            style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "10px" }}>
                             <motion.input
                                 initial={{ opacity: 0, y: -60 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.4, y: { type: "spring", visualDuration: 0.4, bounce: 0.5 } }}
+                                transition={{
+                                    duration: 0.4,
+                                    y: { type: "spring", visualDuration: 0.4, bounce: 0.5 },
+                                }}
                                 onChange={handleCode}
                                 ref={inputCodeRef}
                                 placeholder="Enter Room code"
@@ -104,25 +118,23 @@ function Home() {
                             <motion.button
                                 initial={{ opacity: 0, y: -50 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.4, y: { type: "spring", visualDuration: 0.4, bounce: 0.5 } }}
-                                whileHover={{ scale: 1.05, transition: { duration: 0.2, ease: "linear" } }}
+                                transition={{
+                                    duration: 0.4,
+                                    y: { type: "spring", visualDuration: 0.4, bounce: 0.5 },
+                                }}
+                                whileHover={{
+                                    scale: 1.05,
+                                    transition: { duration: 0.2, ease: "linear" },
+                                }}
                                 onAnimationComplete={() => inputCodeRef.current.focus()}
                                 className="btn"
                                 id="enter"
-                                onClick={() => {
-                                    checkCode(code).then((c) => {
-                                        if (!c) {
-                                            setCan(c);
-                                        } else {
-                                            redirect("/room/" + code);
-                                        }
-                                    });
-                                }}
+                                type="submit"
                             >
                                 Enter!
                             </motion.button>
                             {can ? "" : "Wrong Code"}
-                        </>
+                        </form>
                     ) : null}
                 </div>
 
@@ -160,26 +172,21 @@ function Home() {
                     <ul className="info-ul ">
                         <li className="info-li "> 🌟 Create a cozy virtual room and join with your friends</li>
                         <li className="info-li ">
-                            {" "}
                             🧑‍🤝‍🧑 Get to know the acquaintances you've greeted as an intern for the past 2 months through
                             short interactive questions
                         </li>
                         <li className="info-li ">
-                            {" "}
                             🎨 Personalize your room, because this room belongs to your unique friend group
                         </li>
                         <li className="info-li ">
-                            {" "}
                             🎁 Be reminded that as Santa, you have a responsibility to purchase a gift by the decided
                             deadline
                         </li>
                         <li className="info-li ">
-                            {" "}
                             💌 Feel the pressure, knowing that your peers have already bought their gifts via the
                             presents surrounding the virtual tree
                         </li>
                         <li className="info-li ">
-                            {" "}
                             🔥 Flame that <span className="highlight"> friend</span> that has yet to buy their gift
                         </li>
                         <li className="info-li "> 🎉 Deck the halls with unglams of your beloved friends</li>
