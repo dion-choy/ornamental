@@ -38,8 +38,8 @@ export default function MyScene(props) {
 
             <GiftSpawner parentGiftDatas={props.giftData}></GiftSpawner>
             <DeerSpawner deerCount={props.numReindeers}></DeerSpawner>
-            <Model file="../models/christmas_tree.glb" position={[0, 0, 0]} />
-            <Model file="../models/ChristmasRoomVer2.glb" position={[0, 0, 0]} />
+            <Model file="/models/christmas_tree.glb" position={[0, 0, 0]} />
+            <Model file="/models/ChristmasRoomVer2.glb" position={[0, 0, 0]} />
         </group>
     );
 }

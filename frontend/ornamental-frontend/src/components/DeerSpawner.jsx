@@ -11,7 +11,7 @@ const DeerSpawner = ({ deerCount = 0 }) => {
         // console.log("balls");
     }, []);
     // Load the deer model
-    const deerModel = useLoader(GLTFLoader, "../models/reindeer.glb"); // Place deer.glb in /public/models
+    const deerModel = useLoader(GLTFLoader, "/models/reindeer.glb"); // Place deer.glb in /public/models
 
     // Generate deer positions and rotations
     const deerPositions = useMemo(() => {

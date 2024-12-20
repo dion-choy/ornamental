@@ -6,7 +6,7 @@ function Skybox(props) {
     const { scene } = useThree();
 
     const [texture] = useLoader(CubeTextureLoader, [
-        ["../bg/px.png", "../bg/nx.png", "../bg/py.png", "../bg/ny.png", "../bg/pz.png", "../bg/nz.png"],
+        ["/bg/px.png", "/bg/nx.png", "/bg/py.png", "/bg/ny.png", "/bg/pz.png", "/bg/nz.png"],
     ]);
 
     scene.background = texture;
