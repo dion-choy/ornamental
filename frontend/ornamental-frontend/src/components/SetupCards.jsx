@@ -3,6 +3,9 @@ import css from "@/styles/name.css";
 import { motion } from "motion/react";
 import Calendar from 'react-calendar';
 import { dateToString } from '@/lib/myDateFunction';
+import {hasSeenOnboarding } from "@/components/api/api";
+import { useCookies } from "next-client-cookies";
+
 
 
 
@@ -125,6 +128,7 @@ export function ResultCard(props) {
 }
 
 export function ResponseCollectedCard({onComplete, cardNum}) {
+  const cookies = useCookies();
   return (
     <div className="card">
       <div className="card-back" style={{ transform: "rotateY(180deg)" }}></div>
@@ -151,7 +155,7 @@ export function ResponseCollectedCard({onComplete, cardNum}) {
 
         <motion.div initial={{opacity: 0}} animate={{opacity: 1, transition:{duration: 2, delay: 4+4}}}
         className='w-full my-6 flex grow flex-col justify-between'>
-          <button className="next-btn" onClick={onComplete}>Awesome</button>
+          <button className="next-btn" onClick={()=>{hasSeenOnboarding(cookies.get("userId"));onComplete();}}>Awesome</button>
         </motion.div>
       </div>
     </div>

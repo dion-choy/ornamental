@@ -4,7 +4,7 @@ import { useRef, useState, useEffect } from "react";
 import { Canvas } from "@react-three/fiber";
 import MyScene from "@/components/CanvasScene";
 import Auth from "@/components/auth.jsx";
-import SecretSantaAnnouncement from "@/components/SecretSantaAnnouncement";
+import { SecretSantaAnnouncement, SpiralAnimation } from '@/components/SecretSantaAnnouncement'
 import Controls from "@/components/Controls";
 import { useParams } from "next/navigation";
 import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
@@ -61,8 +61,9 @@ export default function Home() {
                 let userId = cookies.get("userId");
                 getUser(userId).then((res) => {
                     res = EJSON.parse(res);
+                    console.log(res.has_seen_onboarding)
+                    console.log("onboarding help")
                     if (res.has_seen_onboarding == false) {
-                        hasSeenOnboarding(userId);
                         setFirstTime(true);
                     }
                 });
@@ -138,6 +139,7 @@ export default function Home() {
                 1
             ).then(() => {
                 console.log("gift added");
+                load();
             });
         });
     }
@@ -148,9 +150,10 @@ export default function Home() {
 
     return (
         <div className={css.scene}>
-            {firstTime ? <SecretSantaAnnouncement roomId={id} userId={cookies.get("userId")} /> : ""}
+            {firstTime ? <SecretSantaAnnouncement roomId={parseInt(id)} userid={cookies.get("userId")}> </SecretSantaAnnouncement> : console.log("onboarded")}
             <Auth code={id} load={load} />
             <Canvas
+                style={{zIndex:'-10'}}
                 ref={cam}
                 shadows
                 className={css.canvas}
@@ -224,7 +227,7 @@ export default function Home() {
                                         addGiftHandler();
                                         setCamSetting(0);
                                         setGiftGUIVisible(false);
-                                        load();
+                                        ;
                                     }}
                                 >
                                     <img src="/assets/Gift.png" alt="Gift!" />
