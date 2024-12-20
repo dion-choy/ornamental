@@ -57,6 +57,7 @@ export default function Home() {
             setRoom(room)
             setOrnaments(room.ornaments);
             setGiftData(room.gifts);
+<<<<<<< HEAD
             if(room.secret_santa.started==true){
                 let userId = cookies.get("userId");
                 getUser(userId).then(res=>{
@@ -67,6 +68,23 @@ export default function Home() {
                     }
                 })
             }
+=======
+            const endDate = stringToDate(room.secret_santa.end_date);
+            setInterval(() => {
+                const curDate = new Date();
+                let timeDelta = endDate - curDate;
+                timeDelta = timeDelta < 0 ? 0 : timeDelta;
+                let days = Math.floor(timeDelta / 86400000);
+                timeDelta %= 86400000;
+                let hours = Math.floor(timeDelta / 3600000);
+                timeDelta %= 3600000;
+                let mins = Math.floor(timeDelta / 60000);
+                timeDelta %= 60000;
+                let secs = Math.floor(timeDelta / 1000);
+
+                setTimeLeft(`${days} Days ${hours}:${mins}:${secs}`);
+            }, 1000);
+>>>>>>> 26173e0726108b395194208df35a83c86af9f60f
         });
     }, []);
 
