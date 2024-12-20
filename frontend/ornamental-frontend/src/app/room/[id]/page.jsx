@@ -14,7 +14,11 @@ import { SAOPass } from "three/addons/postprocessing/SAOPass.js";
 import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
 import { EJSON } from "bson";
 import { useCookies } from "next-client-cookies";
-import { stringToDate } from '@/lib/myDateFunction';
+import { stringToDate } from "@/lib/myDateFunction";
+
+function updateTime(endTime) {
+    console.log(endTime);
+}
 
 export default function Home() {
     const { id } = useParams();
@@ -39,6 +43,7 @@ export default function Home() {
     const [giftGUIVisible, setGiftGUIVisible] = useState(false);
     const [selectedGift, setSelectedGift] = useState("");
     const [giftData, setGiftData] = useState([]);
+    const [timeLeft, setTimeLeft] = useState("-- Days --:--:--");
 
     useEffect(() => {
         console.log(id);
@@ -51,19 +56,7 @@ export default function Home() {
             setRoom(room)
             setOrnaments(room.ornaments);
             setGiftData(room.gifts);
-            if (room.secret_santa.started==true){
-                getUser(userId).then((res)=>{
-                    let userId = cookies.get("userId");
-                    let us=EJSON.parse(res)
-                    if (!us.has_seen_onboarding){
-                        setFirstTime(true);
-                        hasSeenOnboarding(userId)
-                    }
-                }
-                )
-            }
         });
-        
     }, []);
 
     function showAuthor() {
@@ -91,7 +84,7 @@ export default function Home() {
         let userId = cookies.get("userId");
         getUser(userId).then((userStr) => {
             const user = EJSON.parse(userStr);
-            
+
             addGift(
                 id,
                 userId,
@@ -174,7 +167,7 @@ export default function Home() {
             <div className={css.overlay}>
                 <img className={css.timerUI} src="/assets/Time.svg" alt="Gift!" />
                 <div className={css.container}>
-                    <div className={css.timer}>{(new Date())-stringToDate(room.secret_santa.end_date)}</div>
+                    <div className={css.timer}>{timeLeft}</div>
                 </div>
 
                 <div

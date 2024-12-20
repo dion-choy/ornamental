@@ -67,7 +67,7 @@ const GiftSpawner = ({ parentGiftDatas = [] }) => {
             default:
                 giftModel = boxGift;
         }
-        console.log(giftModel);
+        // console.log(giftModel);
 
         const clonedGift = giftModel.scene.clone(true); // Deep clone of the model
 
@@ -97,10 +97,6 @@ const GiftSpawner = ({ parentGiftDatas = [] }) => {
         setGiftDatas(loadGiftDatas());
         // setGiftDatas([{ id: 3, scale: 1, author: "Me", rotation: 2, giftType: "small", color: "#FF0000" }]);
     }, [parentGiftDatas]);
-
-    useEffect(() => {
-        console.log(giftDatas);
-    }, [giftDatas]);
 
     return (
         <group>
