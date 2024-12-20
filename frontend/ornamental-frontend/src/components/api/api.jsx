@@ -59,7 +59,6 @@ export async function getUser(userid) {
     return user;
 }
 export async function getRoom(roomid) {
-    roomid = EJSON.parse(roomid);
 
     const client = await clientPromise;
     const db = client.db("Ornamental");
@@ -108,20 +107,23 @@ export async function addOrnament(roomcode, author, position, ornamentId) {
 
 export async function addGift(roomcode, author, position, rotation, shape, size) {
     author = EJSON.parse(author);
-    recepient = EJSON.parse(recepient);
+    
     const client = await clientPromise;
     const db = client.db("Ornamental");
-    let room = db.collection("rooms").findOne({ code: roomcode.toString() });
-    let obj = room.secret_santa.user_pair.find((o) => o.author == author);
-    console.log(obj);
+    let room = await db.collection("rooms").findOne({ code: roomcode.toString() });
+    
+    let index = room.secret_santa.user_pair.findIndex((o) => {
+        
+        return o.author.equals(author) });
+    console.log(index);
 
-    db.collection("rooms").updateOne(
+    console.log(await db.collection("rooms").updateOne(
         { code: roomcode.toString() },
         {
             $push: {
                 gifts: {
                     authorid: author,
-                    recepient: obj.target,
+                    recepient: room.secret_santa.user_pair[index].target,
                     position: position,
                     rotation: rotation,
                     shape: shape,
@@ -129,12 +131,15 @@ export async function addGift(roomcode, author, position, rotation, shape, size)
                 },
             },
         }
-    );
+    ));
+    let stri=`secret_santa.user_pair.${index}.has_been_bought`
+    console.log(stri)
+    console.log(stri)
     return await db
         .collection("rooms")
         .updateOne(
-            { code: roomcode.toString(), "gifts.author": author },
-            { $set: { "gifts.$.has_been_bought": true } }
+            { code: roomcode.toString(), "secret_santa.user_pair.author":author},
+            { $set: { 'secret_santa.user_pair.$.has_been_bought': true } }
         );
 }
 export async function startSecretSanta(roomCode) {
@@ -148,11 +153,11 @@ export async function startSecretSanta(roomCode) {
         let index = Math.floor(Math.random() * users.length);
         while (used.includes(index) || index == i) {
             index = Math.floor(Math.random() * users.length);
-            console.log(index);
+
         }
         used.push(index);
         pairs.push({ author: users[i], target: users[index], has_been_bought: false });
-        console.log(i + ": " + index);
+
     }
     console.log(pairs);
     return await db

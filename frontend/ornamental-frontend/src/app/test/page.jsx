@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { redirect } from 'next/navigation'
 import css from "@/styles/home.css";
-import {startSecretSanta,getUser, checkPlayer, checkCode, getNoPlayers, createRoom,createUser,addPlayer, addOrnament, getRoom } from "@/components/api/api";
+import {addGift,startSecretSanta,getUser, checkPlayer, checkCode, getNoPlayers, createRoom,createUser,addPlayer, addOrnament, getRoom } from "@/components/api/api";
 import { motion } from "motion/react"
 import { BSON, EJSON, ObjectId } from 'bson';
 function test() {
@@ -16,7 +16,9 @@ async function createU(){
     let json=EJSON.parse(text)
     console.log(await addPlayer(EJSON.stringify(json.insertedId),1325))
     console.log(await getUser(EJSON.stringify(json.insertedId)))
+    console.log(await startSecretSanta(1325))
     console.log(await addOrnament(1325,EJSON.stringify(json.insertedId),1,2))
+    console.log(await addGift(1325,EJSON.stringify(json.insertedId),1,2,1,2))
     console.log(json)
   }
   async function getp(){
