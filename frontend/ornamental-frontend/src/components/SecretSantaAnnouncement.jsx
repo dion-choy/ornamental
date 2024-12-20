@@ -2,7 +2,8 @@
 import { motion } from "motion/react";
 import React, { useState, useEffect } from 'react'
 import "@/styles/SpiralScene.css"
-import { getRoom } from "@/components/api/api";
+import { getReceiverFromSanta, getRoom, getUsers } from "@/components/api/api";
+import SecretSantaOnboarding from "./SecretSantaActivity";
 import { EJSON } from "bson";
 
 
@@ -22,10 +23,13 @@ export const SpiralAnimation = (props) => {
         return points;
     };
 
-    const players = props.users; // Placeholder squares
+
     const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
     const [deersEnded, setDeersEnded] = useState(0)
     const [fadeAway, setFadeAway] = useState()
+    const [playerNames, setPlayerObjects] = useState([])
+    const [distortions, setDistortions] = useState([]);
+
 
     function incrDeersEnded() { setDeersEnded((prevDeer) => (prevDeer += 1)) }
 
@@ -34,11 +38,19 @@ export const SpiralAnimation = (props) => {
             width: window.innerWidth,
             height: window.innerHeight,
         });
+
+        getUsers(EJSON.stringify(props.users)).then((response) => {
+            console.log(response)
+            const namelist = EJSON.parse(response).map(user => user.name)
+            console.log(namelist)
+            setPlayerObjects(namelist)
+            setDistortions(namelist.map(() => generateDistortion()));
+        })
     }, []);
 
     useEffect(() => {
         console.log(deersEnded)
-        if (deersEnded > players.length) {
+        if (deersEnded > playerNames.length) {
             setFadeAway({opacity:0})
         }
     }, [deersEnded])
@@ -73,13 +85,15 @@ export const SpiralAnimation = (props) => {
                 overflow: "hidden",
             }}
         >
-            {players.map((name, index) => {
+            {playerNames.map((name, index) => {
                 // State to track the animation trigger for the child
-                const [distortion, setDistortion] = useState(generateDistortion());
-                const [deerOpacity, setDeerOpacity] = useState(1);
                 // Function to trigger a new distortion after the animation ends
-                const triggerNewDistortion = () => {
-                    setDistortion((prevDistort) => generateDistortion(prevDistort.rotate));
+                
+                const triggerNewDistortion = (index) => {
+                    setDistortions((prevDistort) => 
+                        prevDistort.map((dist, i) =>
+                            i === index ? generateDistortion(dist.rotate) : dist
+                        ));
                 };
 
 
@@ -95,9 +109,9 @@ export const SpiralAnimation = (props) => {
                             y: spiralPath.map((point) => point.y + centerOffset.y),
                         }}
                         transition={{
-                            duration: 10, // Total animation time for the parent
+                            duration: 5, // Total animation time for the parent
                             ease: "easeOut", // Smooth easing
-                            delay: 2 * (index / players.length), // Stagger each square's start time
+                            delay: 2 * (index / playerNames.length), // Stagger each square's start time
                             onComplete: incrDeersEnded,
                         }}
                         style={{
@@ -114,8 +128,8 @@ export const SpiralAnimation = (props) => {
                                 height: "100%",
                             }}
                             animate={{
-                                x: distortion.x,
-                                y: distortion.y,
+                                x: distortions[index]?.x || 0,
+                                y: distortions[index]?.y || 0,
                             }}
                             transition={{
                                 duration: 1, // Duration for each unique distortion
@@ -123,13 +137,21 @@ export const SpiralAnimation = (props) => {
                                 onComplete: triggerNewDistortion, // Trigger new distortion after each cycle
                             }}
                         >
+                            {/* <img src="/assets/cartoonDeer.png" style={{filter: "drop-shadow(5px 5px 5px #222)"}}></img> */}
                             <motion.img src="/assets/cartoonDeer.png"
+                                initial={{
+                                    filter: "drop-shadow(18px 16px 100px 30px #000)"
+                                }}
                                 animate={{
-                                    rotate: distortion.rotate
+                                    rotate: distortions[index]?.rotate || 0,
+                                    filter: "drop-shadow(18px 16px 20px #000)"
                                 }}
                                 transition={{
                                     duration: 1, // Duration for each unique distortion
                                     ease: "easeInOut", // Smooth easing for distortion
+                                    filter: {
+                                        duration: 10
+                                    }
                                 }} />
                             <p className="reindeer-name text-2xl mx-5">{name}</p>
 
@@ -141,9 +163,9 @@ export const SpiralAnimation = (props) => {
     );
 };
 
-export function SecretSantaAnnouncement() {
-    const [animationStage, setAnimationStage] = useState(0)
-
+export function SecretSantaAnnouncement( {roomId = 1325, userid}) {
+    const [animStage, setAnimationStage] = useState(0)
+    const [isDisplaySanta, setIsDisplaySanta] = useState()
     
     const [users, setUsers] = useState([
         "Alice", "Bob", "Charlie", "Diana", "Ethan", 
@@ -152,21 +174,25 @@ export function SecretSantaAnnouncement() {
         "Paula", "Quentin", "Rachel", "Steve", "Tina"
       ]);
 
-    // useEffect(() => {
-    //     getRoom(roomId).then((roomStr) => {
-    //         const room = EJSON.parse(roomStr);
-    //         setUsers(room.list_of_users);
-    //     });
-    // }, [])
+    useEffect(() => {
+        console.log(roomId)
+        getRoom(roomId).then((roomStr) => {
+            const room = EJSON.parse(roomStr);
+            setUsers(room.list_of_users);
+        });
+        let temp = getReceiverFromSanta(userid)
+        console.log("THIS IS TEMP", temp)
+        setIsDisplaySanta(temp);
+    }, [])
 
     function incAnimStage() {
         setAnimationStage((prevStage) => prevStage += 1)
     }
 
     return (
-        <>
+        <> 
             <div id="main-scene" className="absolute">
-                {animationStage > 0 ? <>
+                {4 > animStage > 0 ? <>
                     <motion.h1 className="block text-5xl mt-40 font-extrabold"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }} transition={{ duration: 1 }}>
@@ -179,15 +205,41 @@ export function SecretSantaAnnouncement() {
                     </motion.h1>
                 </> : null}
 
-                {animationStage == 2 ? <SpiralAnimation users={users} onComplete={incAnimStage} /> : null}
+                {animStage == 2 ? <SpiralAnimation users={users} onComplete={incAnimStage} /> : null}
+
+                {animStage > 2 && animStage < 4 ? <>
+                    <motion.h2 className="block mt-40 text-3xl font-extrabold"
+                    initial={{opacity: 0, fontSize: "0rem", color: "#FFF"}}
+                    animate={{opacity: 1, fontSize: "3rem", color: "#DDDBFF"}}
+                    transition={{duration: 1, delay: 0.2, type: "spring", stiffness: 300}}
+                    >{isDisplaySanta}</motion.h2>
+
+
+
+                    <motion.div className="flex mx-auto justify-center flex-row mt-48" whileHover={{
+                            scale: 1.4,
+                            transition: {duration: 1, type: "spring", bounce: 0.6},
+                        }}>
+                        <motion.button id="next-btn" className="block text-3xl font-bold"
+                        initial={{opacity: 0, scale: 0}}
+                        animate={{opacity: 1, scale: 1, transition: {duration: 1, delay: 2.2, type: "spring", bounce: 0.6}}}
+                        onClick={incAnimStage}>awesome</motion.button>
+                    </motion.div>
+
+                    
+                </>: null}
+                
+                
+                {animStage == 4 ? <SecretSantaOnboarding/> : null}
             </div>
 
             <motion.div id="screen-cover"
                 initial={{ y: "100%" }}
                 animate={{ y: "0" }} transition={{ duration: 1, ease: "easeOut" }}
                 onAnimationComplete={incAnimStage}>
-
             </motion.div>
+
+
         </>
     )
 }
