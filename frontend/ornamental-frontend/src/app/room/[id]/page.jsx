@@ -14,6 +14,11 @@ import { SAOPass } from "three/addons/postprocessing/SAOPass.js";
 import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
 import { EJSON } from "bson";
 import { useCookies } from "next-client-cookies";
+import { stringToDate } from "@/lib/myDateFunction";
+
+function updateTime(endTime) {
+    console.log(endTime);
+}
 
 export default function Home() {
     const { id } = useParams();
@@ -36,6 +41,7 @@ export default function Home() {
     const [giftGUIVisible, setGiftGUIVisible] = useState(false);
     const [selectedGift, setSelectedGift] = useState("");
     const [giftData, setGiftData] = useState([]);
+    const [timeLeft, setTimeLeft] = useState("-- Days --:--:--");
 
     useEffect(() => {
         console.log(id);
@@ -46,6 +52,21 @@ export default function Home() {
             const room = EJSON.parse(roomStr);
             setOrnaments(room.ornaments);
             setGiftData(room.gifts);
+            const endDate = stringToDate(room.secret_santa.end_date);
+            setInterval(() => {
+                const curDate = new Date();
+                let timeDelta = endDate - curDate;
+                console.log();
+                let days = Math.floor(timeDelta / 86400000);
+                timeDelta %= 86400000;
+                let hours = Math.floor(timeDelta / 3600000);
+                timeDelta %= 3600000;
+                let mins = Math.floor(timeDelta / 60000);
+                timeDelta %= 60000;
+                let secs = Math.floor(timeDelta / 1000);
+
+                setTimeLeft(`${days} Days ${hours}:${mins}:${secs}`);
+            }, 1000);
         });
     }, []);
 
@@ -74,7 +95,7 @@ export default function Home() {
         let userId = cookies.get("userId");
         getUser(userId).then((userStr) => {
             const user = EJSON.parse(userStr);
-            
+
             addGift(
                 id,
                 userId,
@@ -157,7 +178,7 @@ export default function Home() {
             <div className={css.overlay}>
                 <img className={css.timerUI} src="/assets/Time.svg" alt="Gift!" />
                 <div className={css.container}>
-                    <div className={css.timer}>10 days 10 hours 10 minutes 10 seconds</div>
+                    <div className={css.timer}>{timeLeft}</div>
                 </div>
 
                 <div

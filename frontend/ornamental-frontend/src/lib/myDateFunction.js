@@ -7,11 +7,11 @@ export function dateToString(date) {
 
     // Format the date as 'YYYY-MM-DD HH:mm:ss' (example format)
     const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    const hours = String(date.getHours()).padStart(2, '0');
-    const minutes = String(date.getMinutes()).padStart(2, '0');
-    const seconds = String(date.getSeconds()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+    const seconds = String(date.getSeconds()).padStart(2, "0");
 
     return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 }
@@ -19,7 +19,7 @@ export function dateToString(date) {
 // Function to convert a string back into a Date object
 export function stringToDate(dateString) {
     // Ensure the input is a valid string
-    if (typeof dateString !== 'string') {
+    if (typeof dateString !== "string") {
         throw new Error("Invalid date string");
     }
 
@@ -35,6 +35,7 @@ export function stringToDate(dateString) {
 }
 
 // Example Usage
+/*
 const currentDate = new Date();
 console.log("Original Date Object:", currentDate);
 
@@ -43,3 +44,4 @@ console.log("Date as String:", dateString);
 
 const parsedDate = stringToDate(dateString);
 console.log("Parsed Date Object:", parsedDate);
+*/
