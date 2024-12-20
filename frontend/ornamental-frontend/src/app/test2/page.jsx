@@ -1,11 +1,11 @@
 import ReturnButton from '@/components/ReturnButton'
 import SecretSantaOnboarding from '@/components/SecretSantaActivity'
+import { SecretSantaAnnouncement, SpiralAnimation } from '@/components/SecretSantaAnnouncement'
 import React from 'react'
 
 function testPage2() {
   return (
-    <SecretSantaOnboarding/>
-    // <ReturnButton/>
+    <SecretSantaAnnouncement></SecretSantaAnnouncement>
   )
 }
 
