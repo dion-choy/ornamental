@@ -1,11 +1,10 @@
 import React, { useRef, useEffect, useState } from "react";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
-import { useLoader, useFrame, useThree } from "@react-three/fiber";
+import { useLoader } from "@react-three/fiber";
 
 export default function Gift(props) {
     const gltf = useLoader(GLTFLoader, props.file);
     const object = useRef();
-    const { scene } = useThree();
     const [gift, setGift] = useState({});
 
     useEffect(() => {
@@ -16,10 +15,6 @@ export default function Gift(props) {
         });
         setGift(clonedGift);
     }, [gltf]);
-
-    useEffect(() => {
-        console.log(object.current);
-    }, [object]);
 
     return (
         <mesh ref={object} position={props.position}>

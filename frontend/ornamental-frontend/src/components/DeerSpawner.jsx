@@ -7,15 +7,15 @@ import * as THREE from "three";
 const DeerSpawner = ({ deerCount = 0 }) => {
     const centralPoint = new THREE.Vector3(0, 0, 0); // Center position (x, y, z)
 
-    useEffect (() => {
-        console.log("balls")
-    }, [])
+    useEffect(() => {
+        // console.log("balls");
+    }, []);
     // Load the deer model
     const deerModel = useLoader(GLTFLoader, "../models/reindeer.glb"); // Place deer.glb in /public/models
 
     // Generate deer positions and rotations
     const deerPositions = useMemo(() => {
-        console.log(deerCount)
+        // console.log(deerCount);
         const positions = [];
 
         for (let i = 0; i < deerCount; i++) {
@@ -39,7 +39,7 @@ const DeerSpawner = ({ deerCount = 0 }) => {
 
     const uniqueDeer = useCallback(() => {
         const clonedDeer = deerModel.scene.clone(true); // Deep clone of the model
-        console.log("I am rerunning")
+        console.log("I am rerunning");
         // Find the "nose" mesh and apply a unique material
         clonedDeer.traverse((child) => {
             if (child.isMesh) {
@@ -72,10 +72,10 @@ const DeerSpawner = ({ deerCount = 0 }) => {
     return (
         <group>
             {deerObjects.map(({ key, object, position, rotation }) => (
-            <mesh key={key}>
-                <primitive object={object} position={position} rotation={rotation} scale={[0.5, 0.5, 0.5]} />
-            </mesh>
-        ))}
+                <mesh key={key}>
+                    <primitive object={object} position={position} rotation={rotation} scale={[0.5, 0.5, 0.5]} />
+                </mesh>
+            ))}
         </group>
     );
 };
