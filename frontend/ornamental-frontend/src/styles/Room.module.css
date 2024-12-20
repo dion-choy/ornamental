@@ -9,7 +9,7 @@
     position: absolute;
     top: 0;
     left: 0;
-    z-index: 0; 
+    z-index: 0;
 }
 
 .overlay {
@@ -18,11 +18,11 @@
     left: 0;
     right: 0;
     bottom: 0;
-    z-index: 10; 
+    z-index: 10;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    pointer-events: none;  
+    pointer-events: none;
 }
 
 .body {
@@ -53,20 +53,21 @@
 }
 
 .timer {
-    font-size: 20px; 
+    font-size: 20px;
     font-weight: bold;
     color: #fff;
-    display: inline-block; 
+    display: inline-block;
     vertical-align: middle;
+    transform: translateY(-40%);
 }
 
-.namerectdiv{
+.namerectdiv {
     position: relative;
     z-index: 15;
     pointer-events: auto;
 }
 
-.namerect{
+.namerect {
     position: absolute;
     bottom: 10%;
     left: 50%;
@@ -76,9 +77,9 @@
     font-size: 16px;
     font-weight: bold;
     color: white;
-    background-color: rgba(0,0,0, 0.5); 
-    border-radius: 15px; 
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); 
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 15px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -86,11 +87,11 @@
     justify-content: center;
 }
 
-.confirmbutton button{
-    display: flex; 
+.confirmbutton button {
+    display: flex;
     align-items: center;
-    justify-content: center; 
-    gap: 8px; 
+    justify-content: center;
+    gap: 8px;
     padding: 8px 16px;
     font-size: 15px;
     background-color: #0f8f0f;
@@ -100,7 +101,6 @@
     text-align: center;
     z-index: 100;
     pointer-events: auto;
-    
 }
 
 .confirmbutton button img {
@@ -120,7 +120,7 @@
     flex-direction: column;
     gap: 10px;
     z-index: 15;
-    pointer-events: auto; 
+    pointer-events: auto;
 }
 
 #admin-panel button {

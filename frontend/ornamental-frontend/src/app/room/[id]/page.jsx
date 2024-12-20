@@ -56,7 +56,7 @@ export default function Home() {
             setInterval(() => {
                 const curDate = new Date();
                 let timeDelta = endDate - curDate;
-                console.log();
+                timeDelta = timeDelta < 0 ? 0 : timeDelta;
                 let days = Math.floor(timeDelta / 86400000);
                 timeDelta %= 86400000;
                 let hours = Math.floor(timeDelta / 3600000);
