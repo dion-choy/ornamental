@@ -90,7 +90,7 @@ export const SpiralAnimation = (props) => {
                 // State to track the animation trigger for the child
                 // Function to trigger a new distortion after the animation ends
                 
-                const triggerNewDistortion = (index) => {
+                const triggerNewDistortion = () => {
                     setDistortions((prevDistort) => 
                         prevDistort.map((dist, i) =>
                             i === index ? generateDistortion(dist.rotate) : dist
@@ -112,7 +112,7 @@ export const SpiralAnimation = (props) => {
                         transition={{
                             duration: 5, // Total animation time for the parent
                             ease: "easeOut", // Smooth easing
-                            delay: 2 * (index / playerNames.length), // Stagger each square's start time
+                            delay: 0.3 * index, // Stagger each square's start time
                             onComplete: incrDeersEnded,
                         }}
                         style={{
@@ -133,7 +133,7 @@ export const SpiralAnimation = (props) => {
                                 y: distortions[index]?.y || 0,
                             }}
                             transition={{
-                                duration: 1, // Duration for each unique distortion
+                                duration: 0.5, // Duration for each unique distortion
                                 ease: "easeInOut", // Smooth easing for distortion
                                 onComplete: triggerNewDistortion, // Trigger new distortion after each cycle
                             }}
@@ -148,7 +148,7 @@ export const SpiralAnimation = (props) => {
                                     filter: "drop-shadow(18px 16px 20px #000)"
                                 }}
                                 transition={{
-                                    duration: 1, // Duration for each unique distortion
+                                    duration: 0.5, // Duration for each unique distortion
                                     ease: "easeInOut", // Smooth easing for distortion
                                     filter: {
                                         duration: 10
