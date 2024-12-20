@@ -8,14 +8,16 @@ import Controls from "@/components/Controls";
 import { useParams } from "next/navigation";
 import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
 import { PerspectiveCamera } from "three";
-import { getNoPlayers, getRoom, getUser } from "@/components/api/api";
+import { addGift, getNoPlayers, getRoom, getUser } from "@/components/api/api";
 import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
 import { SAOPass } from "three/addons/postprocessing/SAOPass.js";
 import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
 import { EJSON } from "bson";
+import { useCookies } from "next-client-cookies";
 
 export default function Home() {
     const { id } = useParams();
+    const cookies = useCookies();
     const cam = useRef();
     const [numReindeers, setNumReindeers] = useState(0);
     const [chooseOrnament, setChooseOrnament] = useState(false);
@@ -66,7 +68,7 @@ export default function Home() {
     }
 
     useEffect(() => {
-        console.log("I changed: ", giftGUIVisible);
+        console.log(`Gift gui is ${giftGUIVisible ? "on" : "off"}`);
     }, [giftGUIVisible]);
 
     return (
@@ -132,6 +134,15 @@ export default function Home() {
                 >
                     <div className="namerectdiv">
                         <div className={css.namerect}>{selectedGift}</div>
+
+                        <button
+                            onClick={() => {
+                                // addGift(id, cookies.get("userId"), 0, Math.PI * Math.random(), selectedGift, 1);
+                                console.log("Add gift");
+                            }}
+                        >
+                            Confirm
+                        </button>
                     </div>
                 </div>
 
