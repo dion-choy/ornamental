@@ -44,10 +44,6 @@ export default function Home() {
         });
     }, []);
 
-    useEffect(() => {
-        console.log(ornaments);
-    }, [ornaments]);
-
     function showAuthor() {
         console.log("Show author");
         getUser(EJSON.stringify(this.authorId)).then((authorStr) => {
@@ -167,6 +163,9 @@ export default function Home() {
                         onClick={() => {
                             let x = camSetting == 1 ? 0 : 1;
                             setCamSetting(x);
+                            if (x == 0) {
+                                setGiftGUIVisible(false);
+                            }
                         }}
                     >
                         <img src="/assets/Gift.png" alt="Gift!" />
