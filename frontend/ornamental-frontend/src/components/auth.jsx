@@ -59,7 +59,7 @@ export default  function Auth(props){
       <>
       <div style={{display:'flex',flexDirection:'column',position:'absolute',top:'50vh',left:'50vw',transform: `translate(-50%, -50%)`,zIndex:'101',backgroundColor:'#24223F', padding:'20px', borderRadius:'20px'}}>
       <input className='btn' placeholder="Username" style={{marginBottom:'10px'}} onChange={handleUsername}/>
-      <input className='btn' placeholder="password" style={{marginBottom:'10px'}} onChange={handlePassword}/>
+      <input className='btn' placeholder="password" type="password" style={{marginBottom:'10px'}} onChange={handlePassword}/>
       {(ok)?"":<div>wrong username or password</div>}
       {(exists)?"":<div>user exists</div>}
       <div style={{display:'flex',flexDirection:'row'}}>

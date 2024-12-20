@@ -8,7 +8,7 @@ import Controls from "@/components/Controls";
 import { useParams } from "next/navigation";
 import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
 import { PerspectiveCamera } from "three";
-import { addGift, getNoPlayers, getRoom, getUser, startSecretSanta } from "@/components/api/api";
+import { addGift, getNoPlayers, getRoom, getUser, startSecretSanta, hasSeenOnboarding } from "@/components/api/api";
 import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
 import { SAOPass } from "three/addons/postprocessing/SAOPass.js";
 import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
@@ -33,6 +33,7 @@ export default function Home() {
         );
     }
     const [ornaments, setOrnaments] = useState([]);
+    const [firstTime, setFirstTime] = useState(false);
     const [room, setRoom] = useState({});
     const [authorVisible, setAuthorVisible] = useState(false);
     const [giftGUIVisible, setGiftGUIVisible] = useState(false);
@@ -45,11 +46,24 @@ export default function Home() {
             setNumReindeers(no);
         });
         getRoom(id).then((roomStr) => {
+            let userId = cookies.get("userId");
             const room = EJSON.parse(roomStr);
             setRoom(room)
             setOrnaments(room.ornaments);
             setGiftData(room.gifts);
+            if (room.secret_santa.started==true){
+                getUser(userId).then((res)=>{
+                    let userId = cookies.get("userId");
+                    let us=EJSON.parse(res)
+                    if (!us.has_seen_onboarding){
+                        setFirstTime(true);
+                        hasSeenOnboarding(userId)
+                    }
+                }
+                )
+            }
         });
+        
     }, []);
 
     function showAuthor() {

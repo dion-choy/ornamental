@@ -42,6 +42,7 @@ export async function createUser(password, name) {
         general_information: "",
         nose_color: 0.5,
         giftbought: false,
+        has_seen_onboarding: false,
         is_admin: false,
         answers: [],
     };
@@ -188,6 +189,13 @@ export async function startSecretSanta(roomCode) {
             { code: roomCode.toString() },
             { $set: { "secret_santa.user_pair": pairs, "secret_santa.started": true } }
         );
+}
+export async function hasSeenOnboarding(userId){
+    userId = EJSON.parse(userId);
+    const client = await clientPromise;
+    const db = client.db("Ornamental");
+    let user = await db.collection("users").updateOne({ _id: userId }, {$set:{has_seen_onboarding:true}});
+    
 }
 
 export async function getReceiverFromSanta(authorid) {
