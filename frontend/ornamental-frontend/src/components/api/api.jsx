@@ -1,4 +1,4 @@
-"use server";
+'use server';
 import clientPromise from "../../lib/mongodb";
 import { BSON, EJSON, ObjectId } from "bson";
 export async function checkCode(code) {
@@ -97,7 +97,7 @@ export async function checkPlayerId(userId, roomId) {
     const client = await clientPromise;
     const db = client.db("Ornamental");
     let user = await db.collection("users").findOne({ _id: userId });
-    if (user === null || user["password"] != password || user.room != roomId.toString()) {
+    if (user === null || user.room != roomId.toString()) {
         return false;
     } else {
         return EJSON.stringify(user);
@@ -167,7 +167,7 @@ export async function startSecretSanta(roomCode) {
         }
         used.push(index);
         pairs.push({ author: users[i], target: users[index], has_been_bought: false });
-
+        console.log(await db.collection("users").updateOne({ _id: users[i] }, {$set:{target:users[index]}}));
     }
     console.log(pairs);
     return await db

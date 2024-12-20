@@ -74,13 +74,13 @@ export default function Home() {
         let userId = cookies.get("userId");
         getUser(userId).then((userStr) => {
             const user = EJSON.parse(userStr);
-
+            
             addGift(
                 id,
                 userId,
                 0,
                 Math.PI * Math.random(),
-                () => {
+                (() => {
                     switch (selectedGift) {
                         case "Gift Box":
                             return 1;
@@ -91,7 +91,7 @@ export default function Home() {
                         default:
                             return 0;
                     }
-                },
+                })(),
                 1
             ).then(() => {
                 console.log("test");
