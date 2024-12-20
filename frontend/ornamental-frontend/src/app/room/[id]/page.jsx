@@ -8,7 +8,7 @@ import Controls from "@/components/Controls";
 import { useParams } from "next/navigation";
 import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
 import { PerspectiveCamera } from "three";
-import { addGift, getNoPlayers, getRoom, getUser } from "@/components/api/api";
+import { addGift, getNoPlayers, getRoom, getUser, startSecretSanta } from "@/components/api/api";
 import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
 import { SAOPass } from "three/addons/postprocessing/SAOPass.js";
 import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
@@ -217,7 +217,7 @@ export default function Home() {
 
                 <div id={css["admin-panel"]}>
                     <strong>ADMIN</strong>
-                    <button>Start Secret Santa</button>
+                    <button onClick={() => startSecretSanta(id)}>Start Secret Santa</button>
                     <button>Start Next Activity</button>
                     <button
                         onClick={() => {

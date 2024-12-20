@@ -124,16 +124,13 @@ export function ResultCard(props) {
   )
 }
 
-export function ResponseCollectedCard(props) {
-  const [textValue, setTextValue] = useState("")
-  console.log(props.responses)
-
+export function ResponseCollectedCard({onComplete, cardNum}) {
   return (
     <div className="card">
       <div className="card-back" style={{ transform: "rotateY(180deg)" }}></div>
 
       <div className='card-front' style={{ transform: "rotateY(0deg)" }}>
-        <p className="circle text-4xl font-bold">{props.cardNum}</p>
+        <p className="circle text-4xl font-bold">{cardNum}</p>
         <img className="logo" src="assets/logo.svg" alt="Ornamental" />
         <p className="subtitle" style={{fontSize: 29}}>Thank you for responding!</p>
         <img src="assets/candycane.svg" alt="Candy Cane" />
@@ -154,7 +151,7 @@ export function ResponseCollectedCard(props) {
 
         <motion.div initial={{opacity: 0}} animate={{opacity: 1, transition:{duration: 2, delay: 4+4}}}
         className='w-full my-6 flex grow flex-col justify-between'>
-          <button className="next-btn" onClick={() => props}>Awesome</button>
+          <button className="next-btn" onClick={onComplete}>Awesome</button>
         </motion.div>
       </div>
     </div>

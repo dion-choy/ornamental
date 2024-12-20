@@ -58,6 +58,18 @@ export async function getUser(userid) {
     user = EJSON.stringify(user);
     return user;
 }
+export async function getUsers(userids) {
+    userids = EJSON.parse(userids);
+
+    const useridsList = userids.map(id => new ObjectId(id));
+
+    const client = await clientPromise;
+    const db = client.db("Ornamental");
+    let users = await db.collection("users").find({ _id: { $in: useridsList} }).toArray();
+    // console.log("THE USERS", users)
+    users = EJSON.stringify(users);
+    return users;
+}
 export async function getRoom(roomid) {
 
     const client = await clientPromise;
@@ -176,4 +188,28 @@ export async function startSecretSanta(roomCode) {
             { code: roomCode.toString() },
             { $set: { "secret_santa.user_pair": pairs, "secret_santa.started": true } }
         );
+}
+
+export async function getReceiverFromSanta(authorid) {
+    authorid = EJSON.parse(authorid)
+    const authorOid = new ObjectId(authorid)
+
+    const client = await clientPromise;
+    const db = client.db("Ornamental");
+    let result = await db.collection("rooms").findOne({
+        "secret_santa.user_pair.author": authorid
+        }
+    );
+    
+    if (result) {
+        const userPair = result.secret_santa.user_pair.find((pair) => ( pair.author.equals(authorOid) ));
+
+    
+        return getUser(EJSON.stringify(userPair.target)).then((strUser) => {
+            let user = EJSON.parse(strUser);
+            return user.name;
+        });
+    } else {
+        return("ERROR")
+    }
 }
