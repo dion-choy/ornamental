@@ -32,6 +32,7 @@ export default function Home() {
     const [ornaments, setOrnaments] = useState([]);
     const [authorVisible, setAuthorVisible] = useState(false);
     const [giftGUIVisible, setGiftGUIVisible] = useState(false);
+    const [selectedGift, setSelectedGift] = useState("");
 
     useEffect(() => {
         console.log(id);
@@ -58,9 +59,10 @@ export default function Home() {
     }
 
     function giftClickHandler(object) {
-        console.log(object);
-        setGiftGUIVisible(!giftGUIVisible);
-        console.log(giftGUIVisible);
+        if (object.giftType == selectedGift) {
+            setGiftGUIVisible(!giftGUIVisible);
+        }
+        setSelectedGift(object.giftType);
     }
 
     useEffect(() => {
@@ -129,7 +131,7 @@ export default function Home() {
                     }}
                 >
                     <div className="namerectdiv">
-                        <div className={css.namerect}>Test</div>
+                        <div className={css.namerect}>{selectedGift}</div>
                     </div>
                 </div>
 

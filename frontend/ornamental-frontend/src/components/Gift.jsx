@@ -12,6 +12,7 @@ export default function Gift(props) {
         const clonedGift = gltf.scene.clone(true);
         clonedGift.traverse((child) => {
             child.name = "gift";
+            child.giftType = props.type;
         });
         setGift(clonedGift);
     }, [gltf]);
@@ -21,13 +22,7 @@ export default function Gift(props) {
     }, [object]);
 
     return (
-        <mesh
-            ref={object}
-            onClick={() => {
-                console.log("clicked");
-            }}
-            position={props.position}
-        >
+        <mesh ref={object} position={props.position}>
             <primitive object={gift} scale={props.scale} />
         </mesh>
     );
