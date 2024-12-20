@@ -1,6 +1,6 @@
 'use client'
 import ReturnButton from '@/components/ReturnButton'
-import SecretSantaOnboarding from '@/components/SecretSantaActivity'
+import SecretSantaOnboarding from '@/components/SecretSantaOnboarding'
 import { SecretSantaAnnouncement, SpiralAnimation } from '@/components/SecretSantaAnnouncement'
 import React from 'react'
 import { useCookies } from 'next-client-cookies';
@@ -18,6 +18,7 @@ function testPage2() {
   return (
     <>
       <SecretSantaAnnouncement userid={userid}></SecretSantaAnnouncement>
+      {/* <SecretSantaOnboarding roomCode={"1325"}></SecretSantaOnboarding> */}
     </>
   )
 }

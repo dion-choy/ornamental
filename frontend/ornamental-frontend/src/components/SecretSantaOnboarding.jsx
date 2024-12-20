@@ -8,16 +8,11 @@ import SnowingBG from "@/components/SnowingBG";
 import { motion } from "motion/react";
 import { delay, easeIn, easeInOut } from "motion";
 import { getRoom } from "@/components/api/api";
+import { EJSON } from "bson";
 
-function SecretSantaOnboarding( props ) {
-    const [cards, setCards] = useState([
-        { subtitle: "Every iconic group has a name", placeholder: "Enter your iconic name", cardNum: "1" },
-        { subtitle: "When should the gifts be exchanged?", placeholder: "Select a date", cardNum: "2" },
-        { subtitle: "Let's make this room uniquely yours", placeholder: "Enter description", cardNum: "3" },
-        { subtitle: "Let's make this room uniquely yours", placeholder: "Enter description", cardNum: "4" },
-        { subtitle: "Let's make this room uniquely yours", placeholder: "Enter description", cardNum: "5" },
+function SecretSantaOnboarding({ roomId, onComplete}) {
 
-    ])
+    const [cards, setCards] = useState(Array(5).fill({placeholder:"", subtitle:"Loading...", cardNum: "Loading..."}))
 
     const animateToCenter = (delay = 0) => {
         return {
@@ -59,7 +54,15 @@ function SecretSantaOnboarding( props ) {
     const [finalCard, setFinalCard] = useState(false);
 
     useEffect(() => {
-        getRoom(props.roomCode)
+        getRoom(roomId).then((room) => {
+            console.log(EJSON.parse(room))
+            const cardsDetails = EJSON.parse(room).questions.map((question, index) => ({
+                subtitle: question,
+                placeholder: "Enter your response",
+                cardNum: index + 1
+            }))
+            setCards(cardsDetails)
+        })
     }, [])
 
 
@@ -125,7 +128,7 @@ function SecretSantaOnboarding( props ) {
                     initial={{ top: "-50vh", left: "50vw", transform: "translate(-50%, -50%)" }}
                     animate={animateToCenter(3.5)}
                     style={{ position: "absolute" }}>
-                    <ResponseCollectedCard subtitle={"Does this sound like your room?"} cardNum={6} responses={responses}/>
+                    <ResponseCollectedCard onComplete={onComplete} cardNum={6} responses={responses}/>
                 </motion.div> : null}
 
                 

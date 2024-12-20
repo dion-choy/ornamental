@@ -3,7 +3,7 @@ import { motion } from "motion/react";
 import React, { useState, useEffect } from 'react'
 import "@/styles/SpiralScene.css"
 import { getReceiverFromSanta, getRoom, getUsers } from "@/components/api/api";
-import SecretSantaOnboarding from "./SecretSantaActivity";
+import SecretSantaOnboarding from "./SecretSantaOnboarding";
 import { EJSON } from "bson";
 
 
@@ -175,7 +175,6 @@ export function SecretSantaAnnouncement( {roomId = 1325, userid}) {
       ]);
 
     useEffect(() => {
-        console.log(roomId)
         getRoom(roomId).then((roomStr) => {
             const room = EJSON.parse(roomStr);
             setUsers(room.list_of_users);
@@ -191,6 +190,8 @@ export function SecretSantaAnnouncement( {roomId = 1325, userid}) {
 
     return (
         <> 
+            { (animStage != 5)? 
+            <>
             <div id="main-scene" className="absolute">
                 {4 > animStage > 0 ? <>
                     <motion.h1 className="block text-5xl mt-40 font-extrabold"
@@ -223,14 +224,14 @@ export function SecretSantaAnnouncement( {roomId = 1325, userid}) {
                         <motion.button id="next-btn" className="block text-3xl font-bold"
                         initial={{opacity: 0, scale: 0}}
                         animate={{opacity: 1, scale: 1, transition: {duration: 1, delay: 2.2, type: "spring", bounce: 0.6}}}
-                        onClick={incAnimStage}>awesome</motion.button>
+                        onClick={incAnimStage}>let's get onboarding</motion.button>
                     </motion.div>
 
                     
                 </>: null}
                 
                 
-                {animStage == 4 ? <SecretSantaOnboarding/> : null}
+                {animStage == 4 ? <SecretSantaOnboarding roomId={roomId} onComplete={incAnimStage}/> : null}
             </div>
 
             <motion.div id="screen-cover"
@@ -238,8 +239,9 @@ export function SecretSantaAnnouncement( {roomId = 1325, userid}) {
                 animate={{ y: "0" }} transition={{ duration: 1, ease: "easeOut" }}
                 onAnimationComplete={incAnimStage}>
             </motion.div>
-
-
+            </>
+            : null}
+            
         </>
     )
 }
