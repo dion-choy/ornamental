@@ -46,7 +46,7 @@ export default function Home() {
     const [selectedGift, setSelectedGift] = useState("");
     const [giftData, setGiftData] = useState([]);
     const [timeLeft, setTimeLeft] = useState("-- Days --:--:--");
-    function load(){
+    function load() {
         console.log(id);
         getNoPlayers(id).then((no) => {
             setNumReindeers(no);
@@ -54,45 +54,43 @@ export default function Home() {
         getRoom(id).then((roomStr) => {
             let userId = cookies.get("userId");
             const room = EJSON.parse(roomStr);
-            setRoom(room)
+            setRoom(room);
             setOrnaments(room.ornaments);
             setGiftData(room.gifts);
-            if(room.secret_santa.started==true){
+            if (room.secret_santa.started == true) {
                 let userId = cookies.get("userId");
-                getUser(userId).then(res=>{
-                    res=EJSON.parse(res)
-                    if (res.has_seen_onboarding==false){
+                getUser(userId).then((res) => {
+                    res = EJSON.parse(res);
+                    if (res.has_seen_onboarding == false) {
                         hasSeenOnboarding(userId);
                         setFirstTime(true);
                     }
-                })
+                });
             }
             const endDate = stringToDate(room.secret_santa.end_date);
-            if (jsLoaded){
-                setLoaded(false)
-            setInterval(()=>{
-                const curDate = new Date();
-                let timeDelta = endDate - curDate;
-                timeDelta = timeDelta < 0 ? 0 : timeDelta;
-                let days = Math.floor(timeDelta / 86400000);
-                timeDelta %= 86400000;
-                let hours = Math.floor(timeDelta / 3600000);
-                timeDelta %= 3600000;
-                let mins = Math.floor(timeDelta / 60000);
-                timeDelta %= 60000;
-                let secs = Math.floor(timeDelta / 1000);
+            if (jsLoaded) {
+                setLoaded(false);
+                setInterval(() => {
+                    const curDate = new Date();
+                    let timeDelta = endDate - curDate;
+                    timeDelta = timeDelta < 0 ? 0 : timeDelta;
+                    let days = Math.floor(timeDelta / 86400000);
+                    timeDelta %= 86400000;
+                    let hours = Math.floor(timeDelta / 3600000);
+                    timeDelta %= 3600000;
+                    let mins = Math.floor(timeDelta / 60000);
+                    timeDelta %= 60000;
+                    let secs = Math.floor(timeDelta / 1000);
 
-                setTimeLeft(`${days} Days ${hours}:${mins}:${secs}`);
-            },1000)}
-        }
-    )
-
-    } 
+                    setTimeLeft(`${days} Days ${hours}:${mins}:${secs}`);
+                }, 1000);
+            }
+        });
+    }
 
     useEffect(() => {
-        load()
-        setInterval(load,60000)
-        
+        load();
+        setInterval(load, 60000);
     }, []);
 
     function showAuthor() {
@@ -116,15 +114,14 @@ export default function Home() {
     }
 
     function addGiftHandler() {
-        console.log("Add gift");
         let userId = cookies.get("userId");
-        getUser(userId).then((userStr) => {
-            const user = EJSON.parse(userStr);
+        getRoom(id).then((roomStr) => {
+            const room = EJSON.parse(roomStr);
 
             addGift(
                 id,
                 userId,
-                0,
+                room.gifts.length,
                 Math.PI * Math.random(),
                 (() => {
                     switch (selectedGift) {
@@ -140,7 +137,7 @@ export default function Home() {
                 })(),
                 1
             ).then(() => {
-                console.log("test");
+                console.log("gift added");
             });
         });
     }
@@ -151,8 +148,8 @@ export default function Home() {
 
     return (
         <div className={css.scene}>
-            {firstTime?<SecretSantaAnnouncement roomId={id} userId={cookies.get("userId")}/>:''}
-            <Auth code={id} load={load}/>
+            {firstTime ? <SecretSantaAnnouncement roomId={id} userId={cookies.get("userId")} /> : ""}
+            <Auth code={id} load={load} />
             <Canvas
                 ref={cam}
                 shadows
@@ -202,11 +199,16 @@ export default function Home() {
             </Canvas>
 
             <div className={css.overlay}>
-            {((room.hasOwnProperty("secret_santa"))&&room.secret_santa.started)?
-                <><img className={css.timerUI} src="/assets/Time.svg" alt="Gift!" />
-                <div className={css.container}>
-                    <div className={css.timer}>{timeLeft}</div>
-                </div></>:""}
+                {room.hasOwnProperty("secret_santa") && room.secret_santa.started ? (
+                    <>
+                        <img className={css.timerUI} src="/assets/Time.svg" alt="Gift!" />
+                        <div className={css.container}>
+                            <div className={css.timer}>{timeLeft}</div>
+                        </div>
+                    </>
+                ) : (
+                    ""
+                )}
 
                 <div
                     style={{
@@ -257,21 +259,24 @@ export default function Home() {
                         Choose/cancel
                     </button>
                 </div>
-                {((room.hasOwnProperty("secret_santa"))&&room.secret_santa.started)?
-                <div className={css.giftbutton}>
-                    <button
-                        onClick={() => {
-                            let x = camSetting == 1 ? 0 : 1;
-                            setCamSetting(x);
-                            if (x == 0) {
-                                setGiftGUIVisible(false);
-                            }
-                        }}
-                    >
-                        <img src={`/assets/${camSetting ? "cancel.png" : "Gift.png"}`} alt="Gift!" />
-                        {camSetting ? "Cancel" : "Gift!"}
-                    </button>
-                </div>:""}
+                {room.hasOwnProperty("secret_santa") && room.secret_santa.started ? (
+                    <div className={css.giftbutton}>
+                        <button
+                            onClick={() => {
+                                let x = camSetting == 1 ? 0 : 1;
+                                setCamSetting(x);
+                                if (x == 0) {
+                                    setGiftGUIVisible(false);
+                                }
+                            }}
+                        >
+                            <img src={`/assets/${camSetting ? "cancel.png" : "Gift.png"}`} alt="Gift!" />
+                            {camSetting ? "Cancel" : "Gift!"}
+                        </button>
+                    </div>
+                ) : (
+                    ""
+                )}
             </div>
         </div>
     );
