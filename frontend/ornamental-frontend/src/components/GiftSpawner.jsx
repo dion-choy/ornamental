@@ -3,8 +3,12 @@ import { useLoader } from "@react-three/fiber";
 import { useEffect, useState, useRef } from "react";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import * as THREE from "three";
+import { getRoom } from "@/components/api/api";
+import { EJSON } from "bson";
+import { useParams } from "next/navigation";
 
-const GiftSpawner = ({ giftCount = 4 }) => {
+const GiftSpawner = ({ giftCount = 4, parentGiftDatas = [] }) => {
+    const { id } = useParams();
     const centralPoint = new THREE.Vector3(0, 0, 0); // Center position (x, y, z)
 
     // Load the deer model
@@ -34,9 +38,15 @@ const GiftSpawner = ({ giftCount = 4 }) => {
     }, [giftCount]);
 
     const loadGiftDatas = () => {
-        // To be replaced with database access
-        const giftList = [{ id: 3, scale: 1, author: "Me", rotation: 2, giftType: "small", color: "#FF0000" }];
-        return giftList;
+        // const giftList = [{ id: 3, scale: 1, author: "Me", rotation: 2, giftType: "small", color: "#FF0000" }];
+        return parentGiftDatas.map((gift) => {
+            gift.id = gift.position;
+            gift.scale = gift.size;
+            gift.author = gift.authorId;
+            gift.giftType = gift.shape;
+            gift.color = "#FF0000";
+            return gift;
+        });
     };
 
     const prepareGift = (giftType = null, color) => {
@@ -67,6 +77,10 @@ const GiftSpawner = ({ giftCount = 4 }) => {
         setGiftDatas(loadGiftDatas());
         // setGiftDatas([{ id: 3, scale: 1, author: "Me", rotation: 2, giftType: "small", color: "#FF0000" }]);
     }, []);
+
+    useEffect(() => {
+        console.log(giftDatas);
+    }, [giftDatas]);
 
     return (
         <group>

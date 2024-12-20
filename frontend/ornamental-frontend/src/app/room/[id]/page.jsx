@@ -35,6 +35,7 @@ export default function Home() {
     const [authorVisible, setAuthorVisible] = useState(false);
     const [giftGUIVisible, setGiftGUIVisible] = useState(false);
     const [selectedGift, setSelectedGift] = useState("");
+    const [giftData, setGiftData] = useState([]);
 
     useEffect(() => {
         console.log(id);
@@ -44,6 +45,7 @@ export default function Home() {
         getRoom(id).then((roomStr) => {
             const room = EJSON.parse(roomStr);
             setOrnaments(room.ornaments);
+            setGiftData(room.gifts);
         });
     }, []);
 
@@ -116,6 +118,7 @@ export default function Home() {
                     hideAuthor={hideAuthor}
                     camSetting={camSetting}
                     giftClickHandler={giftClickHandler}
+                    giftData={giftData}
                 />
                 <CameraHelper />
                 <Controls rotate={0.4} camSetting={camSetting} />
