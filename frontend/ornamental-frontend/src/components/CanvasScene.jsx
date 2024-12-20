@@ -35,7 +35,7 @@ export default function MyScene(props) {
                 <LightBulb position={[0, 4, 0]} size={[0.2, 30, 10]} intensity={5} color={"beige"} />
             </Draggable>
 
-            <GiftSpawner></GiftSpawner>
+            <GiftSpawner parentGiftDatas={props.giftData}></GiftSpawner>
             <DeerSpawner deerCount={props.numReindeers}></DeerSpawner>
             <Model file="../models/christmas_tree.glb" position={[0, 0, 0]} />
             <Model file="../models/ChristmasRoomVer2.glb" position={[0, 0, 0]} />

@@ -51,37 +51,36 @@ export function InputCard(props) {
 }
 
 export function CalendarCard(props) {
-  const [calendarValue, setCalendarValue] = useState(null)
+  const handleDateChange = (value) => {
+    const formattedDate = dateToString(value); // Format the date
+    props.sendDataToParent({
+      stage: props.index,
+      value: formattedDate,
+    });
+  };
+
   return (
     <div className="card">
       <div className="card-back" style={{ transform: "rotateY(180deg)" }}></div>
 
-      <div className='card-front' style={{ transform: "rotateY(0deg)" }}>
+      <div className="card-front" style={{ transform: "rotateY(0deg)" }}>
         <p className="circle text-4xl font-bold">{props.cardNum}</p>
         <img className="logo" src="assets/logo.svg" alt="Ornamental" />
         <p className="subtitle">{props.subtitle}</p>
         <img src="assets/candycane.svg" alt="Candy Cane" />
 
-        <Calendar onChange={(value) => setCalendarValue(dateToString(value))}/>
-
-        <p>{calendarValue}</p>
-
-        {!(calendarValue === "") ? <motion.button
-        className="next-btn" 
-        initial={{opacity: 0}}
-        animate={{opacity: 1, transition:{duration: 0.2}}}
-        onClick={() => props.sendDataToParent({
-          stage: props.index,
-          value: calendarValue
-        })}
-        >Next</motion.button>
-          : null}
-
+        <div className="custom-calendar-container">
+          <Calendar
+            className="custom-calendar"
+            onChange={handleDateChange} // Call handleDateChange on selection
+          />
+        </div>
       </div>
-
     </div>
-  )
+  );
 }
+
+
 
 
 

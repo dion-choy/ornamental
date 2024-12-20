@@ -25,6 +25,8 @@ function Controls(props) {
                 control.current.maxDistance = 3.5;
                 control.current.minPolarAngle = Math.PI / 4;
                 control.current.maxPolarAngle = Math.PI / 2 - 0.1;
+                control.current.maxAzimuthAngle = Infinity;
+                control.current.minAzimuthAngle = -Infinity;
 
                 targetPosition.current.set(0, 2, 5); // Example orbit position
                 targetFocus.current.set(0, 1, 0); // Example orbit target
@@ -37,6 +39,8 @@ function Controls(props) {
                 control.current.maxDistance = 3.5;
                 control.current.minPolarAngle = Math.PI / 3;
                 control.current.maxPolarAngle = Math.PI / 2 + 0.2;
+                control.current.maxAzimuthAngle = Math.PI / 2 + 0.2;
+                control.current.minAzimuthAngle = Math.PI / 4;
 
                 targetPosition.current.set(0, 2, -2.5); // Fixed position
                 targetFocus.current.set(-5, 2, -2.5); // Fixed focus

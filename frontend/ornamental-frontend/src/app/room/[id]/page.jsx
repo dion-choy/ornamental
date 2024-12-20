@@ -35,6 +35,7 @@ export default function Home() {
     const [authorVisible, setAuthorVisible] = useState(false);
     const [giftGUIVisible, setGiftGUIVisible] = useState(false);
     const [selectedGift, setSelectedGift] = useState("");
+    const [giftData, setGiftData] = useState([]);
 
     useEffect(() => {
         console.log(id);
@@ -44,6 +45,7 @@ export default function Home() {
         getRoom(id).then((roomStr) => {
             const room = EJSON.parse(roomStr);
             setOrnaments(room.ornaments);
+            setGiftData(room.gifts);
         });
     }, []);
 
@@ -116,6 +118,7 @@ export default function Home() {
                     hideAuthor={hideAuthor}
                     camSetting={camSetting}
                     giftClickHandler={giftClickHandler}
+                    giftData={giftData}
                 />
                 <CameraHelper />
                 <Controls rotate={0.4} camSetting={camSetting} />
@@ -133,16 +136,32 @@ export default function Home() {
                     }}
                 >
                     <div className="namerectdiv">
-                        <div className={css.namerect}>{selectedGift}</div>
+                        <div className={css.namerect}>
+                            {selectedGift}
+                            <div className={css.confirmbutton}>
+                                <button
+                                    onClick={() => {
+                                        console.log("Add gift");
+                                        getUser(cookies.get("userId")).then((userStr) => {
+                                            const user = EJSON.parse(userStr);
 
-                        <button
-                            onClick={() => {
-                                // addGift(id, cookies.get("userId"), 0, Math.PI * Math.random(), selectedGift, 1);
-                                console.log("Add gift");
-                            }}
-                        >
-                            Confirm
-                        </button>
+                                            addGift(
+                                                id,
+                                                cookies.get("userId"),
+                                                EJSON.stringify(user.target),
+                                                0,
+                                                Math.PI * Math.random(),
+                                                selectedGift,
+                                                1
+                                            );
+                                        });
+                                    }}
+                                >
+                                    <img src="/assets/Gift.png" alt="Gift!" />
+                                    Confirm!
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -181,8 +200,8 @@ export default function Home() {
                             }
                         }}
                     >
-                        <img src="/assets/Gift.png" alt="Gift!" />
-                        Gift!
+                        <img src={`/assets/${camSetting ? "cancel.png" : "Gift.png"}`} alt="Gift!" />
+                        {camSetting ? "Cancel" : "Gift!"}
                     </button>
                 </div>
             </div>
