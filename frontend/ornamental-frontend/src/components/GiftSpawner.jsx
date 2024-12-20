@@ -1,124 +1,93 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useCallback, useEffect, useState } from "react";
 import { useLoader } from "@react-three/fiber";
-import { useEffect, useState, useRef } from "react";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import * as THREE from "three";
-import { getRoom } from "@/components/api/api";
-import { EJSON } from "bson";
-import { useParams } from "next/navigation";
 
 const GiftSpawner = ({ parentGiftDatas = [] }) => {
-    const { id } = useParams();
-    const centralPoint = new THREE.Vector3(0, 0, 0); // Center position (x, y, z)
+    const centralPoint = new THREE.Vector3(0, 0, 0);
 
-    // Load the deer model
-    const boxGift = useLoader(GLTFLoader, "/models/BoxGift.glb"); // Place deer.glb in /public/models
-    const cylinderGift = useLoader(GLTFLoader, "/models/CylinderGift.glb"); // Place deer.glb in /public/models
-    const bagGift = useLoader(GLTFLoader, "/models/BagGift.glb"); // Place deer.glb in /public/models
+    const boxGift = useLoader(GLTFLoader, "/models/BoxGift.glb");
+    const cylinderGift = useLoader(GLTFLoader, "/models/CylinderGift.glb");
+    const bagGift = useLoader(GLTFLoader, "/models/BagGift.glb");
 
-    // Generate deer positions and rotations
     const giftPositions = useMemo(() => {
-        const positions = [];
-
-        for (let i = 0; i < parentGiftDatas.length; i++) {
-            // Randomly generate positions in a circle around the center
-            const radius = 1; // Deer will spawn 10-15 units away from center
-            const angle = (Math.PI * 2 * i) / parentGiftDatas.length; // Spread evenly in a circle
+        const positions = parentGiftDatas.map((_, i) => {
+            const radius = 1;
+            const angle = (Math.PI * 2 * i) / parentGiftDatas.length;
             const x = Math.cos(angle) * radius;
             const z = Math.sin(angle) * radius;
-            const y = 0; // Keep deers on the ground plane
-
-            // Calculate rotation to face the center
-            const id = i;
-            // const direction = new THREE.Vector3().subVectors(centralPoint, position).normalize(); // Direction vector towards the center
-            // const rotation = Math.atan2(direction.x, direction.z); // Y-axis rotation
-
-            positions.push({ id: id, position: [x, y, z] });
-        }
-
+            const y = 0;
+            return { id: i, position: [x, y, z] };
+        });
         return positions;
     }, [parentGiftDatas]);
 
-    const loadGiftDatas = () => {
-        // const giftList = [{ id: 3, scale: 1, author: "Me", rotation: 2, giftType: "small", color: "#FF0000" }];
-        return parentGiftDatas.map((gift) => {
-            gift.id = gift.position;
-            gift.scale = gift.size;
-            gift.author = gift.authorId;
-            gift.giftType = gift.shape;
-            gift.color = "#FF0000";
-            return gift;
-        });
-    };
+    const loadGiftDatas = useCallback(() => {
+        return parentGiftDatas.map((gift, index) => ({
+            id: index,
+            scale: gift.size || 1,
+            author: gift.authorId,
+            giftType: gift.shape,
+            color: new THREE.Color().setHSL(Math.random(), 1, 0.5), // Assign a random color once
+        }));
+    }, [parentGiftDatas]);
 
-    const prepareGift = (giftType = null, color) => {
-        let giftModel;
-        console.log(giftType);
-        switch (giftType) {
-            case 1:
-                giftModel = boxGift;
-                break;
-            case 2:
-                giftModel = bagGift;
-                break;
-            case 3:
-                giftModel = cylinderGift;
-                break;
-            default:
-                giftModel = boxGift;
-        }
-        // console.log(giftModel);
-
-        const clonedGift = giftModel.scene.clone(true); // Deep clone of the model
-
-        // Find the "nose" mesh and apply a unique material
-        clonedGift.traverse((child) => {
-            if (child.isMesh) {
-                child.castShadow = true;
-                child.receiveShadow = true;
-                if (child.material.name === "RibbonMaterial") {
-                    const threeColor = new THREE.Color().setRGB(1, 0, 0);
-                    threeColor.setHSL(Math.random(), 1, 0.5);
-                    child.material = new THREE.MeshStandardMaterial({
-                        color: threeColor, // Random color
-                    });
-                }
+    const prepareGift = useCallback(
+        (giftType, color) => {
+            let giftModel;
+            switch (giftType) {
+                case 1:
+                    giftModel = boxGift;
+                    break;
+                case 2:
+                    giftModel = bagGift;
+                    break;
+                case 3:
+                    giftModel = cylinderGift;
+                    break;
+                default:
+                    giftModel = boxGift;
             }
-        });
 
-        // console.log(clonedGift);
-        console.log("new gift");
-        return clonedGift;
-    };
+            const clonedGift = giftModel.scene.clone(true);
+
+            clonedGift.traverse((child) => {
+                if (child.isMesh) {
+                    child.castShadow = true;
+                    child.receiveShadow = true;
+                    if (child.material.name === "RibbonMaterial") {
+                        child.material = new THREE.MeshStandardMaterial({ color });
+                    }
+                }
+            });
+
+            return clonedGift;
+        },
+        [boxGift, bagGift, cylinderGift]
+    );
 
     const [giftDatas, setGiftDatas] = useState([]);
 
     useEffect(() => {
         setGiftDatas(loadGiftDatas());
-        // setGiftDatas([{ id: 3, scale: 1, author: "Me", rotation: 2, giftType: "small", color: "#FF0000" }]);
-    }, [parentGiftDatas]);
+    }, [loadGiftDatas]);
 
     return (
         <group>
-            {giftPositions.map((giftPos, gpIndex) => {
-                // console.log(giftPos);
-                for (let i = 0; i < giftDatas.length; i++) {
-                    if (giftPos.id === giftDatas[i].id) {
-                        // console.log("ITEM FOUND")
-                        return (
-                            <mesh key={giftPos.id} position={giftPos.position} scale={giftDatas[i].scale}>
-                                <primitive
-                                    key={giftPos.id}
-                                    object={prepareGift(giftDatas[i].giftType, giftDatas[i].color)}
-                                    rotation={[0, giftDatas[i].rotation, 0]} // Rotate deer to face center
-                                    scale={[0.2, 0.2, 0.2]} // Adjust scale if needed
-                                />
-                            </mesh>
-                        );
-                    }
+            {giftPositions.map((giftPos) => {
+                const giftData = giftDatas.find((gift) => gift.id === giftPos.id);
+                if (giftData) {
+                    return (
+                        <mesh key={giftPos.id} position={giftPos.position} scale={giftData.scale}>
+                            <primitive
+                                object={prepareGift(giftData.giftType, giftData.color)}
+                                rotation={[0, giftData.rotation || 0, 0]}
+                                scale={[0.2, 0.2, 0.2]}
+                            />
+                        </mesh>
+                    );
                 }
-
-                //
+                return null;
             })}
         </group>
     );
