@@ -60,16 +60,24 @@ export default function OrnamentSpot(props) {
     const groupRef = useRef();
 
     useEffect(() => {
-        console.log(groupRef.current);
-        const copy = groupRef.current.clone();
-        console.log(copy);
-        for (let i = 0; i < [...groupRef.current.children].length; i++) {
-            if (groupRef.current.children[i].name == "ornament") {
-                console.log("found one");
-                groupRef.current.children[i].material.color.setHSL(Math.random(), 1, 0.5);
-            }
+        for (let i = 0; i < taken.length; i++) {
+            const coord = taken[i];
+
+            const sphere = new THREE.SphereGeometry(0.1, 30, 10);
+            const randColor = new THREE.Color();
+            randColor.setHSL(Math.random(), 1, 0.5);
+            const material = new THREE.MeshPhysicalMaterial({ color: randColor });
+            const takenOrn = new THREE.Mesh(sphere, material);
+            takenOrn.name = "ornament";
+            takenOrn.position.set(...coord);
+            takenOrn.showAuthor = props.showAuthor;
+            takenOrn.hideAuthor = props.hideAuthor;
+            takenOrn.authorId = props.ornaments[0].authorid;
+
+            groupRef.current.add(takenOrn);
         }
-    }, [groupRef]);
+        console.log(groupRef.current);
+    }, [groupRef, taken]);
 
     return (
         <group ref={groupRef}>
@@ -98,19 +106,6 @@ export default function OrnamentSpot(props) {
                 >
                     <sphereGeometry args={[0.1, 30, 10]} />
                     <meshPhysicalMaterial color={"white"} transparent={true} opacity={0.3} />
-                </mesh>
-            ))}
-            {taken.map((coord, index) => (
-                <mesh
-                    name={"ornament"}
-                    position={coord}
-                    key={index}
-                    showAuthor={props.showAuthor}
-                    hideAuthor={props.hideAuthor}
-                    authorId={props.ornaments[0].authorid}
-                >
-                    <sphereGeometry args={[0.1, 30, 10]} />
-                    <meshPhysicalMaterial color={"white"} />
                 </mesh>
             ))}
         </group>
