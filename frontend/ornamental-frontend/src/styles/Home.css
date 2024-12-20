@@ -16,10 +16,68 @@ body {
     overflow: hidden;
     position: relative;
     min-height:100vh;
+    color:#DDDBFF;
+}
+
+.info-div {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
 }
 
 .info-container {
-    height: 100vh;
+    max-width: 650px;
+    text-align: center;
+    padding: 2.5rem;
+    background: linear-gradient(145deg, #1A2547, #0D1117);
+    border-radius: 15px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    animation: fadeIn 1.5s ease-in-out;
+}
+
+.info-header {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: #DDDBFF;
+}
+
+.info-subheader {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: #DDDBFF;
+}
+
+.info-p {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+}
+
+.info-ul {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    list-style: none;
+}
+
+.info-li{
+    margin-bottom: 1rem;
+}
+
+.highlight {
+    color: #ffcc00;
+    font-weight: bold;
+    text-shadow: 0 1px 3px rgba(255, 204, 0, 0.5);
+}
+
+.fade-in {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .header-container {
@@ -51,13 +109,13 @@ img.candy-cane {
 }
 
 button.btn:hover {
-    background-color: #0b4f1b;
+    background-color: #1A2547;
     color: white;
 }
 
 
 .btn {
-    background-color: #fff;
+    background-color: #DDDBFF;
     color: #404f1b;
     border: none;
     border-radius: 8px;
@@ -126,6 +184,29 @@ button.btn:hover {
     100% {
         transform: translate(0, 97vh);
         opacity: 0;
+    }
+}
+
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
     }
 }
 
