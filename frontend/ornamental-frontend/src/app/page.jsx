@@ -64,14 +64,14 @@ function Home() {
         <div>
             <div className="header-container">
                 <div className="header-card"></div>
-                <img className="logo inline mt-40 mb-20px" src="assets/logo.svg" alt="Ornamental Logo" />
+                <img className="logo inline mt-40 mb-20px" src="/assets/logo.svg" alt="Ornamental Logo" />
 
                 <p style={{ fontSize: "40px" }}>It's secret santa</p>
                 <p style={{ fontSize: "20px" }}>
                     but <b>better</b>
                 </p>
 
-                <img className="inline candy-cane" src="assets/candycane.svg" alt="Candy Cane Divider" />
+                <img className="inline candy-cane" src="/assets/candycane.svg" alt="Candy Cane Divider" />
 
                 <div className="buttons">
                     <button className="btn create" onClick={() => redirect("/createRoom")}>
@@ -101,7 +101,8 @@ function Home() {
                                     }
                                 });
                             }}
-                            style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "10px" }}>
+                            style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "10px" }}
+                        >
                             <motion.input
                                 initial={{ opacity: 0, y: -60 }}
                                 animate={{ opacity: 1, y: 0 }}
@@ -149,7 +150,7 @@ function Home() {
                         }}
                         onAnimationEnd={() => replaceSnowPos(snowflake.id)}
                     >
-                        <img src="assets/snowflake.png" alt="Snowflake" />
+                        <img src="/assets/snowflake.png" alt="Snowflake" />
                     </div>
                 ))}
             </div>
