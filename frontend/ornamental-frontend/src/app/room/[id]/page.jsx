@@ -133,16 +133,19 @@ export default function Home() {
                     }}
                 >
                     <div className="namerectdiv">
-                        <div className={css.namerect}>{selectedGift}</div>
-
-                        <button
-                            onClick={() => {
-                                // addGift(id, cookies.get("userId"), 0, Math.PI * Math.random(), selectedGift, 1);
-                                console.log("Add gift");
-                            }}
-                        >
-                            Confirm
-                        </button>
+                        <div className={css.namerect}>
+                            {selectedGift}
+                            <div className={css.confirmbutton}>
+                                <button
+                                    onClick={() => {
+                                        console.log("Add gift");
+                                    }}
+                                >
+                                    <img src="/assets/Gift.png" alt="Gift!" />
+                                    Confirm!
+                                </button>
+                            </div>                            
+                        </div> 
                     </div>
                 </div>
 
