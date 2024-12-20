@@ -74,7 +74,7 @@ function Draggable(props) {
                 event.object.position.set(...event.object.oldPos); // lock position
             }
         });
-    }, [objects, props.camSetting]);
+    }, [objects, props.camSetting, props.giftClickHandler]);
 
     return (
         <group ref={groupRef}>

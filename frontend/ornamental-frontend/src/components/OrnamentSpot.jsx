@@ -10,7 +10,9 @@ export default function OrnamentSpot(props) {
 
     function removeAvail(event) {
         const sphere = new THREE.SphereGeometry(0.1, 30, 10);
-        const material = new THREE.MeshPhysicalMaterial({ color: 0x000000 });
+        const randColor = new THREE.Color();
+        randColor.setHSL(Math.random(), 1, 0.5);
+        const material = new THREE.MeshPhysicalMaterial({ color: randColor });
         const usedOrn = new THREE.Mesh(sphere, material);
         usedOrn.name = "ornament";
         usedOrn.position.set(...event.object.position);
@@ -55,8 +57,22 @@ export default function OrnamentSpot(props) {
         );
     }, [props.ornaments]);
 
+    const groupRef = useRef();
+
+    useEffect(() => {
+        console.log(groupRef.current);
+        const copy = groupRef.current.clone();
+        console.log(copy);
+        for (let i = 0; i < [...groupRef.current.children].length; i++) {
+            if (groupRef.current.children[i].name == "ornament") {
+                console.log("found one");
+                groupRef.current.children[i].material.color.setHSL(Math.random(), 1, 0.5);
+            }
+        }
+    }, [groupRef]);
+
     return (
-        <group>
+        <group ref={groupRef}>
             {avail.map((coord, index) => (
                 <mesh
                     visible={props.choose}
@@ -94,7 +110,7 @@ export default function OrnamentSpot(props) {
                     authorId={props.ornaments[0].authorid}
                 >
                     <sphereGeometry args={[0.1, 30, 10]} />
-                    <meshPhysicalMaterial color={"black"} />
+                    <meshPhysicalMaterial color={"white"} />
                 </mesh>
             ))}
         </group>

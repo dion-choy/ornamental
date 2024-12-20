@@ -31,6 +31,7 @@ export default function Home() {
     }
     const [ornaments, setOrnaments] = useState([]);
     const [authorVisible, setAuthorVisible] = useState(false);
+    const [giftGUIVisible, setGiftGUIVisible] = useState(false);
 
     useEffect(() => {
         console.log(id);
@@ -62,7 +63,13 @@ export default function Home() {
 
     function giftClickHandler(object) {
         console.log(object);
+        setGiftGUIVisible(!giftGUIVisible);
+        console.log(giftGUIVisible);
     }
+
+    useEffect(() => {
+        console.log("I changed: ", giftGUIVisible);
+    }, [giftGUIVisible]);
 
     return (
         <div className={css.scene}>
@@ -118,6 +125,16 @@ export default function Home() {
                 <img className={css.timerUI} src="/assets/Time.svg" alt="Gift!" />
                 <div className={css.container}>
                     <div className={css.timer}>10 days 10 hours 10 minutes 10 seconds</div>
+                </div>
+
+                <div
+                    style={{
+                        display: giftGUIVisible ? "block" : "none",
+                    }}
+                >
+                    <div className="namerectdiv">
+                        <div className={css.namerect}>Test</div>
+                    </div>
                 </div>
 
                 <div
