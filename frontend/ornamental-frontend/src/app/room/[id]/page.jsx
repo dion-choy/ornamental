@@ -63,7 +63,7 @@ export default function Home() {
     }
 
     function giftClickHandler(object) {
-        if (object.giftType == selectedGift) {
+        if (object.giftType == selectedGift || selectedGift == "") {
             setGiftGUIVisible(!giftGUIVisible);
         }
         setSelectedGift(object.giftType);
@@ -78,7 +78,6 @@ export default function Home() {
             addGift(
                 id,
                 userId,
-                EJSON.stringify(user.target),
                 0,
                 Math.PI * Math.random(),
                 () => {
@@ -94,7 +93,9 @@ export default function Home() {
                     }
                 },
                 1
-            );
+            ).then(() => {
+                console.log("test");
+            });
         });
     }
 
