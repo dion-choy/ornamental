@@ -35,6 +35,7 @@ export default  function Auth(props){
       res=EJSON.parse(res)
       cookies.set('userId', EJSON.stringify(res._id))
       setLog(true);
+      props.load()
     }
   }
   async function signUp(){
@@ -44,9 +45,10 @@ export default  function Auth(props){
       console.log(props.code)
       let res=EJSON.parse(await createUser(password,userN))
       console.log(res)
-      addPlayer(EJSON.stringify(res.insertedId),props.code)
+      await addPlayer(EJSON.stringify(res.insertedId),props.code)
       cookies.set('userId', EJSON.stringify(res.insertedId))
       setLog(true);
+      props.load()
     }else{
       setExists(false);
 

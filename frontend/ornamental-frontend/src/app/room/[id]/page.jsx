@@ -40,13 +40,13 @@ export default function Home() {
     const [ornaments, setOrnaments] = useState([]);
     const [firstTime, setFirstTime] = useState(false);
     const [room, setRoom] = useState({});
+    const [jsLoaded, setLoaded] = useState(true);
     const [authorVisible, setAuthorVisible] = useState(false);
     const [giftGUIVisible, setGiftGUIVisible] = useState(false);
     const [selectedGift, setSelectedGift] = useState("");
     const [giftData, setGiftData] = useState([]);
     const [timeLeft, setTimeLeft] = useState("-- Days --:--:--");
-
-    useEffect(() => {
+    function load(){
         console.log(id);
         getNoPlayers(id).then((no) => {
             setNumReindeers(no);
@@ -57,7 +57,6 @@ export default function Home() {
             setRoom(room)
             setOrnaments(room.ornaments);
             setGiftData(room.gifts);
-<<<<<<< HEAD
             if(room.secret_santa.started==true){
                 let userId = cookies.get("userId");
                 getUser(userId).then(res=>{
@@ -68,9 +67,10 @@ export default function Home() {
                     }
                 })
             }
-=======
             const endDate = stringToDate(room.secret_santa.end_date);
-            setInterval(() => {
+            if (jsLoaded){
+                setLoaded(false)
+            setInterval(()=>{
                 const curDate = new Date();
                 let timeDelta = endDate - curDate;
                 timeDelta = timeDelta < 0 ? 0 : timeDelta;
@@ -82,10 +82,17 @@ export default function Home() {
                 timeDelta %= 60000;
                 let secs = Math.floor(timeDelta / 1000);
 
-                setTimeLeft(`${days} Days ${hours}:${mins}:${secs}`);
-            }, 1000);
->>>>>>> 26173e0726108b395194208df35a83c86af9f60f
-        });
+                setTimeLeft(`${days} Days ${hours}:${mins}`);
+            },1000)}
+        }
+    )
+
+    } 
+
+    useEffect(() => {
+        load()
+        setInterval(load,60000)
+        
     }, []);
 
     function showAuthor() {
@@ -145,7 +152,7 @@ export default function Home() {
     return (
         <div className={css.scene}>
             {firstTime?<SecretSantaAnnouncement roomId={id} userId={cookies.get("userId")}/>:''}
-            <Auth code={id} />
+            <Auth code={id} load={load}/>
             <Canvas
                 ref={cam}
                 shadows
