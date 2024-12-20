@@ -92,6 +92,17 @@ export async function checkPlayer(username, password, roomId) {
         return EJSON.stringify(user);
     }
 }
+export async function checkPlayerId(userId, roomId) {
+    userId = EJSON.parse(userId);
+    const client = await clientPromise;
+    const db = client.db("Ornamental");
+    let user = await db.collection("users").findOne({ _id: userId });
+    if (user === null || user["password"] != password || user.room != roomId.toString()) {
+        return false;
+    } else {
+        return EJSON.stringify(user);
+    }
+}
 
 export async function addOrnament(roomcode, author, position, ornamentId) {
     author = EJSON.parse(author);

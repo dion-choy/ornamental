@@ -1,5 +1,5 @@
 'use client'
-import {addPlayer, checkPlayer, createUser} from "@/components/api/api";
+import {addPlayer, checkPlayer,checkPlayerId, createUser} from "@/components/api/api";
 import { useCookies } from 'next-client-cookies';
 import React, { useState, useEffect } from 'react'
 import { BSON, EJSON, ObjectId } from 'bson';
@@ -16,7 +16,13 @@ export default  function Auth(props){
   const userid= cookies.get('userId')
   useEffect(()=>{
     console.log("hello")
-    if (userid === undefined){setLog(false)}else{setLog(true)}
+    if (userid === undefined){setLog(false)}else{checkPlayerId(userid,props.code).then(res=>{
+      if (res===false){
+        setLog(false)
+      }else{
+        setLog(true)
+      }
+    })}
   },[])
   async function login(){
     console.log(props.code)
