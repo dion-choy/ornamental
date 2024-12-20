@@ -4,6 +4,7 @@ import { useRef, useState, useEffect } from "react";
 import { Canvas } from "@react-three/fiber";
 import MyScene from "@/components/CanvasScene";
 import Auth from "@/components/auth.jsx";
+import SecretSantaAnnouncement from "@/components/SecretSantaAnnouncement";
 import Controls from "@/components/Controls";
 import { useParams } from "next/navigation";
 import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
@@ -56,6 +57,16 @@ export default function Home() {
             setRoom(room)
             setOrnaments(room.ornaments);
             setGiftData(room.gifts);
+            if(room.secret_santa.started==true){
+                let userId = cookies.get("userId");
+                getUser(userId).then(res=>{
+                    res=EJSON.parse(res)
+                    if (res.has_seen_onboarding==false){
+                        hasSeenOnboarding(userId);
+                        setFirstTime(true);
+                    }
+                })
+            }
         });
     }, []);
 
@@ -115,6 +126,7 @@ export default function Home() {
 
     return (
         <div className={css.scene}>
+            {firstTime?<SecretSantaAnnouncement roomId={id} userId={cookies.get("userId")}/>:''}
             <Auth code={id} />
             <Canvas
                 ref={cam}
