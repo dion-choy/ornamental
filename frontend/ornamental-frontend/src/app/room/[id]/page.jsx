@@ -153,7 +153,6 @@ export default function Home() {
             {firstTime ? <SecretSantaAnnouncement roomId={parseInt(id)} userid={cookies.get("userId")}> </SecretSantaAnnouncement> : console.log("onboarded")}
             <Auth code={id} load={load} />
             <Canvas
-                style={{zIndex:'-10'}}
                 ref={cam}
                 shadows
                 className={css.canvas}

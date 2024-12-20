@@ -3,8 +3,9 @@ import { motion } from "motion/react";
 import React, { useState, useEffect } from 'react'
 import "@/styles/SpiralScene.css"
 import { getReceiverFromSanta, getRoom, getUsers } from "@/components/api/api";
-import SecretSantaOnboarding from "./SecretSantaOnboarding";
+import SecretSantaOnboarding from "@/components/SecretSantaOnboarding";
 import { EJSON } from "bson";
+import SnowingBG from "@/components/SnowingBG";
 
 
 export const SpiralAnimation = (props) => {
@@ -192,7 +193,7 @@ export function SecretSantaAnnouncement( {roomId = 1325, userid}) {
         <> 
             { (animStage != 5)? 
             <>
-            <div id="main-scene" className="absolute">
+            <div id="main-scene" className="absolute" style={{zIndex:21}}>
                 {4 > animStage > 0 ? <>
                     <motion.h1 className="block text-5xl mt-40 font-extrabold"
                         initial={{ opacity: 0 }}
@@ -230,6 +231,7 @@ export function SecretSantaAnnouncement( {roomId = 1325, userid}) {
                     
                 </>: null}
                 
+                <SnowingBG/>
                 
                 {animStage == 4 ? <SecretSantaOnboarding roomId={roomId} onComplete={incAnimStage}/> : null}
             </div>
@@ -237,7 +239,8 @@ export function SecretSantaAnnouncement( {roomId = 1325, userid}) {
             <motion.div id="screen-cover"
                 initial={{ y: "100%" }}
                 animate={{ y: "0" }} transition={{ duration: 1, ease: "easeOut" }}
-                onAnimationComplete={incAnimStage}>
+                onAnimationComplete={incAnimStage}
+                style={{zIndex:20}}>
             </motion.div>
             </>
             : null}
