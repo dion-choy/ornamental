@@ -124,7 +124,7 @@ function createRoomPage() {
 
     console.log(date)
 
-    createRoom(code, groupName, "ballls", 50, groupDesc, 5, selectedQuestions).then((res) => { redirect("/room/" + code.toString()) })
+    createRoom(code, groupName, date, 50, groupDesc, 5, selectedQuestions).then((res) => { redirect("/room/" + code.toString()) })
   }
 
 

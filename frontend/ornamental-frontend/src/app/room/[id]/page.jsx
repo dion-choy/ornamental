@@ -14,6 +14,7 @@ import { SAOPass } from "three/addons/postprocessing/SAOPass.js";
 import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
 import { EJSON } from "bson";
 import { useCookies } from "next-client-cookies";
+import { stringToDate } from '@/lib/myDateFunction';
 
 export default function Home() {
     const { id } = useParams();
@@ -32,6 +33,7 @@ export default function Home() {
         );
     }
     const [ornaments, setOrnaments] = useState([]);
+    const [room, setRoom] = useState({});
     const [authorVisible, setAuthorVisible] = useState(false);
     const [giftGUIVisible, setGiftGUIVisible] = useState(false);
     const [selectedGift, setSelectedGift] = useState("");
@@ -44,6 +46,7 @@ export default function Home() {
         });
         getRoom(id).then((roomStr) => {
             const room = EJSON.parse(roomStr);
+            setRoom(room)
             setOrnaments(room.ornaments);
             setGiftData(room.gifts);
         });
@@ -157,7 +160,7 @@ export default function Home() {
             <div className={css.overlay}>
                 <img className={css.timerUI} src="/assets/Time.svg" alt="Gift!" />
                 <div className={css.container}>
-                    <div className={css.timer}>10 days 10 hours 10 minutes 10 seconds</div>
+                    <div className={css.timer}>{(new Date())-stringToDate(room.secret_santa.end_date)}</div>
                 </div>
 
                 <div
