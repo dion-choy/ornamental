@@ -69,6 +69,35 @@ export default function Home() {
         setSelectedGift(object.giftType);
     }
 
+    function addGiftHandler() {
+        console.log("Add gift");
+        let userId = cookies.get("userId");
+        getUser(userId).then((userStr) => {
+            const user = EJSON.parse(userStr);
+
+            addGift(
+                id,
+                userId,
+                EJSON.stringify(user.target),
+                0,
+                Math.PI * Math.random(),
+                () => {
+                    switch (selectedGift) {
+                        case "Gift Box":
+                            return 1;
+                        case "Gift Bag":
+                            return 2;
+                        case "Gift Cylinder":
+                            return 3;
+                        default:
+                            return 0;
+                    }
+                },
+                1
+            );
+        });
+    }
+
     useEffect(() => {
         console.log(`Gift gui is ${giftGUIVisible ? "on" : "off"}`);
     }, [giftGUIVisible]);
@@ -141,31 +170,7 @@ export default function Home() {
                             <div className={css.confirmbutton}>
                                 <button
                                     onClick={() => {
-                                        console.log("Add gift");
-                                        getUser(cookies.get("userId")).then((userStr) => {
-                                            const user = EJSON.parse(userStr);
-
-                                            addGift(
-                                                id,
-                                                cookies.get("userId"),
-                                                EJSON.stringify(user.target),
-                                                0,
-                                                Math.PI * Math.random(),
-                                                () => {
-                                                    switch (selectedGift) {
-                                                        case "Gift Box":
-                                                            return 1;
-                                                        case "Gift Bag":
-                                                            return 2;
-                                                        case "Gift Cylinder":
-                                                            return 3;
-                                                        default:
-                                                            return 0;
-                                                    }
-                                                },
-                                                1
-                                            );
-                                        });
+                                        addGiftHandler();
                                     }}
                                 >
                                     <img src="/assets/Gift.png" alt="Gift!" />
