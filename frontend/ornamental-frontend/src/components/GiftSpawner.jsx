@@ -7,21 +7,23 @@ import { getRoom } from "@/components/api/api";
 import { EJSON } from "bson";
 import { useParams } from "next/navigation";
 
-const GiftSpawner = ({ giftCount = 4, parentGiftDatas = [] }) => {
+const GiftSpawner = ({ parentGiftDatas = [] }) => {
     const { id } = useParams();
     const centralPoint = new THREE.Vector3(0, 0, 0); // Center position (x, y, z)
 
     // Load the deer model
-    const giftModel = useLoader(GLTFLoader, "/models/BoxGift.glb"); // Place deer.glb in /public/models
+    const boxGift = useLoader(GLTFLoader, "/models/BoxGift.glb"); // Place deer.glb in /public/models
+    const cylinderGift = useLoader(GLTFLoader, "/models/CylinderGift.glb"); // Place deer.glb in /public/models
+    const bagGift = useLoader(GLTFLoader, "/models/BagGift.glb"); // Place deer.glb in /public/models
 
     // Generate deer positions and rotations
     const giftPositions = useMemo(() => {
         const positions = [];
 
-        for (let i = 0; i < giftCount; i++) {
+        for (let i = 0; i < parentGiftDatas.length; i++) {
             // Randomly generate positions in a circle around the center
             const radius = 1; // Deer will spawn 10-15 units away from center
-            const angle = (Math.PI * 2 * i) / giftCount; // Spread evenly in a circle
+            const angle = (Math.PI * 2 * i) / parentGiftDatas.length; // Spread evenly in a circle
             const x = Math.cos(angle) * radius;
             const z = Math.sin(angle) * radius;
             const y = 0; // Keep deers on the ground plane
@@ -35,7 +37,7 @@ const GiftSpawner = ({ giftCount = 4, parentGiftDatas = [] }) => {
         }
 
         return positions;
-    }, [giftCount]);
+    }, [parentGiftDatas]);
 
     const loadGiftDatas = () => {
         // const giftList = [{ id: 3, scale: 1, author: "Me", rotation: 2, giftType: "small", color: "#FF0000" }];
@@ -50,6 +52,23 @@ const GiftSpawner = ({ giftCount = 4, parentGiftDatas = [] }) => {
     };
 
     const prepareGift = (giftType = null, color) => {
+        let giftModel;
+        console.log(giftType);
+        switch (giftType) {
+            case 1:
+                giftModel = bagGift;
+                break;
+            case 2:
+                giftModel = boxGift;
+                break;
+            case 3:
+                giftModel = cylinderGift;
+                break;
+            default:
+                giftModel = boxGift;
+        }
+        console.log(giftModel);
+
         const clonedGift = giftModel.scene.clone(true); // Deep clone of the model
 
         // Find the "nose" mesh and apply a unique material
@@ -59,7 +78,7 @@ const GiftSpawner = ({ giftCount = 4, parentGiftDatas = [] }) => {
                 child.receiveShadow = true;
                 if (child.material.name === "RibbonMaterial") {
                     const threeColor = new THREE.Color().setRGB(1, 0, 0);
-                    // randColor.setHSL(Math.random(), 1, 0.5);
+                    threeColor.setHSL(Math.random(), 1, 0.5);
                     child.material = new THREE.MeshStandardMaterial({
                         color: threeColor, // Random color
                     });
@@ -68,6 +87,7 @@ const GiftSpawner = ({ giftCount = 4, parentGiftDatas = [] }) => {
         });
 
         // console.log(clonedGift);
+        console.log("new gift");
         return clonedGift;
     };
 
@@ -76,7 +96,7 @@ const GiftSpawner = ({ giftCount = 4, parentGiftDatas = [] }) => {
     useEffect(() => {
         setGiftDatas(loadGiftDatas());
         // setGiftDatas([{ id: 3, scale: 1, author: "Me", rotation: 2, giftType: "small", color: "#FF0000" }]);
-    }, []);
+    }, [parentGiftDatas]);
 
     useEffect(() => {
         console.log(giftDatas);
@@ -93,7 +113,7 @@ const GiftSpawner = ({ giftCount = 4, parentGiftDatas = [] }) => {
                             <mesh key={giftPos.id} position={giftPos.position} scale={giftDatas[i].scale}>
                                 <primitive
                                     key={giftPos.id}
-                                    object={prepareGift()}
+                                    object={prepareGift(giftDatas[i].giftType, giftDatas[i].color)}
                                     rotation={[0, giftDatas[i].rotation, 0]} // Rotate deer to face center
                                     scale={[0.2, 0.2, 0.2]} // Adjust scale if needed
                                 />
