@@ -82,7 +82,7 @@ export default function Home() {
                 timeDelta %= 60000;
                 let secs = Math.floor(timeDelta / 1000);
 
-                setTimeLeft(`${days} Days ${hours}:${mins}`);
+                setTimeLeft(`${days} Days ${hours}:${mins}:${secs}`);
             },1000)}
         }
     )
@@ -202,10 +202,11 @@ export default function Home() {
             </Canvas>
 
             <div className={css.overlay}>
-                <img className={css.timerUI} src="/assets/Time.svg" alt="Gift!" />
+            {((room.hasOwnProperty("secret_santa"))&&room.secret_santa.started)?
+                <><img className={css.timerUI} src="/assets/Time.svg" alt="Gift!" />
                 <div className={css.container}>
                     <div className={css.timer}>{timeLeft}</div>
-                </div>
+                </div></>:""}
 
                 <div
                     style={{
@@ -219,6 +220,9 @@ export default function Home() {
                                 <button
                                     onClick={() => {
                                         addGiftHandler();
+                                        setCamSetting(0);
+                                        setGiftGUIVisible(false);
+                                        load();
                                     }}
                                 >
                                     <img src="/assets/Gift.png" alt="Gift!" />
@@ -253,7 +257,7 @@ export default function Home() {
                         Choose/cancel
                     </button>
                 </div>
-
+                {((room.hasOwnProperty("secret_santa"))&&room.secret_santa.started)?
                 <div className={css.giftbutton}>
                     <button
                         onClick={() => {
@@ -267,7 +271,7 @@ export default function Home() {
                         <img src={`/assets/${camSetting ? "cancel.png" : "Gift.png"}`} alt="Gift!" />
                         {camSetting ? "Cancel" : "Gift!"}
                     </button>
-                </div>
+                </div>:""}
             </div>
         </div>
     );
