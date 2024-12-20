@@ -139,6 +139,19 @@ export default function Home() {
                                 <button
                                     onClick={() => {
                                         console.log("Add gift");
+                                        getUser(cookies.get("userId")).then((userStr) => {
+                                            const user = EJSON.parse(userStr);
+
+                                            addGift(
+                                                id,
+                                                cookies.get("userId"),
+                                                EJSON.stringify(user.target),
+                                                0,
+                                                Math.PI * Math.random(),
+                                                selectedGift,
+                                                1
+                                            );
+                                        });
                                     }}
                                 >
                                     <img src="/assets/Gift.png" alt="Gift!" />

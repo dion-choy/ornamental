@@ -108,7 +108,6 @@ export async function addOrnament(roomcode, author, position, ornamentId) {
 
 export async function addGift(roomcode, author, position, rotation, shape, size) {
     author = EJSON.parse(author);
-    recepient = EJSON.parse(recepient);
     const client = await clientPromise;
     const db = client.db("Ornamental");
     let room = db.collection("rooms").findOne({ code: roomcode.toString() });
