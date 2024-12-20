@@ -72,7 +72,7 @@ export function CalendarCard(props) {
                 <p className="circle text-4xl font-bold">{props.cardNum}</p>
                 <img className="logo" src="/assets/logo.svg" alt="Ornamental" />
                 <p className="subtitle">{props.subtitle}</p>
-                <img src="assets/candycane.svg" alt="Candy Cane" />
+                <img src="/assets/candycane.svg" alt="Candy Cane" />
 
                 <div className="custom-calendar-container">
                     <Calendar
