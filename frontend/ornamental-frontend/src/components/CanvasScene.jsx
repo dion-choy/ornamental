@@ -32,8 +32,9 @@ export default function MyScene(props) {
                 />
                 <Gift file="/models/BagGift.glb" type={"Gift Bag"} scale={0.31} position={[-3.64, 1.05, -2.54]} />
                 <Gift file="/models/BoxGift.glb" type={"Gift Box"} scale={0.31} position={[-3.66, 1.05, -3.645]} />
-                <LightBulb position={[0, 4, 0]} size={[0.2, 30, 10]} intensity={5} color={"beige"} />
             </Draggable>
+
+            <LightBulb position={[0, 5, 0]} size={[0.2, 30, 10]} intensity={5.5} color={"beige"} />
 
             <GiftSpawner parentGiftDatas={props.giftData}></GiftSpawner>
             <DeerSpawner deerCount={props.numReindeers}></DeerSpawner>
