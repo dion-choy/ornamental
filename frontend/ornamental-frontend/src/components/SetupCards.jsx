@@ -16,7 +16,7 @@ export function InputCard(props) {
                 <p className="circle text-4xl font-bold">{props.cardNum}</p>
                 <img className="logo" src="/assets/logo.svg" alt="Ornamental" />
                 <p className="subtitle">{props.subtitle}</p>
-                <img src="assets/candycane.svg" alt="Candy Cane" />
+                <img src="/assets/candycane.svg" alt="Candy Cane" />
 
                 <input
                     className="input-field"
@@ -156,7 +156,7 @@ export function ResponseCollectedCard({ onComplete, cardNum }) {
                 <p className="subtitle" style={{ fontSize: 29 }}>
                     Thank you for responding!
                 </p>
-                <img src="assets/candycane.svg" alt="Candy Cane" />
+                <img src="/assets/candycane.svg" alt="Candy Cane" />
 
                 <div>
                     <motion.div
