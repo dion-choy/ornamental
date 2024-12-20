@@ -151,7 +151,18 @@ export default function Home() {
                                                 EJSON.stringify(user.target),
                                                 0,
                                                 Math.PI * Math.random(),
-                                                selectedGift,
+                                                () => {
+                                                    switch (selectedGift) {
+                                                        case "Gift Box":
+                                                            return 1;
+                                                        case "Gift Bag":
+                                                            return 2;
+                                                        case "Gift Cylinder":
+                                                            return 3;
+                                                        default:
+                                                            return 0;
+                                                    }
+                                                },
                                                 1
                                             );
                                         });

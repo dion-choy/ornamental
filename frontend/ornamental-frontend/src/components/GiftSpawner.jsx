@@ -56,10 +56,10 @@ const GiftSpawner = ({ parentGiftDatas = [] }) => {
         console.log(giftType);
         switch (giftType) {
             case 1:
-                giftModel = bagGift;
+                giftModel = boxGift;
                 break;
             case 2:
-                giftModel = boxGift;
+                giftModel = bagGift;
                 break;
             case 3:
                 giftModel = cylinderGift;
