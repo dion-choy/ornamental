@@ -24,6 +24,21 @@
     text-align: center;
 }
 
+#next-btn {
+    background-color: #24223F;
+    color: #FFF;
+    border: none;
+    border-radius: 10px;
+    padding: 20px 10rem;
+    cursor: pointer;
+    z-index: 5;
+}
+
+#next-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
 body {
     background-color: white;
 }
