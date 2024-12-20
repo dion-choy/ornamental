@@ -144,8 +144,8 @@ export default function Home() {
                                     <img src="/assets/Gift.png" alt="Gift!" />
                                     Confirm!
                                 </button>
-                            </div>                            
-                        </div> 
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -184,8 +184,8 @@ export default function Home() {
                             }
                         }}
                     >
-                        <img src="/assets/Gift.png" alt="Gift!" />
-                        Gift!
+                        <img src={`/assets/${camSetting ? "cancel.png" : "Gift.png"}`} alt="Gift!" />
+                        {camSetting ? "Cancel" : "Gift!"}
                     </button>
                 </div>
             </div>
