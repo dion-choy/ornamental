@@ -255,7 +255,6 @@ export default function Home() {
                 </div>
 
                 <div id={css["admin-panel"]}>
-                    <strong>ADMIN</strong>
                     <button onClick={() => startSecretSanta(id)}>Start Secret Santa</button>
                     <button>Start Next Activity</button>
                     <button
@@ -263,7 +262,7 @@ export default function Home() {
                             setChooseOrnament(!chooseOrnament);
                         }}
                     >
-                        Choose/cancel
+                        Add Ornaments
                     </button>
                 </div>
                 {room.hasOwnProperty("secret_santa") && room.secret_santa.started ? (
