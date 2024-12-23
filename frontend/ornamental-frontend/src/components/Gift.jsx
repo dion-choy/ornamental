@@ -4,7 +4,6 @@ import { useLoader } from "@react-three/fiber";
 
 export default function Gift(props) {
     const gltf = useLoader(GLTFLoader, props.file);
-    const object = useRef();
     const [gift, setGift] = useState({});
 
     useEffect(() => {
@@ -14,10 +13,10 @@ export default function Gift(props) {
             child.giftType = props.type;
         });
         setGift(clonedGift);
-    }, [gltf]);
+    }, []);
 
     return (
-        <mesh ref={object} position={props.position}>
+        <mesh position={props.position}>
             <primitive object={gift} scale={props.scale} />
         </mesh>
     );

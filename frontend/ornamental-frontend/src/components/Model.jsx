@@ -31,7 +31,9 @@ function Model(props) {
                 const fireLight = new PointLight(0xf7ad00, 5, 100, 0.1);
                 fireLight.position.set(0, 0, 0);
                 fireLight.castShadow = true;
-                fireLight.shadow.bias = -0.006;
+                fireLight.shadow.bias = -0.0025;
+                fireLight.shadow.mapSize.width = 1028;
+                fireLight.shadow.mapSize.height = 1028;
 
                 child.add(fireLight);
                 child.receiveShadow = false;

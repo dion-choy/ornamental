@@ -154,9 +154,8 @@ export default function Home() {
                 <SecretSantaAnnouncement roomId={parseInt(id)} userid={cookies.get("userId")}>
                     {" "}
                 </SecretSantaAnnouncement>
-            ) : (
-                console.log("onboarded")
-            )}
+            ) : // console.log("onboarded")
+            null}
             <Auth code={id} load={load} />
             <Canvas
                 ref={cam}
@@ -168,6 +167,8 @@ export default function Home() {
                 }}
                 onCreated={({ gl, scene, camera }) => {
                     const composer = new EffectComposer(gl);
+                    gl.setPixelRatio(window.devicePixelRatio);
+
                     const renderPass = new RenderPass(scene, camera);
                     composer.addPass(renderPass);
 
@@ -182,10 +183,10 @@ export default function Home() {
                     saoPass.params.saoBias = -1;
                     saoPass.params.saoIntensity = 0.5;
                     saoPass.params.saoScale = 1;
-                    saoPass.params.saoKernelRadius = 100;
+                    saoPass.params.saoKernelRadius = 20;
                     saoPass.params.saoMinResolution = 0.01;
                     saoPass.params.saoBlur = true;
-                    saoPass.params.saoBlurRadius = 50;
+                    saoPass.params.saoBlurRadius = 10;
                     saoPass.params.saoBlurStdDev = 5;
                     saoPass.params.saoBlurDepthCutoff = 0.01;
 

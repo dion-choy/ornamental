@@ -9,11 +9,10 @@ export default function OrnamentSpot(props) {
     const cookies = useCookies();
 
     function removeAvail(event) {
-        const sphere = new THREE.SphereGeometry(0.1, 30, 10);
         const randColor = new THREE.Color();
         randColor.setHSL(Math.random(), 1, 0.5);
         const material = new THREE.MeshPhysicalMaterial({ color: randColor });
-        const usedOrn = new THREE.Mesh(sphere, material);
+        const usedOrn = new THREE.Mesh(new THREE.SphereGeometry(0.1, 30, 10), material);
         usedOrn.name = "ornament";
         usedOrn.position.set(...event.object.position);
         usedOrn.showAuthor = props.showAuthor;
@@ -34,6 +33,7 @@ export default function OrnamentSpot(props) {
         [0.8, 1.5, 0.3],
         [0.1, 2.5, -0.24],
         [-0.85, 1.45, -0.34],
+        [0.7, 0.8, 0.9],
     ];
 
     const [taken, setTaken] = useState([]);
@@ -72,7 +72,7 @@ export default function OrnamentSpot(props) {
             takenOrn.position.set(...coord);
             takenOrn.showAuthor = props.showAuthor;
             takenOrn.hideAuthor = props.hideAuthor;
-            takenOrn.authorId = props.ornaments[0].authorid;
+            takenOrn.authorId = props.ornaments[i].authorid;
 
             groupRef.current.add(takenOrn);
         }

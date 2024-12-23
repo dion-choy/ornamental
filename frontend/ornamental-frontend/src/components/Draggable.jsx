@@ -20,11 +20,12 @@ function Draggable(props) {
         }
 
         controlsRef.current.addEventListener("hoveron", function (event) {
+            console.log(event);
             scene.orbitControls.enabled = false;
             if (event.object.name == "avail_ornament") {
                 event.object.material.opacity = 1;
             }
-            if (event.object.name == "ornament") {
+            if (event.object.name == "ornament" || event.object.name == "treeGift") {
                 event.object.showAuthor();
             }
             if (event.object.name == "gift" && props.camSetting == 1) {
@@ -33,6 +34,9 @@ function Draggable(props) {
                     object.material.emissiveIntensity = 0.2;
                 });
             }
+            if (event.object.name == "tree") {
+                console.log(controlsRef.current);
+            }
         });
 
         controlsRef.current.addEventListener("hoveroff", function (event) {
@@ -40,7 +44,7 @@ function Draggable(props) {
             if (event.object.name == "avail_ornament") {
                 event.object.material.opacity = 0.3;
             }
-            if (event.object.name == "ornament") {
+            if (event.object.name == "ornament" || event.object.name == "treeGift") {
                 event.object.hideAuthor();
             }
             if (event.object.name == "gift" && props.camSetting == 1) {
@@ -52,10 +56,13 @@ function Draggable(props) {
         });
 
         controlsRef.current.addEventListener("dragstart", function (event) {
+            console.log(event.object);
             if (
                 event.object.name == "avail_ornament" ||
                 event.object.name == "ornament" ||
-                event.object.name == "gift"
+                event.object.name == "gift" ||
+                event.object.name == "treeGift" ||
+                event.object.name == "tree"
             ) {
                 event.object.oldPos = event.object.position.clone();
             }
@@ -69,7 +76,9 @@ function Draggable(props) {
             if (
                 event.object.name == "avail_ornament" ||
                 event.object.name == "ornament" ||
-                event.object.name == "gift"
+                event.object.name == "gift" ||
+                event.object.name == "treeGift" ||
+                event.object.name == "tree"
             ) {
                 event.object.position.set(...event.object.oldPos); // lock position
             }
