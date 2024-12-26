@@ -34,6 +34,7 @@ function Model(props) {
                 fireLight.shadow.bias = -0.0025;
                 fireLight.shadow.mapSize.width = 1028;
                 fireLight.shadow.mapSize.height = 1028;
+                fireLight.shadow.camera.far = 10;
 
                 child.add(fireLight);
                 child.receiveShadow = false;
