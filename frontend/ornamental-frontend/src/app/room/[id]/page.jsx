@@ -24,7 +24,6 @@ function updateTime(endTime) {
 export default function Home() {
     const { id } = useParams();
     const cookies = useCookies();
-    const cam = useRef();
     const [numReindeers, setNumReindeers] = useState(0);
     const [chooseOrnament, setChooseOrnament] = useState(false);
     const [camSetting, setCamSetting] = useState(0);
@@ -154,15 +153,13 @@ export default function Home() {
 
     return (
         <div className={css.scene}>
-            {firstTime ? (
+            {firstTime && (
                 <SecretSantaAnnouncement roomId={parseInt(id)} userid={cookies.get("userId")}>
                     {" "}
                 </SecretSantaAnnouncement>
-            ) : // console.log("onboarded")
-            null}
+            )}
             <Auth code={id} load={load} />
             <Canvas
-                ref={cam}
                 shadows
                 className={css.canvas}
                 camera={{
