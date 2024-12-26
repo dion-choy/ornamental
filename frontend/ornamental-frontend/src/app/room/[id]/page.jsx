@@ -83,7 +83,11 @@ export default function Home() {
                     timeDelta %= 60000;
                     let secs = Math.floor(timeDelta / 1000);
 
-                    setTimeLeft(`${days} Days ${hours}:${mins}:${secs}`);
+                    setTimeLeft(
+                        `${days} Days ${hours >= 10 ? hours : "0" + hours}:${mins >= 10 ? mins : "0" + mins}:${
+                            secs >= 10 ? secs : "0" + secs
+                        }`
+                    );
                 }, 1000);
             }
         });
