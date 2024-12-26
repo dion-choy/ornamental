@@ -2,7 +2,7 @@ import React from "react";
 
 function LightBulb(props) {
     return (
-        <mesh ref={ref} position={props.position}>
+        <mesh position={props.position}>
             <pointLight
                 color={props.color}
                 shadow-bias={-0.001}
