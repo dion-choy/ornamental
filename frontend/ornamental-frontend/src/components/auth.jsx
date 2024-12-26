@@ -98,12 +98,12 @@ export default function Auth(props) {
                         {ok ? "" : <div>wrong username or password</div>}
                         {exists ? "" : <div>user exists</div>}
                         <div style={{ display: "flex", flexDirection: "row" }}>
-                            <div className="btn" style={{ width: "auto", marginRight: "20px" }} onClick={login}>
+                            <button className="btn" style={{ width: "auto", marginRight: "20px" }} onClick={login}>
                                 Login
-                            </div>
-                            <div className="btn" style={{ width: "auto" }} onClick={signUp}>
+                            </button>
+                            <button className="btn" style={{ width: "auto" }} onClick={signUp}>
                                 Sign up
-                            </div>
+                            </button>
                         </div>
                     </div>
                     <div
