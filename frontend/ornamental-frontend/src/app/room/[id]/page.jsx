@@ -208,22 +208,16 @@ export default function Home() {
             </Canvas>
 
             <div className={css.overlay}>
-                {room.hasOwnProperty("secret_santa") && room.secret_santa.started ? (
+                {room.hasOwnProperty("secret_santa") && room.secret_santa.started && (
                     <>
                         <img className={css.timerUI} src="/assets/Time.svg" alt="Gift!" />
                         <div className={css.container}>
                             <div className={css.timer}>{timeLeft}</div>
                         </div>
                     </>
-                ) : (
-                    ""
                 )}
 
-                <div
-                    style={{
-                        display: giftGUIVisible ? "block" : "none",
-                    }}
-                >
+                {giftGUIVisible && (
                     <div className="namerectdiv">
                         <div className={css.namerect}>
                             {selectedGift}
@@ -241,19 +235,15 @@ export default function Home() {
                             </div>
                         </div>
                     </div>
-                </div>
+                )}
 
-                <div
-                    style={{
-                        display: authorVisible ? "block" : "none",
-                    }}
-                >
+                {authorVisible && (
                     <div className="namerectdiv">
                         <div className={css.namerect}>
                             <p>{authorVisible}</p>
                         </div>
                     </div>
-                </div>
+                )}
 
                 <div id={css["admin-panel"]}>
                     <button onClick={() => startSecretSanta(id)}>Start Secret Santa</button>
@@ -266,7 +256,7 @@ export default function Home() {
                         Add Ornaments
                     </button>
                 </div>
-                {room.hasOwnProperty("secret_santa") && room.secret_santa.started ? (
+                {room.hasOwnProperty("secret_santa") && room.secret_santa.started && (
                     <div className={css.giftbutton}>
                         <button
                             onClick={() => {
@@ -281,8 +271,6 @@ export default function Home() {
                             {camSetting ? "Cancel" : "Gift!"}
                         </button>
                     </div>
-                ) : (
-                    ""
                 )}
             </div>
         </div>
