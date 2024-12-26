@@ -7,7 +7,6 @@ function Model(props) {
     const gltf = useLoader(GLTFLoader, props.file);
     const rotate = useRef();
     let mixer;
-    const { scene } = useThree();
 
     useFrame((state, delta) => {
         if (props.rotate) {
