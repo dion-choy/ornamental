@@ -8,4 +8,5 @@
 
 - [ ] what should happen when you finish the secret santa
 - [ ] finish ornaments adding to tree
+- [ ] display add ornaments btn after secret santa starts
 - [ ] comment code
