@@ -28,7 +28,6 @@ export default function Auth(props) {
         }
     }, []);
     async function login() {
-        console.log(props.code);
         let res = await checkPlayer(userN, password, props.code);
         if (res === false) {
             setOk(false);

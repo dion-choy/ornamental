@@ -96,14 +96,19 @@ export async function getNoPlayers(roomcode) {
     return user["list_of_users"].length;
 }
 export async function checkPlayer(username, password, roomId) {
+    console.log("called")
     const client = await clientPromise;
     const db = client.db("Ornamental");
-    let user = await db.collection("users").findOne({ name: username });
-    if (user === null || user["password"] != password || user.room != roomId.toString()) {
-        return false;
+    let users = await db.collection("users").find({ name: username });
+    if (users==null){return false;}
+    while (users.hasNext()){
+    let user=await users.next();
+    if (user["password"] != password || user.room != roomId.toString()) {
     } else {
         return EJSON.stringify(user);
     }
+    }
+    return false;
 }
 export async function checkPlayerId(userId, roomId) {
     userId = EJSON.parse(userId);

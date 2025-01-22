@@ -1,7 +1,7 @@
 # BUGS TO BE SQUASHED like how i-
 
 - [ ] stop signup when secret santa has started
-- [ ] allow same username signup from different rooms
+- [x] allow same username signup from different rooms
 
 
 # FEATURES TO BE ADDED
