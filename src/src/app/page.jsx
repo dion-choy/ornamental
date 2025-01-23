@@ -9,6 +9,7 @@ function Home() {
     const [snowPos, setSnowPos] = useState([]);
     const [code, setCode] = useState(0);
     const [can, setCan] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [displayInputCode, setDisplayInputCode] = useState(false);
     const [isInView, setIsInView] = useState(false);
     const aboutRef = useRef(null);
@@ -93,12 +94,14 @@ function Home() {
                         <form
                             onSubmit={(e) => {
                                 e.preventDefault();
+                                setLoading(true);
                                 checkCode(code).then((c) => {
                                     if (!c) {
                                         setCan(false);
                                     } else {
                                         redirect("/room/" + code);
                                     }
+                                    setLoading(false);
                                 });
                             }}
                             style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "10px" }}
@@ -132,7 +135,10 @@ function Home() {
                                 id="enter"
                                 type="submit"
                             >
-                                Enter!
+                                {!loading && "Enter!"}
+                                {loading && (
+                                    <img src="/assets/loader.gif" width={30} style={{ display: "inline-block" }} />
+                                )}
                             </motion.button>
                             {can ? "" : "Wrong Code"}
                         </form>
