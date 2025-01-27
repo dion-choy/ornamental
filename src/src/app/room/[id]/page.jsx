@@ -153,6 +153,7 @@ export default function Home() {
         console.log(`Gift gui is ${giftGUIVisible ? "on" : "off"}`);
     }, [giftGUIVisible]);
 
+    const [resDivider, setResDivider] = useState(5);
     return (
         <div className={css.scene}>
             {firstTime && (
@@ -171,6 +172,7 @@ export default function Home() {
                 onCreated={({ gl, scene, camera }) => {
                     const composer = new EffectComposer(gl);
                     gl.setPixelRatio(window.devicePixelRatio);
+                    gl.setSize(window.innerWidth / resDivider, window.innerHeight / resDivider, false);
 
                     const renderPass = new RenderPass(scene, camera);
                     composer.addPass(renderPass);
