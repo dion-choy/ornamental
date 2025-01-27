@@ -198,3 +198,36 @@ export function ResponseCollectedCard({ onComplete, cardNum }) {
         </div>
     );
 }
+
+export function QuizCard(props) {
+    return (
+        <div className={cardCss.card}>
+            <div className={cardCss['card-back']} style={{ transform: "rotateY(180deg)" }}></div>
+
+            <div className={cardCss['card-front']} style={{ transform: "rotateY(0deg)" }}>
+            <p className={cardCss.circle + " text-4xl font-bold"}>X</p>
+                {/* <p className={cardCss.circle + " text-4xl font-bold"}>{props.cardNum}</p> */}
+                <p className={cardCss.subtitle}>Question</p>
+                {/* <p className={cardCss.subtitle}>{props.subtitle}</p> */}
+                <img src="/assets/candycane.svg" alt="Candy Cane" />    
+                {/* Placeholder Buttons */}
+                <div className="mt-6 flex flex-col gap-4">
+                    <button className={css['next-btn'] + " italic"}>
+                        Option 1 Jerick is a boy
+                    </button>
+                    <button className={css['next-btn'] + " italic"}>
+                        Option 2 Jerick is a girl
+                    </button>
+                    <button className={css['next-btn'] + " italic"}>
+                        Option 3 Jerick is curved
+                    </button>
+                    <button className={css['next-btn'] + " italic"}>
+                        Option 4 Jerick is chinese
+                    </button>
+                </div>
+        
+                
+            </div>
+        </div>
+    );
+}

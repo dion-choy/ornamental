@@ -137,6 +137,11 @@
     background-color: #555;
 }
 
+.settings_menu {
+    z-index: 15;
+    pointer-events: auto;
+}
+
 .giftbutton {
     position: absolute;
     bottom: 20px;

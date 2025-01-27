@@ -6,7 +6,7 @@ import MyScene from "@/components/CanvasScene";
 import Auth from "@/components/auth.jsx";
 import { SecretSantaAnnouncement, SpiralAnimation } from "@/components/SecretSantaAnnouncement";
 import Controls from "@/components/Controls";
-import { useParams } from "next/navigation";
+import { redirect, useParams } from "next/navigation";
 import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
 import { PerspectiveCamera } from "three";
 import { addGift, getNoPlayers, getRoom, getUser, startSecretSanta, hasSeenOnboarding } from "@/components/api/api";
@@ -153,7 +153,8 @@ export default function Home() {
         console.log(`Gift gui is ${giftGUIVisible ? "on" : "off"}`);
     }, [giftGUIVisible]);
 
-    const [resDivider, setResDivider] = useState(5);
+    const [settingsVisible, setSettingsVisible] = useState(false);
+
     return (
         <div className={style.scene}>
             {firstTime && (
@@ -172,7 +173,11 @@ export default function Home() {
                 onCreated={({ gl, scene, camera }) => {
                     const composer = new EffectComposer(gl);
                     gl.setPixelRatio(window.devicePixelRatio);
-                    gl.setSize(window.innerWidth / resDivider, window.innerHeight / resDivider, false);
+                    gl.setSize(
+                        window.innerWidth / (cookies.get("resolution") ? cookies.get("resolution") : 1),
+                        window.innerHeight / (cookies.get("resolution") ? cookies.get("resolution") : 1),
+                        false
+                    );
 
                     const renderPass = new RenderPass(scene, camera);
                     composer.addPass(renderPass);
@@ -250,7 +255,58 @@ export default function Home() {
                     </div>
                 )}
 
-                <div id={style["admin-panel"]}>
+                {settingsVisible && (
+                    <div className="namerectdiv">
+                        <div
+                            className={css.namerect + " " + css.settings_menu}
+                            style={{ top: "50%", width: "80vw", height: "80vh" }}
+                        >
+                            <select
+                                style={{ zIndex: 100 }}
+                                onChange={(s) => {
+                                    let divider;
+                                    switch (s.target.value) {
+                                        case "high":
+                                            divider = 1;
+                                            break;
+                                        case "mid":
+                                            divider = 2;
+                                            break;
+                                        case "low":
+                                            divider = 5;
+                                            break;
+                                        case "ultralow":
+                                            divider = 10;
+                                            break;
+                                        case "poopoo":
+                                            divider = 20;
+                                            break;
+                                        default:
+                                            divider = 5; // Default to medium resolution
+                                    }
+                                    cookies.set("resolution", divider);
+                                    window.location.reload();
+                                }}
+                            >
+                                <option>Resolution:</option>
+                                <option value="high">High Res</option>
+                                <option value="mid">Mid Res</option>
+                                <option value="low">Low Res</option>
+                                <option value="ultralow">Ultra Low Res</option>
+                                <option value="poopoo">Poo poo</option>
+                            </select>
+                        </div>
+                    </div>
+                )}
+
+                <div id={css["admin-panel"]}>
+                    <button
+                        onClick={() => {
+                            setSettingsVisible(!settingsVisible);
+                        }}
+                    >
+                        Settings
+                    </button>
                     <button onClick={() => startSecretSanta(id)}>Start Secret Santa</button>
                     <button>Start Next Activity</button>
                     {eventRunning && (
