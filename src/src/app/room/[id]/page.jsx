@@ -38,6 +38,7 @@ export default function Home() {
     }
     const [ornaments, setOrnaments] = useState([]);
     const [firstTime, setFirstTime] = useState(false);
+    const [eventRunning, setEventRunning] = useState(false);
     const [room, setRoom] = useState({});
     const [jsLoaded, setLoaded] = useState(true);
     const [authorVisible, setAuthorVisible] = useState(false);
@@ -57,6 +58,7 @@ export default function Home() {
             setOrnaments(room.ornaments);
             setGiftData(room.gifts);
             if (room.secret_santa.started == true) {
+                setEventRunning(true);
                 let userId = cookies.get("userId");
                 getUser(userId).then((res) => {
                     res = EJSON.parse(res);
@@ -151,6 +153,7 @@ export default function Home() {
         console.log(`Gift gui is ${giftGUIVisible ? "on" : "off"}`);
     }, [giftGUIVisible]);
 
+    const [resDivider, setResDivider] = useState(5);
     return (
         <div className={css.scene}>
             {firstTime && (
@@ -169,6 +172,7 @@ export default function Home() {
                 onCreated={({ gl, scene, camera }) => {
                     const composer = new EffectComposer(gl);
                     gl.setPixelRatio(window.devicePixelRatio);
+                    gl.setSize(window.innerWidth / resDivider, window.innerHeight / resDivider, false);
 
                     const renderPass = new RenderPass(scene, camera);
                     composer.addPass(renderPass);
@@ -249,13 +253,15 @@ export default function Home() {
                 <div id={css["admin-panel"]}>
                     <button onClick={() => startSecretSanta(id)}>Start Secret Santa</button>
                     <button>Start Next Activity</button>
-                    <button
-                        onClick={() => {
-                            setChooseOrnament(!chooseOrnament);
-                        }}
-                    >
-                        Add Ornaments
-                    </button>
+                    {eventRunning && (
+                        <button
+                            onClick={() => {
+                                setChooseOrnament(!chooseOrnament);
+                            }}
+                        >
+                            Add Ornaments
+                        </button>
+                    )}
                 </div>
                 {room.hasOwnProperty("secret_santa") && room.secret_santa.started && (
                     <div className={css.giftbutton}>
