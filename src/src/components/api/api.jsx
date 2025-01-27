@@ -109,7 +109,7 @@ export async function checkPlayer(username, password, roomId) {
         return EJSON.stringify(user);
     }
     }
-	users.close()
+    users.close()
     return false;
 }
 export async function checkPlayerId(userId, roomId) {
@@ -196,6 +196,13 @@ export async function startSecretSanta(roomCode) {
             { code: roomCode.toString() },
             { $set: { "secret_santa.user_pair": pairs, "secret_santa.started": true } }
         );
+}
+export async function hasSecretSantaStarted(roomcode){
+    const client = await clientPromise;
+    const db = client.db("Ornamental");
+	
+    let room = await db.collection("rooms").findOne({ code: roomcode.toString() });
+    return (room["secret_santa"]["started"])
 }
 export async function hasSeenOnboarding(userId){
     userId = EJSON.parse(userId);
