@@ -1,7 +1,7 @@
 "use client";
 import style from "@/styles/Room.module.css";
 import { useRef, useState, useEffect } from "react";
-import { Canvas } from "@react-three/fiber";
+import { Canvas, invalidate } from "@react-three/fiber";
 import MyScene from "@/components/CanvasScene";
 import Auth from "@/components/auth.jsx";
 import { SecretSantaAnnouncement, SpiralAnimation } from "@/components/SecretSantaAnnouncement";
@@ -158,14 +158,18 @@ export default function Home() {
     return (
         <div className={style.scene}>
             {firstTime && (
-                <SecretSantaAnnouncement roomId={parseInt(id)} userid={cookies.get("userId")} onComplete={() => {
-                    
-                }}>
-                    {" "}
-                </SecretSantaAnnouncement>
+                <SecretSantaAnnouncement
+                    roomId={parseInt(id)}
+                    userid={cookies.get("userId")}
+                    onComplete={() => {
+                        setFirstTime(false);
+                        console.log("FALSE");
+                    }}
+                />
             )}
             <Auth code={id} load={load} />
             <Canvas
+                invalidateFrameLoop={true}
                 shadows
                 className={style.canvas}
                 camera={{
@@ -216,7 +220,7 @@ export default function Home() {
                     giftData={giftData}
                 />
                 <CameraHelper />
-                <Controls rotate={0.4} camSetting={camSetting} />
+                <Controls rotate={firstTime ? 0 : 0.4} camSetting={camSetting} />
             </Canvas>
 
             <div className={style.overlay}>

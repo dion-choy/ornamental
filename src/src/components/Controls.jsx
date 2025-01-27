@@ -49,7 +49,7 @@ function Controls(props) {
             default:
                 break;
         }
-    }, [props.camSetting, camera]);
+    }, [props.camSetting, props.rotate, camera]);
 
     useFrame((state, delta) => {
         switch (props.camSetting) {
