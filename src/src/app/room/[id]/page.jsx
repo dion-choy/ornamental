@@ -260,7 +260,7 @@ export default function Home() {
                 {settingsVisible && (
                     <div className="namerectdiv">
                         <div
-                            className={css.namerect + " " + css.settings_menu}
+                            className={style.namerect + " " + style.settings_menu}
                             style={{ top: "50%", width: "80vw", height: "80vh" }}
                         >
                             <select
@@ -301,7 +301,7 @@ export default function Home() {
                     </div>
                 )}
 
-                <div id={css["admin-panel"]}>
+                <div id={style["admin-panel"]}>
                     <button
                         onClick={() => {
                             setSettingsVisible(!settingsVisible);
