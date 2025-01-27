@@ -9,7 +9,7 @@
 body {
     background-color: #0D1117;
     color: #fff;
-    /* height: 100vh; */
+    /* height: auto; */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -92,9 +92,9 @@ h2 {
     text-align: center;
 }
 
-img.logo {
+/* img.logo {
     width: 25vw;
-}
+} */
 
 
 img.candy-cane {

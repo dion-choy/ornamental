@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import css from "@/styles/name.css";
+import cardCss from "@/styles/Cards.module.css";
+import css from "@/styles/General.module.css";
+import "@/styles/Calendar.css"
 import { motion } from "motion/react";
 import Calendar from "react-calendar";
 import { dateToString } from "@/lib/myDateFunction";
@@ -9,17 +11,17 @@ import { useCookies } from "next-client-cookies";
 export function InputCard(props) {
     const [textValue, setTextValue] = useState("");
     return (
-        <div className="card">
-            <div className="card-back" style={{ transform: "rotateY(180deg)" }}></div>
+        <div className={cardCss.card}>
+            <div className={cardCss['card-back']} style={{ transform: "rotateY(180deg)" }}></div>
 
-            <div className="card-front" style={{ transform: "rotateY(0deg)" }}>
-                <p className="circle text-4xl font-bold">{props.cardNum}</p>
-                <img className="logo" src="/assets/logo.svg" alt="Ornamental" />
-                <p className="subtitle">{props.subtitle}</p>
+            <div className={cardCss['card-front']} style={{ transform: "rotateY(0deg)" }}>
+                <p className={cardCss.circle + " text-4xl font-bold"}>{props.cardNum}</p>
+                <img className={cardCss.logo} src="/assets/logo.svg" alt="Ornamental" />
+                <p className={cardCss.subtitle}>{props.subtitle}</p>
                 <img src="/assets/candycane.svg" alt="Candy Cane" />
 
                 <input
-                    className="input-field"
+                    className={css['input-field']}
                     type="text"
                     placeholder={props.placeholder}
                     onChange={(e) => {
@@ -37,7 +39,7 @@ export function InputCard(props) {
 
                 {!(textValue === "") ? (
                     <motion.button
-                        className="next-btn"
+                        className={css['next-btn']}
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1, transition: { duration: 0.2 } }}
                         onClick={() =>
@@ -65,13 +67,13 @@ export function CalendarCard(props) {
     };
 
     return (
-        <div className="card">
-            <div className="card-back" style={{ transform: "rotateY(180deg)" }}></div>
+        <div className={cardCss.card}>
+            <div className={cardCss['card-back']} style={{ transform: "rotateY(180deg)" }}></div>
 
-            <div className="card-front" style={{ transform: "rotateY(0deg)" }}>
-                <p className="circle text-4xl font-bold">{props.cardNum}</p>
-                <img className="logo" src="/assets/logo.svg" alt="Ornamental" />
-                <p className="subtitle">{props.subtitle}</p>
+            <div className={cardCss['card-front']} style={{ transform: "rotateY(0deg)" }}>
+                <p className={cardCss.circle + " text-4xl font-bold"}>{props.cardNum}</p>
+                <img className={cardCss.logo} src="/assets/logo.svg" alt="Ornamental" />
+                <p className={cardCss.subtitle}>{props.subtitle}</p>
                 <img src="/assets/candycane.svg" alt="Candy Cane" />
 
                 <div className="custom-calendar-container">
@@ -87,13 +89,13 @@ export function CalendarCard(props) {
 
 export function ResultCard(props) {
     return (
-        <div className="card">
-            <div className="card-back" style={{ transform: "rotateY(180deg)" }}></div>
+        <div className={cardCss.card}>
+            <div className={cardCss['card-back']} style={{ transform: "rotateY(180deg)" }}></div>
 
-            <div className="card-front" style={{ transform: "rotateY(0deg)" }}>
-                <p className="circle text-4xl font-bold">{props.cardNum}</p>
-                <img className="logo" src="/assets/logo.svg" alt="Ornamental" />
-                <p className="subtitle">{props.subtitle}</p>
+            <div className={cardCss['card-front']} style={{ transform: "rotateY(0deg)" }}>
+                <p className={cardCss.circle + " text-4xl font-bold"}>{props.cardNum}</p>
+                <img className={cardCss.logo} src="/assets/logo.svg" alt="Ornamental" />
+                <p className={cardCss.subtitle}>{props.subtitle}</p>
                 <img src="/assets/candycane.svg" alt="Candy Cane" />
                 <table className="w-full font-semibold text-1xl">
                     <tbody>
@@ -111,13 +113,13 @@ export function ResultCard(props) {
                         </tr>
                     </tbody>
                 </table>
-                {/* <p className="subtitle">{props.groupName}</p>
-        <p className="subtitle">{props.date}</p>
-        <p className="subtitle">{props.description}</p> */}
+                {/* <p className={css.subtitle}>{props.groupName}</p>
+        <p className={css.subtitle}>{props.date}</p>
+        <p className={css.subtitle}>{props.description}</p> */}
 
                 <div className="w-full my-6 flex grow flex-col justify-between">
                     <motion.button
-                        className="next-btn"
+                        className={css['next-btn']}
                         onClick={() => props.confirmation()}
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
@@ -126,7 +128,7 @@ export function ResultCard(props) {
                         Yep
                     </motion.button>
                     <motion.button
-                        className="next-btn italic"
+                        className={css['next-btn'] + " italic"}
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ duration: 1, delay: 7 }}
@@ -147,13 +149,13 @@ export function ResultCard(props) {
 export function ResponseCollectedCard({ onComplete, cardNum }) {
     const cookies = useCookies();
     return (
-        <div className="card">
-            <div className="card-back" style={{ transform: "rotateY(180deg)" }}></div>
+        <div className={cardCss.card}>
+            <div className={cardCss['card-back']} style={{ transform: "rotateY(180deg)" }}></div>
 
-            <div className="card-front" style={{ transform: "rotateY(0deg)" }}>
-                <p className="circle text-4xl font-bold">{cardNum}</p>
-                <img className="logo" src="/assets/logo.svg" alt="Ornamental" />
-                <p className="subtitle" style={{ fontSize: 29 }}>
+            <div className={cardCss['card-front']} style={{ transform: "rotateY(0deg)" }}>
+                <p className={cardCss.circle + " text-4xl font-bold"}>{cardNum}</p>
+                <img className={cardCss.logo} src="/assets/logo.svg" alt="Ornamental" />
+                <p className={cardCss.subtitle} style={{ fontSize: 29 }}>
                     Thank you for responding!
                 </p>
                 <img src="/assets/candycane.svg" alt="Candy Cane" />
@@ -163,15 +165,15 @@ export function ResponseCollectedCard({ onComplete, cardNum }) {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1, transition: { duration: 2, delay: 1 + 3.5 } }}
                     >
-                        <p className="subtitle">This will help your peers</p>
-                        <p className="subtitle">get to know you better</p>
+                        <p className={cardCss.subtitle}>This will help your peers</p>
+                        <p className={cardCss.subtitle}>get to know you better</p>
                     </motion.div>
 
-                    <p className="subtitle">&nbsp;</p>
+                    <p className={cardCss.subtitle}>&nbsp;</p>
                     <motion.p
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1, transition: { duration: 2, delay: 4 + 3 } }}
-                        className="subtitle"
+                        className={cardCss.subtitle}
                     >
                         so that everyone's happy
                     </motion.p>
@@ -183,7 +185,7 @@ export function ResponseCollectedCard({ onComplete, cardNum }) {
                     className="w-full my-6 flex grow flex-col justify-between"
                 >
                     <button
-                        className="next-btn"
+                        className={css['next-btn']}
                         onClick={() => {
                             hasSeenOnboarding(cookies.get("userId"));
                             onComplete();

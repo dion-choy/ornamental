@@ -1,5 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
+import css from "@/styles/Snowflake.module.css";
 
 function SnowingBG() {
     const [snowPos, setSnowPos] = useState([]);
@@ -24,7 +25,7 @@ function SnowingBG() {
             {snowPos.map((snowflake, index) => (
                 <div
                     key={snowflake.id}
-                    className="snowflake"
+                    className={css.snowflake}
                     style={{
                         top: "-10%",
                         left: `${snowflake.leftOffset}px`,

@@ -2,8 +2,10 @@
 import React, { useState, useEffect } from "react";
 // import { redirect } from "next/navigation";
 import { useRouter } from 'next/navigation'
-import "@/styles/name.css";
-import "@/styles/Cards.css";
+// import "@/styles/name.css";
+// import "@/styles/Cards.css";
+import css from "@/styles/General.module.css";
+
 import { ResultCard, InputCard, CalendarCard } from "@/components/SetupCards";
 import SnowingBG from "@/components/SnowingBG";
 import { motion } from "motion/react";
