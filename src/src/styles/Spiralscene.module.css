@@ -1,0 +1,44 @@
+.reindeer-name {
+    position: relative;
+    text-align: center;
+    background-color: #1A2547;
+    border-radius: 20px;
+    top: -20%;
+}
+
+#screen-cover {
+    background-color: #0D1117;
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    z-index: -1;
+}
+
+#main-scene {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    text-align: center;
+}
+
+#next-btn {
+    background-color: #24223F;
+    color: #FFF;
+    border: none;
+    border-radius: 10px;
+    padding: 20px 10rem;
+    cursor: pointer;
+    z-index: 5;
+}
+
+#next-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* body {
+    background-color: white;
+} */

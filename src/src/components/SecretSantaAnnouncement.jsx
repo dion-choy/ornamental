@@ -1,11 +1,13 @@
 "use client"
 import { motion } from "motion/react";
 import React, { useState, useEffect } from 'react'
-import "@/styles/SpiralScene.css"
+// import "@/styles/SpiralScene.css"
+import spiralStyle from "@/styles/Spiralscene.module.css"
 import { getReceiverFromSanta, getRoom, getUsers } from "@/components/api/api";
 import SecretSantaOnboarding from "@/components/SecretSantaOnboarding";
 import { EJSON } from "bson";
 import SnowingBG from "@/components/SnowingBG";
+import style from '@/styles/name.css';
 
 
 export const SpiralAnimation = (props) => {
@@ -154,7 +156,7 @@ export const SpiralAnimation = (props) => {
                                         duration: 10
                                     }
                                 }} />
-                            <p className="reindeer-name text-2xl mx-5">{name}</p>
+                            <p className={spiralStyle["reindeer-name"] + " text-2xl mx-5"}>{name}</p>
 
                         </motion.div>
                     </motion.div>
@@ -193,7 +195,7 @@ export function SecretSantaAnnouncement( {roomId = 1325, userid}) {
         <> 
             { (animStage != 5)? 
             <>
-            <div id="main-scene" className="absolute" style={{zIndex:21}}>
+            <div id={spiralStyle["main-scene"]} className="absolute" style={{zIndex:21}}>
                 {4 > animStage > 0 ? <>
                     <motion.h1 className="block text-5xl mt-40 font-extrabold"
                         initial={{ opacity: 0 }}
@@ -222,7 +224,7 @@ export function SecretSantaAnnouncement( {roomId = 1325, userid}) {
                             scale: 1.4,
                             transition: {duration: 1, type: "spring", bounce: 0.6},
                         }}>
-                        <motion.button id="next-btn" className="block text-3xl font-bold"
+                        <motion.button id={spiralStyle["next-btn"]} className="block text-3xl font-bold"
                         initial={{opacity: 0, scale: 0}}
                         animate={{opacity: 1, scale: 1, transition: {duration: 1, delay: 2.2, type: "spring", bounce: 0.6}}}
                         onClick={incAnimStage}>let's get onboarding</motion.button>
@@ -236,7 +238,7 @@ export function SecretSantaAnnouncement( {roomId = 1325, userid}) {
                 {animStage == 4 ? <SecretSantaOnboarding roomId={roomId} onComplete={incAnimStage}/> : null}
             </div>
 
-            <motion.div id="screen-cover"
+            <motion.div id={spiralStyle["screen-cover"]}
                 initial={{ y: "100%" }}
                 animate={{ y: "0" }} transition={{ duration: 1, ease: "easeOut" }}
                 onAnimationComplete={incAnimStage}

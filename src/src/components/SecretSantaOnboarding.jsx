@@ -1,8 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { redirect } from 'next/navigation'
-import "@/styles/name.css";
-import "@/styles/Cards.css"
+// import "@/styles/name.css";
 import { ResponseCollectedCard, ResultCard, InputCard } from "@/components/SetupCards";
 import SnowingBG from "@/components/SnowingBG";
 import { motion } from "motion/react";

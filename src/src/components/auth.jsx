@@ -3,7 +3,7 @@ import { addPlayer, checkPlayer, hasSecretSantaStarted, checkPlayerId, createUse
 import { useCookies } from "next-client-cookies";
 import React, { useState, useEffect } from "react";
 import { BSON, EJSON, ObjectId } from "bson";
-import css from "@/styles/Home.css";
+// import css from "@/styles/Home.css";
 export default function Auth(props) {
     const cookies = useCookies();
     const [isLoggedIn, setLog] = useState(false);

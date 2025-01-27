@@ -4,6 +4,8 @@ import { redirect } from "next/navigation";
 import "@/styles/Home.css";
 import { checkCode } from "@/components/api/api";
 import { motion } from "motion/react";
+import SnowingBG from "@/components/SnowingBG";
+
 
 function Home() {
     const [snowPos, setSnowPos] = useState([]);
@@ -145,20 +147,7 @@ function Home() {
                     ) : null}
                 </div>
 
-                {snowPos.map((snowflake, index) => (
-                    <div
-                        key={snowflake.id}
-                        className="snowflake"
-                        style={{
-                            top: "-10%",
-                            left: `${snowflake.leftOffset}px`,
-                            animationDelay: `${snowflake.animationDelay}s`,
-                        }}
-                        onAnimationEnd={() => replaceSnowPos(snowflake.id)}
-                    >
-                        <img src="/assets/snowflake.png" alt="Snowflake" />
-                    </div>
-                ))}
+                <SnowingBG/>
             </div>
             <div className="info-div ">
                 <motion.div

@@ -1,5 +1,5 @@
 "use client";
-import css from "@/styles/Room.module.css";
+import style from "@/styles/Room.module.css";
 import { useRef, useState, useEffect } from "react";
 import { Canvas } from "@react-three/fiber";
 import MyScene from "@/components/CanvasScene";
@@ -155,7 +155,7 @@ export default function Home() {
 
     const [resDivider, setResDivider] = useState(5);
     return (
-        <div className={css.scene}>
+        <div className={style.scene}>
             {firstTime && (
                 <SecretSantaAnnouncement roomId={parseInt(id)} userid={cookies.get("userId")}>
                     {" "}
@@ -164,7 +164,7 @@ export default function Home() {
             <Auth code={id} load={load} />
             <Canvas
                 shadows
-                className={css.canvas}
+                className={style.canvas}
                 camera={{
                     position: [7, 4, 7],
                     fov: 100,
@@ -212,21 +212,21 @@ export default function Home() {
                 <Controls rotate={0.4} camSetting={camSetting} />
             </Canvas>
 
-            <div className={css.overlay}>
+            <div className={style.overlay}>
                 {room.hasOwnProperty("secret_santa") && room.secret_santa.started && (
                     <>
-                        <img className={css.timerUI} src="/assets/Time.svg" alt="Gift!" />
-                        <div className={css.container}>
-                            <div className={css.timer}>{timeLeft}</div>
+                        <img className={style.timerUI} src="/assets/Time.svg" alt="Gift!" />
+                        <div className={style.container}>
+                            <div className={style.timer}>{timeLeft}</div>
                         </div>
                     </>
                 )}
 
                 {giftGUIVisible && (
                     <div className="namerectdiv">
-                        <div className={css.namerect}>
+                        <div className={style.namerect}>
                             {selectedGift}
-                            <div className={css.confirmbutton}>
+                            <div className={style.confirmbutton}>
                                 <button
                                     onClick={() => {
                                         addGiftHandler();
@@ -244,13 +244,13 @@ export default function Home() {
 
                 {authorVisible && (
                     <div className="namerectdiv">
-                        <div className={css.namerect}>
+                        <div className={style.namerect}>
                             <p>{authorVisible}</p>
                         </div>
                     </div>
                 )}
 
-                <div id={css["admin-panel"]}>
+                <div id={style["admin-panel"]}>
                     <button onClick={() => startSecretSanta(id)}>Start Secret Santa</button>
                     <button>Start Next Activity</button>
                     {eventRunning && (
@@ -264,7 +264,7 @@ export default function Home() {
                     )}
                 </div>
                 {room.hasOwnProperty("secret_santa") && room.secret_santa.started && (
-                    <div className={css.giftbutton}>
+                    <div className={style.giftbutton}>
                         <button
                             onClick={() => {
                                 let x = camSetting == 1 ? 0 : 1;
