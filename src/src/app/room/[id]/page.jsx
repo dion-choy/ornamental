@@ -38,6 +38,7 @@ export default function Home() {
     }
     const [ornaments, setOrnaments] = useState([]);
     const [firstTime, setFirstTime] = useState(false);
+    const [eventRunning, setEventRunning] = useState(false);
     const [room, setRoom] = useState({});
     const [jsLoaded, setLoaded] = useState(true);
     const [authorVisible, setAuthorVisible] = useState(false);
@@ -57,6 +58,7 @@ export default function Home() {
             setOrnaments(room.ornaments);
             setGiftData(room.gifts);
             if (room.secret_santa.started == true) {
+                setEventRunning(true);
                 let userId = cookies.get("userId");
                 getUser(userId).then((res) => {
                     res = EJSON.parse(res);
@@ -249,13 +251,15 @@ export default function Home() {
                 <div id={css["admin-panel"]}>
                     <button onClick={() => startSecretSanta(id)}>Start Secret Santa</button>
                     <button>Start Next Activity</button>
-                    <button
-                        onClick={() => {
-                            setChooseOrnament(!chooseOrnament);
-                        }}
-                    >
-                        Add Ornaments
-                    </button>
+                    {eventRunning && (
+                        <button
+                            onClick={() => {
+                                setChooseOrnament(!chooseOrnament);
+                            }}
+                        >
+                            Add Ornaments
+                        </button>
+                    )}
                 </div>
                 {room.hasOwnProperty("secret_santa") && room.secret_santa.started && (
                     <div className={css.giftbutton}>
