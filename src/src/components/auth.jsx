@@ -4,6 +4,7 @@ import { useCookies } from "next-client-cookies";
 import React, { useState, useEffect } from "react";
 import { BSON, EJSON, ObjectId } from "bson";
 // import css from "@/styles/Home.css";
+import style from "@/styles/Auth.module.css"
 export default function Auth(props) {
     const cookies = useCookies();
     const [isLoggedIn, setLog] = useState(false);
@@ -90,13 +91,13 @@ export default function Auth(props) {
                         }}
                     >
                         <input
-                            className="btn"
+                            className={style.btn}
                             placeholder="Username"
                             style={{ marginBottom: "10px" }}
                             onChange={handleUsername}
                         />
                         <input
-                            className="btn"
+                            className={style.btn}
                             placeholder="password"
                             type="password"
                             style={{ marginBottom: "10px" }}
@@ -105,11 +106,11 @@ export default function Auth(props) {
                         {ok ? "" : <div>wrong username or password</div>}
                         {exists ? "" : <div>user exists</div>}
                         <div style={{ display: "flex", flexDirection: "row" , justifyContent:"center", gap: "10px"}}>
-                            <button className="btn" style={{ width: "auto"}} onClick={login}>
+                            <button className={style.btn} style={{ width: "auto"}} onClick={login}>
                                 Login
                             </button>
 		    	    {canSignUp?"":
-                            <button className="btn" style={{ width: "auto" }} onClick={signUp}>
+                            <button className={style.btn} style={{ width: "auto" }} onClick={signUp}>
                                 Sign up
                             </button>
 			    }

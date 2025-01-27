@@ -188,6 +188,7 @@ export function SecretSantaAnnouncement( {roomId = 1325, userid, onComplete}) {
     }, [])
 
     function incAnimStage() {
+        if (animStage == 4) onComplete();
         setAnimationStage((prevStage) => prevStage += 1)
     }
 
@@ -245,7 +246,7 @@ export function SecretSantaAnnouncement( {roomId = 1325, userid, onComplete}) {
                 style={{zIndex:20}}>
             </motion.div>
             </>
-            : <div onLoad={onComplete()}></div>}
+            : null}
             
         </>
     )
