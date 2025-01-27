@@ -180,8 +180,8 @@ export default function Home() {
                     const composer = new EffectComposer(gl);
                     gl.setPixelRatio(window.devicePixelRatio);
                     gl.setSize(
-                        window.innerWidth / (cookies.get("resolution") ? cookies.get("resolution") : 5),
-                        window.innerHeight / (cookies.get("resolution") ? cookies.get("resolution") : 5),
+                        window.innerWidth / (cookies.get("resolution") ? cookies.get("resolution") : 2.5),
+                        window.innerHeight / (cookies.get("resolution") ? cookies.get("resolution") : 2.5),
                         false
                     );
 
@@ -276,7 +276,7 @@ export default function Home() {
                                             divider = 1;
                                             break;
                                         case "mid":
-                                            divider = 2;
+                                            divider = 2.5;
                                             break;
                                         case "low":
                                             divider = 5;
