@@ -64,8 +64,8 @@ function Home() {
     return (
         <div>
             <div className="header-container">
-                <div className="header-card"></div>
-                <img className="logo inline mt-40 mb-20px" src="/assets/logo.svg" alt="Ornamental Logo" />
+                {/* <div className="header-card"></div> */}
+                <img className="w-[25vw] inline mt-40 mb-20px" src="/assets/logo.svg" alt="Ornamental Logo" />
 
                 <p style={{ fontSize: "40px" }}>It's secret santa</p>
                 <p style={{ fontSize: "20px" }}>

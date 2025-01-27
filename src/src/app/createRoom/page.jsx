@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { redirect } from "next/navigation";
+// import { redirect } from "next/navigation";
+import { useRouter } from 'next/navigation'
 import "@/styles/name.css";
 import "@/styles/Cards.css";
 import { ResultCard, InputCard, CalendarCard } from "@/components/SetupCards";
@@ -54,6 +55,7 @@ function createRoomPage() {
     const [groupName, setGroupName] = useState();
     const [date, setDate] = useState();
     const [groupDesc, setGroupDesc] = useState();
+    const router = useRouter();
 
     const [finalCard, setFinalCard] = useState(false);
 
@@ -113,7 +115,8 @@ function createRoomPage() {
         console.log(date);
 
         createRoom(code, groupName, date, 50, groupDesc, 5, selectedQuestions).then((res) => {
-            redirect("/room/" + code.toString());
+            router.push("/room/" + code.toString());
+            // redirect("/room/" + code.toString());
         });
     }
 
