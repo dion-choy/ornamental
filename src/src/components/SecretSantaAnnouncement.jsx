@@ -166,7 +166,7 @@ export const SpiralAnimation = (props) => {
     );
 };
 
-export function SecretSantaAnnouncement( {roomId = 1325, userid}) {
+export function SecretSantaAnnouncement( {roomId = 1325, userid, onComplete}) {
     const [animStage, setAnimationStage] = useState(0)
     const [isDisplaySanta, setIsDisplaySanta] = useState()
     
@@ -245,7 +245,7 @@ export function SecretSantaAnnouncement( {roomId = 1325, userid}) {
                 style={{zIndex:20}}>
             </motion.div>
             </>
-            : null}
+            : <div onLoad={onComplete()}></div>}
             
         </>
     )

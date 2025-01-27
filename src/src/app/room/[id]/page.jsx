@@ -158,7 +158,9 @@ export default function Home() {
     return (
         <div className={style.scene}>
             {firstTime && (
-                <SecretSantaAnnouncement roomId={parseInt(id)} userid={cookies.get("userId")}>
+                <SecretSantaAnnouncement roomId={parseInt(id)} userid={cookies.get("userId")} onComplete={() => {
+                    
+                }}>
                     {" "}
                 </SecretSantaAnnouncement>
             )}
