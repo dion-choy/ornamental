@@ -1,5 +1,5 @@
 "use client";
-import { addPlayer, checkPlayer, checkPlayerId, createUser } from "@/components/api/api";
+import { addPlayer, checkPlayer, hasSecretSantaStarted, checkPlayerId, createUser } from "@/components/api/api";
 import { useCookies } from "next-client-cookies";
 import React, { useState, useEffect } from "react";
 import { BSON, EJSON, ObjectId } from "bson";
@@ -8,6 +8,7 @@ export default function Auth(props) {
     const cookies = useCookies();
     const [isLoggedIn, setLog] = useState(false);
     const [ok, setOk] = useState(true);
+    const [canSignUp, setCanSignUp] = useState(true);
     const [exists, setExists] = useState(true);
     const [userN, setuserN] = useState("");
     const [password, setPassword] = useState("");
@@ -26,6 +27,13 @@ export default function Auth(props) {
                 }
             });
         }
+	    
+	hasSecretSantaStarted(props.code).then((res)=>{
+		setCanSignUp(res);
+	});
+
+	    
+
     }, []);
     async function login() {
         let res = await checkPlayer(userN, password, props.code);
@@ -96,13 +104,15 @@ export default function Auth(props) {
                         />
                         {ok ? "" : <div>wrong username or password</div>}
                         {exists ? "" : <div>user exists</div>}
-                        <div style={{ display: "flex", flexDirection: "row" }}>
-                            <button className="btn" style={{ width: "auto", marginRight: "20px" }} onClick={login}>
+                        <div style={{ display: "flex", flexDirection: "row" , justifyContent:"center", gap: "10px"}}>
+                            <button className="btn" style={{ width: "auto"}} onClick={login}>
                                 Login
                             </button>
+		    	    {canSignUp?"":
                             <button className="btn" style={{ width: "auto" }} onClick={signUp}>
                                 Sign up
                             </button>
+			    }
                         </div>
                     </div>
                     <div
