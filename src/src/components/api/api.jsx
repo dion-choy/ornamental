@@ -101,13 +101,15 @@ export async function checkPlayer(username, password, roomId) {
     const db = client.db("Ornamental");
     let users = await db.collection("users").find({ name: username });
     if (users==null){return false;}
-    while (users.hasNext()){
+    while (await users.hasNext()){
     let user=await users.next();
     if (user["password"] != password || user.room != roomId.toString()) {
     } else {
+	users.close()
         return EJSON.stringify(user);
     }
     }
+	users.close()
     return false;
 }
 export async function checkPlayerId(userId, roomId) {
