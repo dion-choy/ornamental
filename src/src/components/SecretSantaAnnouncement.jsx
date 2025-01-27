@@ -188,7 +188,7 @@ export function SecretSantaAnnouncement( {roomId = 1325, userid, onComplete}) {
     }, [])
 
     function incAnimStage() {
-        if (animStage == 5) onComplete();
+        if (animStage == 4) onComplete();
         setAnimationStage((prevStage) => prevStage += 1)
     }
 
