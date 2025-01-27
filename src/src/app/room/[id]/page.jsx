@@ -169,8 +169,8 @@ export default function Home() {
             )}
             <Auth code={id} load={load} />
             <Canvas
-                invalidateFrameLoop={true}
-                shadows
+                style={{ visibility: firstTime ? "hidden" : "visible" }}
+                shadows={!firstTime}
                 className={style.canvas}
                 camera={{
                     position: [7, 4, 7],
@@ -180,8 +180,8 @@ export default function Home() {
                     const composer = new EffectComposer(gl);
                     gl.setPixelRatio(window.devicePixelRatio);
                     gl.setSize(
-                        window.innerWidth / (cookies.get("resolution") ? cookies.get("resolution") : 1),
-                        window.innerHeight / (cookies.get("resolution") ? cookies.get("resolution") : 1),
+                        window.innerWidth / (cookies.get("resolution") ? cookies.get("resolution") : 5),
+                        window.innerHeight / (cookies.get("resolution") ? cookies.get("resolution") : 5),
                         false
                     );
 
@@ -288,7 +288,7 @@ export default function Home() {
                                             divider = 20;
                                             break;
                                         default:
-                                            divider = 5; // Default to medium resolution
+                                            divider = 5;
                                     }
                                     cookies.set("resolution", divider);
                                     window.location.reload();
