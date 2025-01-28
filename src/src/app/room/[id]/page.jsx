@@ -154,6 +154,7 @@ export default function Home() {
     }, [giftGUIVisible]);
 
     const [settingsVisible, setSettingsVisible] = useState(false);
+    const [shadows, setShadows] = useState("high");
 
     return (
         <div className={style.scene}>
@@ -170,7 +171,7 @@ export default function Home() {
             <Auth code={id} load={load} />
             <Canvas
                 style={{ visibility: firstTime ? "hidden" : "visible" }}
-                shadows={!firstTime}
+                shadows={!firstTime && shadows}
                 className={style.canvas}
                 camera={{
                     position: [7, 4, 7],
@@ -218,6 +219,7 @@ export default function Home() {
                     camSetting={camSetting}
                     giftClickHandler={giftClickHandler}
                     giftData={giftData}
+                    shadows={shadows}
                 />
                 <CameraHelper />
                 <Controls rotate={firstTime ? 0 : 0.4} camSetting={camSetting} />
@@ -268,7 +270,6 @@ export default function Home() {
                             style={{ top: "50%", width: "80vw", height: "80vh" }}
                         >
                             <select
-                                style={{ zIndex: 100 }}
                                 onChange={(s) => {
                                     let divider;
                                     switch (s.target.value) {
@@ -295,11 +296,28 @@ export default function Home() {
                                 }}
                             >
                                 <option>Resolution:</option>
-                                <option value="high">High Res</option>
-                                <option value="mid">Mid Res</option>
-                                <option value="low">Low Res</option>
-                                <option value="ultralow">Ultra Low Res</option>
+                                <option value="high">High</option>
+                                <option value="mid">Mid</option>
+                                <option value="low">Low</option>
+                                <option value="ultralow">Ultra Low</option>
                                 <option value="poopoo">Poo poo</option>
+                            </select>
+
+                            <select
+                                onChange={(s) => {
+                                    if (s.target.value == "off") {
+                                        setShadows(0);
+                                    } else {
+                                        setShadows(s.target.value);
+                                    }
+                                }}
+                            >
+                                <option>Shadows:</option>
+                                <option value="high">High</option>
+                                <option value="mid">Mid</option>
+                                <option value="low">Low</option>
+                                <option value="ultralow">Ultra Low</option>
+                                <option value="off">Off</option>
                             </select>
                         </div>
                     </div>

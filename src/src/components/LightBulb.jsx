@@ -9,6 +9,7 @@ function LightBulb(props) {
                 castShadow={true}
                 intensity={props.intensity}
                 shadow-camera-far={10}
+                shadow-mapSize={[props.shadows, props.shadows]}
             />
             <sphereGeometry args={props.size} />
         </mesh>

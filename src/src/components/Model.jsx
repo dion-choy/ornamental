@@ -27,12 +27,15 @@ function Model(props) {
             }
 
             if (child.name == "Fire") {
+                child.children = [];
+
                 const fireLight = new PointLight(0xf7ad00, 5, 100, 0.1);
+                fireLight.name = "fireLight";
                 fireLight.position.set(0, 0, 0);
                 fireLight.castShadow = true;
                 fireLight.shadow.bias = -0.0025;
-                fireLight.shadow.mapSize.width = 1028;
-                fireLight.shadow.mapSize.height = 1028;
+                fireLight.shadow.mapSize.width = props.shadows;
+                fireLight.shadow.mapSize.height = props.shadows;
                 fireLight.shadow.camera.far = 10;
 
                 child.add(fireLight);
@@ -50,7 +53,7 @@ function Model(props) {
                 mixer.clipAction(anim).play();
             }
         }
-    }, [gltf]);
+    }, [gltf, props.shadows]);
 
     return (
         <mesh position={props.position}>

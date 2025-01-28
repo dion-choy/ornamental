@@ -10,6 +10,22 @@ import Draggable from "@/components/Draggable";
 import Gift from "@/components/Gift";
 
 export default function MyScene(props) {
+    let shadows;
+    switch (props.shadows) {
+        case "high":
+            shadows = 4096;
+        case "mid":
+            shadows = 1024;
+            break;
+        case "low":
+            shadows = 512;
+            break;
+        case "ultralow":
+            shadows = 128;
+            break;
+        default:
+            shadows = 1024;
+    }
     return (
         <group>
             <Skybox />
@@ -39,11 +55,11 @@ export default function MyScene(props) {
                 />
             </Draggable>
 
-            <LightBulb position={[0, 5, 0]} size={[0.2, 30, 10]} intensity={5.5} color={"beige"} />
+            <LightBulb position={[0, 5, 0]} size={[0.2, 30, 10]} intensity={5.5} color={"beige"} shadows={shadows} />
 
             <DeerSpawner deerCount={props.numReindeers}></DeerSpawner>
-            <Model file="/models/christmas_tree.glb" position={[0, 0, 0]} />
-            <Model file="/models/ChristmasRoomVer2.glb" position={[0, 0, 0]} />
+            <Model file="/models/christmas_tree.glb" position={[0, 0, 0]} shadows={shadows} />
+            <Model file="/models/ChristmasRoomVer2.glb" position={[0, 0, 0]} shadows={shadows} />
         </group>
     );
 }
