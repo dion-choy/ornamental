@@ -72,13 +72,13 @@ export function CalendarCard(props) {
 
             <div className={cardStyle['card-front']} style={{ transform: "rotateY(0deg)" }}>
                 <p className={cardStyle.circle + " text-4xl font-bold"}>{props.cardNum}</p>
-                <img className={cardStyle.logo} src="/assets/logo.svg" alt="Ornamental" />
+                {/* <img className={cardStyle.logo} src="/assets/logo.svg" alt="Ornamental" /> */}
                 <p className={cardStyle.subtitle}>{props.subtitle}</p>
-                <img src="/assets/candycane.svg" alt="Candy Cane" />
+                <img src="/assets/candycane.svg" alt="Candy Cane"/>
 
-                <div className="custom-calendar-container">
+                <div className={cardStyle["custom-calendar-container"]}>
                     <Calendar
-                        className="custom-calendar"
+                       className={cardStyle["custom-calendar"]}
                         onChange={handleDateChange} // Call handleDateChange on selection
                     />
                 </div>

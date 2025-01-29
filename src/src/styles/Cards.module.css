@@ -4,7 +4,8 @@
     position: relative;
     transform-style: preserve-3d;
     backface-visibility: hidden;
-}
+    overflow: hidden;
+}   
 
 .card-front, .card-back {
     display: flex;
@@ -15,7 +16,7 @@
     box-shadow: 5px 5px #181728;
     background-color: #24223F;
     border-radius: 50px;
-    padding: 70px 70px; 
+    padding: 20px;
     position: absolute;
     width: 100%;
     height: 100%;
@@ -42,5 +43,55 @@ img.logo {
     text-align: center;
     z-index: 255;
     background-color: #DDDBFF; 
+    border-radius: 50%;
+}
+.custom-calendar-container {
+    width: 100%; /* Ensure the container spans the card width */
+    max-height: 60%; /* Adjust max height to fit within the card */
+    background: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    overflow: hidden; /* Prevent overflow of calendar content */
+    margin: 0; /* Remove unnecessary margins */
+}
+
+.custom-calendar {
+    width: 100%; /* Make the calendar take the full container width */
+    height: 100%; /* Allow it to stretch to fit the container */
+    border: none; /* Remove any borders */
+    background: transparent; /* Match the card background */
+    overflow: hidden; /* Prevent overflow of content */
+}
+
+.custom-calendar .react-calendar__viewContainer {
+    width: 100%; /* Ensure views fit within the container */
+    height: auto; /* Adjust height dynamically */
+}
+
+.custom-calendar .react-calendar__tile {
+    text-align: center;
+    padding: 10px;
+    border-radius: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.custom-calendar .react-calendar__tile:hover {
+    background-color: #f0f0f0;
+}
+
+.custom-calendar .react-calendar__tile--now {
+    background: #ffcc00 !important;
+    color: #000 !important;
+    border-radius: 50%;
+}
+
+.custom-calendar .react-calendar__tile--active {
+    background: #4caf50 !important;
+    color: #fff !important;
     border-radius: 50%;
 }
