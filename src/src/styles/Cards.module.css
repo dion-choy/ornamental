@@ -4,7 +4,7 @@
     position: relative;
     transform-style: preserve-3d;
     backface-visibility: hidden;
-    overflow: hidden;
+    
 }   
 
 .card-front, .card-back {
