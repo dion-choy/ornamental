@@ -46,28 +46,28 @@ img.logo {
     border-radius: 50%;
 }
 .custom-calendar-container {
-    width: 100%; /* Ensure the container spans the card width */
-    max-height: 60%; /* Adjust max height to fit within the card */
+    width: 100%;
+    max-height: 60%;
     background: none;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 0;
-    overflow: hidden; /* Prevent overflow of calendar content */
-    margin: 0; /* Remove unnecessary margins */
+    overflow: hidden;
+    margin: 0;
 }
 
 .custom-calendar {
-    width: 100%; /* Make the calendar take the full container width */
-    height: 100%; /* Allow it to stretch to fit the container */
-    border: none; /* Remove any borders */
-    background: transparent; /* Match the card background */
-    overflow: hidden; /* Prevent overflow of content */
+    width: 100%; 
+    height: 100%;
+    border: none; 
+    background: transparent; 
+    overflow: hidden; 
 }
 
 .custom-calendar .react-calendar__viewContainer {
-    width: 100%; /* Ensure views fit within the container */
-    height: auto; /* Adjust height dynamically */
+    width: 100%;
+    height: auto;
 }
 
 .custom-calendar .react-calendar__tile {

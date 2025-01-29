@@ -1,9 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-// import { redirect } from "next/navigation";
 import { useRouter } from 'next/navigation'
-// import "@/styles/name.css";
-// import "@/styles/Cards.css";
 import css from "@/styles/General.module.css";
 
 import { ResultCard, InputCard, CalendarCard } from "@/components/SetupCards";
@@ -111,8 +108,8 @@ function createRoomPage() {
             }
         }
         const selectedQuestions = questions
-            .sort(() => Math.random() - 0.5) // Shuffle the array
-            .slice(0, 5); // Take the first 5 items
+            .sort(() => Math.random() - 0.5) 
+            .slice(0, 5); 
 
         console.log(date);
 

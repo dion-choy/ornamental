@@ -79,7 +79,7 @@ export function CalendarCard(props) {
                 <div className={cardStyle["custom-calendar-container"]}>
                     <Calendar
                        className={cardStyle["custom-calendar"]}
-                        onChange={handleDateChange} // Call handleDateChange on selection
+                        onChange={handleDateChange}
                     />
                 </div>
             </div>
@@ -113,9 +113,7 @@ export function ResultCard(props) {
                         </tr>
                     </tbody>
                 </table>
-                {/* <p className={css.subtitle}>{props.groupName}</p>
-        <p className={css.subtitle}>{props.date}</p>
-        <p className={css.subtitle}>{props.description}</p> */}
+            
 
                 <div className="w-full my-6 flex grow flex-col justify-between">
                     <motion.button
