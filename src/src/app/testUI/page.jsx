@@ -118,6 +118,12 @@ export default function Home() {
         });
     }
 
+    function celebrationTime(){
+        setCelebrateVisible(!celebrateVisible);
+                        if (audioRef.current) {
+                            audioRef.current.play(); // Play the audio
+                        }
+    }
     return (
         <div className={style.scene}>
             {firstTime && (
@@ -140,10 +146,8 @@ export default function Home() {
             <div id={style["admin-panel"]}>
                 <button
                     onClick={() => {
-                        setCelebrateVisible(!celebrateVisible);
-                        if (audioRef.current) {
-                            audioRef.current.play(); // Play the audio
-                        }
+                        celebrationTime();
+                        
                     }}
                 >
                     Celebrate
@@ -168,7 +172,7 @@ export default function Home() {
                 )}
             </div>
 
-            {/* Audio element */}
+            
             <audio ref={audioRef} src="/assets/yatta.mp3" preload="auto" />
         </div>
     );
