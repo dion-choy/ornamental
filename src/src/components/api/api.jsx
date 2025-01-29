@@ -204,12 +204,42 @@ export async function hasSecretSantaStarted(roomcode){
     let room = await db.collection("rooms").findOne({ code: roomcode.toString() });
     return (room["secret_santa"]["started"])
 }
+export async function getQuestions(roomcode, userid){
+    const client = await clientPromise;
+    const db = client.db("Ornamental");
+    let room = await db.collection("rooms").findOne({ code: roomCode.toString() });
+    let users = room.list_of_users;
+    let questions=room["questions"]
+    let answers={}
+    for (let i = 0; i < users.length; i++) {
+	let user = await db.collection("users").findOne({ _id: users[i] });
+	answer[user[i]]=user["answers"]
+    }
+    let qna={}
+    for (let i=0;i<questions.length;i++){
+	let ures={}
+	for (let user in answers){
+		ures[user]=answers[user][i]
+	}
+	qna[questions[i]]=ures
+    }
+    return ures
+    
+}
+// TODO: add a function to update users answers to the questions
+export async function updateAnswers(userid,answers){
+    userId = EJSON.parse(userId);
+    const client = await clientPromise;
+    const db = client.db("Ornamental");
+    let user = await db.collection("users").updateOne({ _id: userId }, {$set:{"answers":answers}});
+    
+}
 export async function hasSeenOnboarding(userId){
     userId = EJSON.parse(userId);
     const client = await clientPromise;
     const db = client.db("Ornamental");
     let user = await db.collection("users").updateOne({ _id: userId }, {$set:{has_seen_onboarding:true}});
-    
+
 }
 
 export async function getReceiverFromSanta(authorid) {
