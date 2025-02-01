@@ -9,7 +9,7 @@ import OrnamentSpot from "@/components/OrnamentSpot";
 import Draggable from "@/components/Draggable";
 import Gift from "@/components/Gift";
 
-export default function MyScene(props) {
+export default function CanvasScene(props) {
     let shadows;
     switch (props.shadows) {
         case "high":

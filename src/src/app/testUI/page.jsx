@@ -2,7 +2,7 @@
 import style from "@/styles/Room.module.css";
 import { useRef, useState, useEffect } from "react";
 import { Canvas } from "@react-three/fiber";
-import MyScene from "@/components/CanvasScene";
+import CanvasScene from "@/components/CanvasScene";
 import Auth from "@/components/auth.jsx";
 import { SecretSantaAnnouncement, SpiralAnimation } from "@/components/SecretSantaAnnouncement";
 import Controls from "@/components/Controls";
@@ -118,11 +118,11 @@ export default function Home() {
         });
     }
 
-    function celebrationTime(){
+    function celebrationTime() {
         setCelebrateVisible(!celebrateVisible);
-                        if (audioRef.current) {
-                            audioRef.current.play(); // Play the audio
-                        }
+        if (audioRef.current) {
+            audioRef.current.play(); // Play the audio
+        }
     }
     return (
         <div className={style.scene}>
@@ -147,7 +147,6 @@ export default function Home() {
                 <button
                     onClick={() => {
                         celebrationTime();
-                        
                     }}
                 >
                     Celebrate
@@ -172,7 +171,6 @@ export default function Home() {
                 )}
             </div>
 
-            
             <audio ref={audioRef} src="/assets/yatta.mp3" preload="auto" />
         </div>
     );

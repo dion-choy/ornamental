@@ -2,7 +2,7 @@
 import style from "@/styles/Room.module.css";
 import { useRef, useState, useEffect } from "react";
 import { Canvas, invalidate } from "@react-three/fiber";
-import MyScene from "@/components/CanvasScene";
+import CanvasScene from "@/components/CanvasScene";
 import Auth from "@/components/auth.jsx";
 import { SecretSantaAnnouncement, SpiralAnimation } from "@/components/SecretSantaAnnouncement";
 import Controls from "@/components/Controls";
@@ -210,7 +210,7 @@ export default function Home() {
                     gl.setAnimationLoop(() => composer.render());
                 }}
             >
-                <MyScene
+                <CanvasScene
                     numReindeers={numReindeers}
                     choose={chooseOrnament}
                     ornaments={ornaments}
