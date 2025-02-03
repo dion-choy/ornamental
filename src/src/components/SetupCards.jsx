@@ -144,14 +144,15 @@ export function ResultCard(props) {
     );
 }
 
-export function ResponseCollectedCard({ onComplete, cardNum }) {
+export function ResponseCollectedCard(props) {
     const cookies = useCookies();
+    console.log(props.responses);
     return (
         <div className={cardStyle.card}>
             <div className={cardStyle['card-back']} style={{ transform: "rotateY(180deg)" }}></div>
 
             <div className={cardStyle['card-front']} style={{ transform: "rotateY(0deg)" }}>
-                <p className={cardStyle.circle + " text-4xl font-bold"}>{cardNum}</p>
+                <p className={cardStyle.circle + " text-4xl font-bold"}>{props.cardNum}</p>
                 <img className={cardStyle.logo} src="/assets/logo.svg" alt="Ornamental" />
                 <p className={cardStyle.subtitle} style={{ fontSize: 29 }}>
                     Thank you for responding!
@@ -186,7 +187,7 @@ export function ResponseCollectedCard({ onComplete, cardNum }) {
                         className={style['next-btn']}
                         onClick={() => {
                             hasSeenOnboarding(cookies.get("userId"));
-                            onComplete();
+                            props.onComplete();
                         }}
                     >
                         Awesome
