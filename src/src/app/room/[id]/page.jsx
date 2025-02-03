@@ -92,6 +92,8 @@ export default function Home() {
             const author = EJSON.parse(authorStr);
             setAuthorVisible(author.name);
         });
+        clearTimeout(hideAuthor);
+        setTimeout(hideAuthor, 1000);
     }
 
     function hideAuthor() {
