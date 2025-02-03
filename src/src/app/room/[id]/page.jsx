@@ -172,7 +172,7 @@ export default function Home() {
             <Auth code={id} load={load} />
             <Canvas
                 style={{ visibility: firstTime ? "hidden" : "visible" }}
-                shadows={!firstTime && (cookies.get("shadows") || shadows)}
+                shadows={!firstTime && (cookies.get("shadows") != 0 || shadows)}
                 className={style.canvas}
                 camera={{
                     position: [7, 4, 7],
