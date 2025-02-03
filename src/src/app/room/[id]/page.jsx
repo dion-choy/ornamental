@@ -156,6 +156,7 @@ export default function Home() {
     const [settingsVisible, setSettingsVisible] = useState(false);
     const [shadows, setShadows] = useState("high");
     const [rotation, setRotation] = useState(true);
+    const [resChanged, setResChanged] = useState(false);
 
     return (
         <div className={style.scene}>
@@ -294,7 +295,7 @@ export default function Home() {
                                             divider = 5;
                                     }
                                     cookies.set("resolution", divider);
-                                    window.location.reload();
+                                    setResChanged(true);
                                 }}
                             >
                                 <option>Resolution:</option>
@@ -338,6 +339,9 @@ export default function Home() {
                             <button
                                 onClick={() => {
                                     setSettingsVisible(false);
+                                    if (resChanged) {
+                                        window.location.reload();
+                                    }
                                 }}
                             >
                                 Save & Close
