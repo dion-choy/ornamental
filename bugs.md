@@ -2,7 +2,7 @@
 
 -   [x] stop signup when secret santa has started
 -   [x] allow same username signup from different rooms
--   [x] Settings page for shadows and resolution
+-   [x] Settings page for shadows and resolution and rotation
 
 # FEATURES TO BE ADDED
 
