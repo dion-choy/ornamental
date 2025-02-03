@@ -8,7 +8,7 @@ import { SecretSantaAnnouncement, SpiralAnimation } from "@/components/SecretSan
 import Controls from "@/components/Controls";
 import { redirect, useParams } from "next/navigation";
 import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
-import { PerspectiveCamera } from "three";
+import { ColorKeyframeTrack, PerspectiveCamera } from "three";
 import { addGift, getNoPlayers, getRoom, getUser, startSecretSanta, hasSeenOnboarding } from "@/components/api/api";
 import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
 import { SAOPass } from "three/addons/postprocessing/SAOPass.js";
@@ -155,6 +155,7 @@ export default function Home() {
 
     const [settingsVisible, setSettingsVisible] = useState(false);
     const [shadows, setShadows] = useState("high");
+    const [rotation, setRotation] = useState(true);
 
     return (
         <div className={style.scene}>
@@ -171,7 +172,7 @@ export default function Home() {
             <Auth code={id} load={load} />
             <Canvas
                 style={{ visibility: firstTime ? "hidden" : "visible" }}
-                shadows={!firstTime && shadows}
+                shadows={!firstTime && (cookies.get("shadows") || shadows)}
                 className={style.canvas}
                 camera={{
                     position: [7, 4, 7],
@@ -219,10 +220,13 @@ export default function Home() {
                     camSetting={camSetting}
                     giftClickHandler={giftClickHandler}
                     giftData={giftData}
-                    shadows={shadows}
+                    shadows={cookies.get("shadows") || shadows}
                 />
                 <CameraHelper />
-                <Controls rotate={firstTime ? 0 : 0.4} camSetting={camSetting} />
+                <Controls
+                    rotate={firstTime || cookies.get("rotation") == "false" || !rotation ? 0 : 0.4}
+                    camSetting={camSetting}
+                />
             </Canvas>
 
             <div className={style.overlay}>
@@ -307,8 +311,10 @@ export default function Home() {
                                 onChange={(s) => {
                                     if (s.target.value == "off") {
                                         setShadows(0);
+                                        cookies.set("shadows", 0);
                                     } else {
                                         setShadows(s.target.value);
+                                        cookies.set("shadows", s.target.value);
                                     }
                                 }}
                             >
@@ -319,6 +325,17 @@ export default function Home() {
                                 <option value="ultralow">Ultra Low</option>
                                 <option value="off">Off</option>
                             </select>
+                            <span>
+                                Rotation:
+                                <input
+                                    type="checkbox"
+                                    checked={cookies.get("rotation") ? cookies.get("rotation") == "true" : rotation}
+                                    onChange={(e) => {
+                                        setRotation(e.target.checked);
+                                        cookies.set("rotation", e.target.checked);
+                                    }}
+                                />
+                            </span>
                         </div>
                     </div>
                 )}
