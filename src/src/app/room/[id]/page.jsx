@@ -315,7 +315,7 @@ export default function Home() {
                                 min={0}
                                 max={2}
                                 step={0.01}
-                                defaultValue={cookies.get("rotation")}
+                                defaultValue={cookies.get("rotation") || 1}
                                 onChange={(e) => {
                                     setRotation(e.target.value);
                                     cookies.set("rotation", e.target.value);
