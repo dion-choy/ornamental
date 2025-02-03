@@ -72,12 +72,13 @@ export async function getUsers(userids) {
     return users;
 }
 export async function getRoom(roomid) {
-
     const client = await clientPromise;
     const db = client.db("Ornamental");
     let room = await db.collection("rooms").findOne({ code: roomid.toString() });
-    room = EJSON.stringify(room);
-    return room;
+    console.log(room)
+    let roomstr = EJSON.stringify(room);
+    console.log(roomstr)
+    return roomstr;
 }
 export async function addPlayer(playerid, roomcode) {
     playerid = EJSON.parse(playerid);

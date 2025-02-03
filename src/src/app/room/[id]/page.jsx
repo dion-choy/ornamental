@@ -151,7 +151,7 @@ export default function Home() {
         <div className={style.scene}>
             {firstTime && (
                 <SecretSantaAnnouncement
-                    roomId={parseInt(id)}
+                    roomId={id}
                     userid={cookies.get("userId")}
                     onComplete={() => {
                         setFirstTime(false);

@@ -43,16 +43,13 @@ export const SpiralAnimation = (props) => {
         });
 
         getUsers(EJSON.stringify(props.users)).then((response) => {
-            console.log(response)
             const namelist = EJSON.parse(response).map(user => user.name)
-            console.log(namelist)
             setPlayerObjects(namelist)
             setDistortions(namelist.map(() => generateDistortion()));
         })
     }, []);
 
     useEffect(() => {
-        console.log(deersEnded)
         if (deersEnded > playerNames.length) {
             setFadeAway({opacity:0})
         }
@@ -178,12 +175,12 @@ export function SecretSantaAnnouncement( {roomId = 1325, userid, onComplete}) {
       ]);
 
     useEffect(() => {
+	console.log(roomId)
         getRoom(roomId).then((roomStr) => {
             const room = EJSON.parse(roomStr);
             setUsers(room.list_of_users);
         });
         let temp = getReceiverFromSanta(userid)
-        console.log("THIS IS TEMP", temp)
         setIsDisplaySanta(temp);
     }, [])
 
