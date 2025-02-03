@@ -8,7 +8,6 @@ import SnowingBG from "@/components/SnowingBG";
 
 
 function Home() {
-    const [snowPos, setSnowPos] = useState([]);
     const [code, setCode] = useState(0);
     const [can, setCan] = useState(true);
     const [loading, setLoading] = useState(false);
@@ -22,23 +21,6 @@ function Home() {
         setCode(value);
         console.log(value);
     };
-
-    function createSnowflake() {
-        return {
-            id: Math.random().toString(36).substring(2, 9),
-            leftOffset: Math.random() * window.innerWidth,
-            animationDelay: Math.random() * 5,
-        };
-    }
-
-    function replaceSnowPos(id) {
-        setSnowPos((prevSnow) => prevSnow.map((flake) => (flake.id === id ? createSnowflake() : flake)));
-    }
-
-    useEffect(() => {
-        const initialSnow = Array.from({ length: 10 }, createSnowflake);
-        setSnowPos(initialSnow);
-    }, []);
 
     useEffect(() => {
         const observer = new IntersectionObserver(
@@ -66,8 +48,8 @@ function Home() {
     return (
         <div>
             <div className="header-container">
-                {/* <div className="header-card"></div> */}
-                <img className="w-[25vw] inline mt-40 mb-20px" src="/assets/logo.svg" alt="Ornamental Logo" />
+                <div className="header-card w-[25vw]">
+                <img className="w-[25vw] inline mt-[22vh] mb-20px" src="/assets/logo.svg" alt="Ornamental Logo" />
 
                 <p style={{ fontSize: "40px" }}>It's secret santa</p>
                 <p style={{ fontSize: "20px" }}>
@@ -146,7 +128,7 @@ function Home() {
                         </form>
                     ) : null}
                 </div>
-
+                </div>
                 <SnowingBG/>
             </div>
             <div className="info-div ">
