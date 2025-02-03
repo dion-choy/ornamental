@@ -15,7 +15,6 @@ function Controls(props) {
     useEffect(() => {
         control.current.target.set(0, 1, 0);
         control.current.autoRotateSpeed = props.rotate;
-        console.log(props.camSetting);
 
         switch (props.camSetting) {
             case 0:
