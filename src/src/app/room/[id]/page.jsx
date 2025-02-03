@@ -17,25 +17,12 @@ import { EJSON } from "bson";
 import { useCookies } from "next-client-cookies";
 import { stringToDate } from "@/lib/myDateFunction";
 
-function updateTime(endTime) {
-    console.log(endTime);
-}
-
 export default function Home() {
     const { id } = useParams();
     const cookies = useCookies();
     const [numReindeers, setNumReindeers] = useState(0);
     const [chooseOrnament, setChooseOrnament] = useState(false);
     const [camSetting, setCamSetting] = useState(0);
-
-    function CameraHelper() {
-        const camera = new PerspectiveCamera(60, 1, 1, 3);
-        return (
-            <group position={[0, 2, -2.5]} rotation={[0, Math.PI / 2, 0]}>
-                {/* <cameraHelper args={[camera]} />; */}
-            </group>
-        );
-    }
     const [ornaments, setOrnaments] = useState([]);
     const [firstTime, setFirstTime] = useState(false);
     const [eventRunning, setEventRunning] = useState(false);
@@ -223,7 +210,6 @@ export default function Home() {
                     giftData={giftData}
                     shadows={cookies.get("shadows") || shadows}
                 />
-                <CameraHelper />
                 <Controls
                     rotate={firstTime || cookies.get("rotation") == "false" || !rotation ? 0 : 0.4}
                     camSetting={camSetting}
