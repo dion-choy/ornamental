@@ -213,7 +213,7 @@ export default function Home() {
                     shadows={cookies.get("shadows") || shadows}
                 />
                 <Controls
-                    rotate={firstTime || cookies.get("rotation") == "false" || !rotation ? 0 : 0.4}
+                    rotate={firstTime || !rotation ? 0 : cookies.get("rotation") || rotation}
                     camSetting={camSetting}
                 />
             </Canvas>
@@ -311,11 +311,14 @@ export default function Home() {
                         <span>
                             Rotation:
                             <input
-                                type="checkbox"
-                                checked={cookies.get("rotation") ? cookies.get("rotation") === "true" : rotation}
+                                type="range"
+                                min={0}
+                                max={2}
+                                step={0.01}
+                                defaultValue={cookies.get("rotation")}
                                 onChange={(e) => {
-                                    setRotation(e.target.checked);
-                                    cookies.set("rotation", e.target.checked);
+                                    setRotation(e.target.value);
+                                    cookies.set("rotation", e.target.value);
                                 }}
                             />
                         </span>
