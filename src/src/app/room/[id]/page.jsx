@@ -16,6 +16,7 @@ import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
 import { EJSON } from "bson";
 import { useCookies } from "next-client-cookies";
 import { stringToDate } from "@/lib/myDateFunction";
+import Celebration from "@/components/Celebration";
 
 export default function Home() {
     const { id } = useParams();
@@ -160,6 +161,7 @@ export default function Home() {
                 />
             )}
             <Auth code={id} load={load} />
+            {cookies.get("userId") && <Celebration />}
             <Canvas
                 style={{ visibility: firstTime ? "hidden" : "visible" }}
                 shadows={!firstTime && (cookies.get("shadows") != 0 || shadows)}
