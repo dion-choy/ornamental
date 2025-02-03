@@ -52,6 +52,7 @@ export async function createUser(password, name) {
 }
 export async function getUser(userid) {
     userid = EJSON.parse(userid);
+    console.log(userid)
 
     const client = await clientPromise;
     const db = client.db("Ornamental");
@@ -229,18 +230,21 @@ export async function getQuestions(roomcode, userid){
 }
 // TODO: add a function to update users answers to the questions
 export async function updateAnswers(userid,answers){
-    userId = EJSON.parse(userId);
     const client = await clientPromise;
     const db = client.db("Ornamental");
-    let user = await db.collection("users").updateOne({ _id: userId }, {$set:{"answers":answers}});
+    let user = await db.collection("users").updateOne({ _id: userid }, {$set:{"answers":answers}});
     
 }
-export async function hasSeenOnboarding(userId){
+export async function hasSeenOnboarding(userId, answers){
     userId = EJSON.parse(userId);
     const client = await clientPromise;
     const db = client.db("Ornamental");
+    let formattedAnswers=[];
+    for (let i=0;i<answers.length;i++){
+	formattedAnswers.push(answers[i]["value"])
+    }
+    updateAnswers(userId, formattedAnswers)
     let user = await db.collection("users").updateOne({ _id: userId }, {$set:{has_seen_onboarding:true}});
-
 }
 
 export async function getReceiverFromSanta(authorid) {

@@ -147,6 +147,8 @@ export function ResultCard(props) {
 export function ResponseCollectedCard(props) {
     const cookies = useCookies();
     console.log(props.responses);
+    console.log(props)
+    console.log("help me for life ")
     return (
         <div className={cardStyle.card}>
             <div className={cardStyle['card-back']} style={{ transform: "rotateY(180deg)" }}></div>
@@ -186,7 +188,7 @@ export function ResponseCollectedCard(props) {
                     <button
                         className={style['next-btn']}
                         onClick={() => {
-                            hasSeenOnboarding(cookies.get("userId"));
+                            hasSeenOnboarding(cookies.get("userId"), props.responses);
                             props.onComplete();
                         }}
                     >

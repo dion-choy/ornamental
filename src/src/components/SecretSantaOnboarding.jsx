@@ -63,6 +63,9 @@ function SecretSantaOnboarding({ roomId, onComplete}) {
             setCards(cardsDetails)
         })
     }, [])
+    useEffect(()=>{
+	console.log(responses)
+    }, [responses])
 
 
     const dataHandler = (data) => {
