@@ -124,6 +124,10 @@ export default function Home() {
             audioRef.current.play(); // Play the audio
         }
     }
+
+    useEffect(() => {
+        audioRef.current.volume = 0.02;
+    }, audioRef);
     return (
         <div className={style.scene}>
             {firstTime && (
