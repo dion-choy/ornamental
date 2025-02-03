@@ -241,112 +241,106 @@ export default function Home() {
                 )}
 
                 {giftGUIVisible && (
-                    <div className="namerectdiv">
-                        <div className={style.namerect}>
-                            {selectedGift}
-                            <div className={style.confirmbutton}>
-                                <button
-                                    onClick={() => {
-                                        addGiftHandler();
-                                        setCamSetting(0);
-                                        setGiftGUIVisible(false);
-                                    }}
-                                >
-                                    <img src="/assets/Gift.png" alt="Gift!" />
-                                    Confirm!
-                                </button>
-                            </div>
+                    <div className={style.namerect + " namerectdiv"}>
+                        {selectedGift}
+                        <div className={style.confirmbutton}>
+                            <button
+                                onClick={() => {
+                                    addGiftHandler();
+                                    setCamSetting(0);
+                                    setGiftGUIVisible(false);
+                                }}
+                            >
+                                <img src="/assets/Gift.png" alt="Gift!" />
+                                Confirm!
+                            </button>
                         </div>
                     </div>
                 )}
 
                 {authorVisible && (
-                    <div className="namerectdiv">
-                        <div className={style.namerect}>
-                            <p>{authorVisible}</p>
-                        </div>
+                    <div className={style.namerect + " namerectdiv"}>
+                        <p>{authorVisible}</p>
                     </div>
                 )}
 
                 {settingsVisible && (
-                    <div id="settingsdiv">
-                        <div className={`${style.namerect} ${style.settings_menu}`}>
-                            <h2>Settings</h2>
-                            <select
-                                onChange={(s) => {
-                                    let divider;
-                                    switch (s.target.value) {
-                                        case "high":
-                                            divider = 1;
-                                            break;
-                                        case "mid":
-                                            divider = 2.5;
-                                            break;
-                                        case "low":
-                                            divider = 5;
-                                            break;
-                                        case "ultralow":
-                                            divider = 10;
-                                            break;
-                                        case "poopoo":
-                                            divider = 20;
-                                            break;
-                                        default:
-                                            divider = 5;
-                                    }
-                                    cookies.set("resolution", divider);
-                                    setResChanged(true);
-                                }}
-                            >
-                                <option>Resolution:</option>
-                                <option value="high">High</option>
-                                <option value="mid">Mid</option>
-                                <option value="low">Low</option>
-                                <option value="ultralow">Ultra Low</option>
-                                <option value="poopoo">Poo poo</option>
-                            </select>
+                    <div id="settingsdiv" className={`${style.namerect} ${style.settings_menu}`}>
+                        <h2>Settings</h2>
+                        <select
+                            onChange={(s) => {
+                                let divider;
+                                switch (s.target.value) {
+                                    case "high":
+                                        divider = 1;
+                                        break;
+                                    case "mid":
+                                        divider = 2.5;
+                                        break;
+                                    case "low":
+                                        divider = 5;
+                                        break;
+                                    case "ultralow":
+                                        divider = 10;
+                                        break;
+                                    case "poopoo":
+                                        divider = 20;
+                                        break;
+                                    default:
+                                        divider = 5;
+                                }
+                                cookies.set("resolution", divider);
+                                setResChanged(true);
+                            }}
+                        >
+                            <option>Resolution:</option>
+                            <option value="high">High</option>
+                            <option value="mid">Mid</option>
+                            <option value="low">Low</option>
+                            <option value="ultralow">Ultra Low</option>
+                            <option value="poopoo">Poo poo</option>
+                        </select>
 
-                            <select
-                                onChange={(s) => {
-                                    if (s.target.value === "off") {
-                                        setShadows(0);
-                                        cookies.set("shadows", 0);
-                                    } else {
-                                        setShadows(s.target.value);
-                                        cookies.set("shadows", s.target.value);
-                                    }
-                                }}
-                            >
-                                <option>Shadows:</option>
-                                <option value="high">High</option>
-                                <option value="mid">Mid</option>
-                                <option value="low">Low</option>
-                                <option value="ultralow">Ultra Low</option>
-                                <option value="off">Off</option>
-                            </select>
+                        <select
+                            onChange={(s) => {
+                                if (s.target.value === "off") {
+                                    setShadows(0);
+                                    cookies.set("shadows", 0);
+                                } else {
+                                    setShadows(s.target.value);
+                                    cookies.set("shadows", s.target.value);
+                                }
+                            }}
+                        >
+                            <option>Shadows:</option>
+                            <option value="high">High</option>
+                            <option value="mid">Mid</option>
+                            <option value="low">Low</option>
+                            <option value="ultralow">Ultra Low</option>
+                            <option value="off">Off</option>
+                        </select>
 
-                            <span>
-                                Rotation:
-                                <input
-                                    type="checkbox"
-                                    checked={cookies.get("rotation") ? cookies.get("rotation") === "true" : rotation}
-                                    onChange={(e) => {
-                                        setRotation(e.target.checked);
-                                        cookies.set("rotation", e.target.checked);
-                                    }}
-                                />
-                            </span>
-                            <button
-                                onClick={() => {
-                                    setSettingsVisible(false);
-                                    if (resChanged) {
-                                        window.location.reload();
-                                    }
+                        <span>
+                            Rotation:
+                            <input
+                                type="checkbox"
+                                checked={cookies.get("rotation") ? cookies.get("rotation") === "true" : rotation}
+                                onChange={(e) => {
+                                    setRotation(e.target.checked);
+                                    cookies.set("rotation", e.target.checked);
                                 }}
-                            >
-                                Save & Close
-                            </button>
-                        </div>
+                            />
+                        </span>
+                        <button
+                            onClick={() => {
+                                setSettingsVisible(false);
+                                if (resChanged) {
+                                    window.location.reload();
+                                }
+                            }}
+                        >
+                            Save & Close
+                        </button>
                     </div>
                 )}
 
