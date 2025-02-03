@@ -268,11 +268,9 @@ export default function Home() {
                 )}
 
                 {settingsVisible && (
-                    <div className="namerectdiv">
-                        <div
-                            className={style.namerect + " " + style.settings_menu}
-                            style={{ top: "50%", width: "80vw", height: "80vh" }}
-                        >
+                    <div id="settingsdiv">
+                        <div className={`${style.namerect} ${style.settings_menu}`}>
+                            <h2>Settings</h2>
                             <select
                                 onChange={(s) => {
                                     let divider;
@@ -309,7 +307,7 @@ export default function Home() {
 
                             <select
                                 onChange={(s) => {
-                                    if (s.target.value == "off") {
+                                    if (s.target.value === "off") {
                                         setShadows(0);
                                         cookies.set("shadows", 0);
                                     } else {
@@ -325,17 +323,25 @@ export default function Home() {
                                 <option value="ultralow">Ultra Low</option>
                                 <option value="off">Off</option>
                             </select>
+
                             <span>
                                 Rotation:
                                 <input
                                     type="checkbox"
-                                    checked={cookies.get("rotation") ? cookies.get("rotation") == "true" : rotation}
+                                    checked={cookies.get("rotation") ? cookies.get("rotation") === "true" : rotation}
                                     onChange={(e) => {
                                         setRotation(e.target.checked);
                                         cookies.set("rotation", e.target.checked);
                                     }}
                                 />
                             </span>
+                            <button
+                                onClick={() => {
+                                    setSettingsVisible(false);
+                                }}
+                            >
+                                Save & Close
+                            </button>
                         </div>
                     </div>
                 )}
