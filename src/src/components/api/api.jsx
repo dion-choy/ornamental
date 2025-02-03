@@ -44,6 +44,7 @@ export async function createUser(password, name) {
         giftbought: false,
         has_seen_onboarding: false,
         is_admin: false,
+        has_seen_celebration: false,
         answers: [],
     };
     const client = await clientPromise;
