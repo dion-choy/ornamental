@@ -8,13 +8,6 @@ function Model(props) {
     const rotate = useRef();
     let mixer;
 
-    useFrame((state, delta) => {
-        if (props.rotate) {
-            rotate.current.rotation.y += props.rotate;
-        }
-        mixer?.update(delta);
-    });
-
     useEffect(() => {
         gltf.scene.traverse(function (child) {
             if (child.isMesh) {
