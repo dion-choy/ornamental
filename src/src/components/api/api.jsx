@@ -248,6 +248,13 @@ export async function hasSeenOnboarding(userId, answers){
     let user = await db.collection("users").updateOne({ _id: userId }, {$set:{has_seen_onboarding:true}});
 }
 
+export async function hasSeenCelebration(userId){
+    userId = EJSON.parse(userId);
+    const client = await clientPromise;
+    const db = client.db("Ornamental");
+    let user = await db.collection("users").updateOne({ _id: userId }, {$set:{has_seen_celebration:true}});
+
+}
 export async function getReceiverFromSanta(authorid) {
     authorid = EJSON.parse(authorid)
     const authorOid = new ObjectId(authorid)
