@@ -58,6 +58,9 @@ export default function CanvasScene(props) {
             <LightBulb position={[0, 5, 0]} size={[0.2, 30, 10]} intensity={5.5} color={"beige"} shadows={shadows} />
 
             <DeerSpawner deerCount={props.numReindeers}></DeerSpawner>
+            {props.timeLeft == "0 Days 00:00:00" && (
+                <Model file="/models/TreeStar.glb" position={[0, 0, 0]} shadows={shadows} />
+            )}
             <Model file="/models/christmas_tree.glb" position={[0, 0, 0]} shadows={shadows} />
             <Model file="/models/ChristmasRoomVer2.glb" position={[0, 0, 0]} shadows={shadows} />
         </group>

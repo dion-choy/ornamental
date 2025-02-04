@@ -213,6 +213,7 @@ export default function Home() {
                     giftClickHandler={giftClickHandler}
                     giftData={giftData}
                     shadows={cookies.get("shadows") || shadows}
+                    timeLeft={timeLeft}
                 />
                 <Controls
                     rotate={firstTime || !rotation ? 0 : cookies.get("rotation") || rotation}
@@ -346,8 +347,16 @@ export default function Home() {
                         Settings
                     </button>
                     <button onClick={() => startSecretSanta(id)}>Start Secret Santa</button>
-                    <button  onClick={() => startQuiz(id)}>Start Quiz</button>
-                    {eventRunning && ( <button onClick={() => {setChooseOrnament(!chooseOrnament);}}>Add Ornaments</button> )}
+                    <button onClick={() => startQuiz(id)}>Start Quiz</button>
+                    {eventRunning && (
+                        <button
+                            onClick={() => {
+                                setChooseOrnament(!chooseOrnament);
+                            }}
+                        >
+                            Add Ornaments
+                        </button>
+                    )}
                 </div>
                 {room.hasOwnProperty("secret_santa") && room.secret_santa.started && (
                     <div className={style.giftbutton}>
