@@ -3,8 +3,8 @@ import { addPlayer, checkPlayer, hasSecretSantaStarted, checkPlayerId, createUse
 import { useCookies } from "next-client-cookies";
 import React, { useState, useEffect } from "react";
 import { BSON, EJSON, ObjectId } from "bson";
-// import css from "@/styles/Home.css";
-import style from "@/styles/Auth.module.css"
+import style from "@/styles/Auth.module.css";
+
 export default function Auth(props) {
     const cookies = useCookies();
     const [isLoggedIn, setLog] = useState(false);
@@ -15,8 +15,8 @@ export default function Auth(props) {
     const [password, setPassword] = useState("");
 
     const userid = cookies.get("userId");
+
     useEffect(() => {
-        console.log("hello");
         if (userid === undefined) {
             setLog(false);
         } else {
@@ -28,34 +28,30 @@ export default function Auth(props) {
                 }
             });
         }
-	    
-	hasSecretSantaStarted(props.code).then((res)=>{
-		setCanSignUp(res);
-	});
 
-	    
-
+        hasSecretSantaStarted(props.code).then((res) => {
+            setCanSignUp(res);
+        });
     }, []);
+
     async function login() {
         let res = await checkPlayer(userN, password, props.code);
         if (res === false) {
             setOk(false);
         } else {
             setOk(true);
-            console.log(res);
             res = EJSON.parse(res);
             cookies.set("userId", EJSON.stringify(res._id));
             setLog(true);
             props.load();
         }
     }
+
     async function signUp() {
         let res = await checkPlayer(userN, password, props.code);
         if (res === false) {
             setExists(true);
-            console.log(props.code);
             let res = EJSON.parse(await createUser(password, userN));
-            console.log(res);
             await addPlayer(EJSON.stringify(res.insertedId), props.code);
             cookies.set("userId", EJSON.stringify(res.insertedId));
             setLog(true);
@@ -64,12 +60,15 @@ export default function Auth(props) {
             setExists(false);
         }
     }
+
     function handleUsername(e) {
         setuserN(e.target.value);
     }
+
     function handlePassword(e) {
         setPassword(e.target.value);
     }
+
     return (
         <>
             {isLoggedIn ? (
@@ -105,15 +104,15 @@ export default function Auth(props) {
                         />
                         {ok ? "" : <div>wrong username or password</div>}
                         {exists ? "" : <div>user exists</div>}
-                        <div style={{ display: "flex", flexDirection: "row" , justifyContent:"center", gap: "10px"}}>
-                            <button className={style.btn} style={{ width: "auto"}} onClick={login}>
+                        <div style={{ display: "flex", flexDirection: "row", justifyContent: "center", gap: "10px" }}>
+                            <button className={style.btn} style={{ width: "auto" }} onClick={login}>
                                 Login
                             </button>
-		    	    {canSignUp?"":
-                            <button className={style.btn} style={{ width: "auto" }} onClick={signUp}>
-                                Sign up
-                            </button>
-			    }
+                            {canSignUp ? "" :
+                                <button className={style.btn} style={{ width: "auto" }} onClick={signUp}>
+                                    Sign up
+                                </button>
+                            }
                         </div>
                     </div>
                     <div

@@ -114,7 +114,6 @@ export function ResultCard(props) {
                     </tbody>
                 </table>
             
-
                 <div className="w-full my-6 flex grow flex-col justify-between">
                     <motion.button
                         className={style['next-btn']}

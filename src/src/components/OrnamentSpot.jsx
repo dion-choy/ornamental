@@ -8,6 +8,7 @@ import { EJSON } from "bson";
 export default function OrnamentSpot(props) {
     const cookies = useCookies();
 
+    // Function to remove an available spot and add an ornament
     function removeAvail(event) {
         const randColor = new THREE.Color();
         randColor.setHSL(Math.random(), 1, 0.5);

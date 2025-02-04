@@ -1,8 +1,8 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { redirect } from 'next/navigation'
+import { redirect } from 'next/navigation';
 import "@/styles/name.css";
-import "@/styles/Cards.css"
+import "@/styles/Cards.css";
 import { ResponseCollectedCard, ResultCard, InputCard } from "@/components/SetupCards";
 import SnowingBG from "@/components/SnowingBG";
 import { motion } from "motion/react";
@@ -10,18 +10,19 @@ import { delay, easeIn, easeInOut } from "motion";
 import { getRoom } from "@/components/api/api";
 import { EJSON } from "bson";
 
-function Quiz({ roomId, onComplete}) {
+function Quiz({ roomId, onComplete }) {
+    const [cards, setCards] = useState(Array(5).fill({ placeholder: "", subtitle: "Loading...", cardNum: "Loading..." }));
 
-    const [cards, setCards] = useState(Array(5).fill({placeholder:"", subtitle:"Loading...", cardNum: "Loading..."}))
-
+    // Animation to move card to the center
     const animateToCenter = (delay = 0) => {
         return {
             top: "50vh", left: "50vw",
             transform: "translate(-50%, -50%) rotateZ(0deg)",
             transition: { easeInOut, duration: 1, delay: delay }
-        }
+        };
     };
 
+    // Animation to move card to the side
     const animateToSide = (offset) => {
         let randAngle = Math.random() * 5;
         return {
@@ -29,9 +30,8 @@ function Quiz({ roomId, onComplete}) {
             transform: `translate(-50%, -50%) rotateY(180deg) rotateZ(${randAngle}deg)`,
             zIndex: 0,
             transition: { easeInOut, duration: 1 }
-        }
-    }
-
+        };
+    };
 
     const [animations, setAnimations] = useState([
         animateToCenter,
@@ -39,42 +39,43 @@ function Quiz({ roomId, onComplete}) {
         {},
         {},
         {}
-    ])
+    ]);
 
+    // Animation to fly card up
     const animateFlyUp = (delay) => {
         return {
             top: "-50vh", left: "15vw",
             transform: `translate(-50%, -50%) rotateY(180deg) rotateZ(0deg)`,
             zIndex: 0,
             transition: { delay: delay, easeInOut, duration: 0.5 }
-        }
-    }
+        };
+    };
 
-    const [responses, setResponses] = useState([])
+    const [responses, setResponses] = useState([]);
     const [finalCard, setFinalCard] = useState(false);
 
     useEffect(() => {
+        // Fetch room data and set cards
         getRoom(roomId).then((room) => {
-            console.log(EJSON.parse(room))
+            console.log(EJSON.parse(room));
             const cardsDetails = EJSON.parse(room).questions.map((question, index) => ({
                 subtitle: question,
                 placeholder: "Enter your response",
                 cardNum: index + 1
-            }))
-            setCards(cardsDetails)
-        })
-    }, [])
-
+            }));
+            setCards(cardsDetails);
+        });
+    }, [roomId]);
 
     const dataHandler = (data) => {
-        setResponses([...responses, data])
+        setResponses([...responses, data]);
         switch (data.stage) {
             case 0:
                 setAnimations([
                     animateToSide(3),
                     animateToCenter,
                     {}, {}, {}
-                ])
+                ]);
                 break;
             case 1:
                 setAnimations([
@@ -82,7 +83,7 @@ function Quiz({ roomId, onComplete}) {
                     animateToSide(6),
                     animateToCenter,
                     {}, {}
-                ])
+                ]);
                 break;
             case 2:
                 setAnimations([
@@ -90,18 +91,16 @@ function Quiz({ roomId, onComplete}) {
                     animateToSide(6),
                     animateToSide(6),
                     animateToCenter, {}
-                ])
+                ]);
                 break;
-            
             case 3:
                 setAnimations([
                     animateToSide(3),
                     animateToSide(6),
                     animateToSide(6),
                     animateToSide(6), animateToCenter
-                ])
+                ]);
                 break;
-
             case 4:
                 setAnimations([
                     animateFlyUp(1), animateFlyUp(1), animateFlyUp(1), animateFlyUp(1),
