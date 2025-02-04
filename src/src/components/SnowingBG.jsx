@@ -4,22 +4,27 @@ import style from "@/styles/Snowflake.module.css";
 
 function SnowingBG() {
     const [snowPos, setSnowPos] = useState([]);
+
+    // Function to create a new snowflake with random properties
     function createSnowflake() {
         return {
-            id: Math.random().toString(36).substr(2, 9),
-            leftOffset: Math.random() * window.innerWidth,
-            animationDelay: Math.random() * 5,
+            id: Math.random().toString(36).substr(2, 9), // Unique ID for each snowflake
+            leftOffset: Math.random() * window.innerWidth, // Random horizontal position
+            animationDelay: Math.random() * 5, // Random animation delay
         };
     }
 
+    // Function to replace a snowflake with a new one when its animation ends
     function replaceSnowPos(id) {
         setSnowPos((prevSnow) => prevSnow.map((flake) => (flake.id === id ? createSnowflake() : flake)));
     }
 
     useEffect(() => {
+        // Initialize snowflakes on component mount
         const initialSnow = Array.from({ length: 10 }, createSnowflake);
         setSnowPos(initialSnow);
     }, []);
+
     return (
         <>
             {snowPos.map((snowflake, index) => (

@@ -5,22 +5,23 @@ import { useEffect } from "react";
 import * as THREE from "three";
 
 const DeerSpawner = ({ deerCount = 0 }) => {
-    const centralPoint = new THREE.Vector3(0, 0, 0); // Center position (x, y, z)
+    // Define the central point for deer to face
+    const centralPoint = new THREE.Vector3(0, 0, 0);
 
     useEffect(() => {
-        // console.log("balls");
+        // Placeholder for side effects or cleanup
     }, []);
-    // Load the deer model
-    const deerModel = useLoader(GLTFLoader, "/models/reindeer.glb"); // Place deer.glb in /public/models
 
-    // Generate deer positions and rotations
+    // Load the deer model using GLTFLoader
+    const deerModel = useLoader(GLTFLoader, "/models/reindeer.glb");
+
+    // Generate deer positions and rotations based on deerCount
     const deerPositions = useMemo(() => {
-        // console.log(deerCount);
         const positions = [];
 
         for (let i = 0; i < deerCount; i++) {
             // Randomly generate positions in a circle around the center
-            const radius = 3; // Deer will spawn 10-15 units away from center
+            const radius = 3; // Deer will spawn 3 units away from center
             const angle = (Math.PI * 2 * i) / deerCount; // Spread evenly in a circle
             const x = Math.cos(angle) * radius;
             const z = Math.sin(angle) * radius;
@@ -37,10 +38,11 @@ const DeerSpawner = ({ deerCount = 0 }) => {
         return positions;
     }, [deerCount]);
 
+    // Function to create a unique deer instance with a random nose color
     const uniqueDeer = useCallback(() => {
         const clonedDeer = deerModel.scene.clone(true); // Deep clone of the model
-        console.log("I am rerunning");
-        // Find the "nose" mesh and apply a unique material
+
+        // Traverse the cloned model to find the "nose" mesh and apply a unique material
         clonedDeer.traverse((child) => {
             if (child.isMesh) {
                 child.castShadow = true;
@@ -58,6 +60,7 @@ const DeerSpawner = ({ deerCount = 0 }) => {
         return clonedDeer;
     }, [deerModel]);
 
+    // Create deer objects with unique instances and positions
     const deerObjects = useMemo(
         () =>
             deerPositions.map((deer, index) => ({

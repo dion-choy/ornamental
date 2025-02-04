@@ -9,7 +9,7 @@ function Snowflake(props) {
     const positions = useMemo(() => {
         const pos = new Float32Array(particleCount * 3);
 
-        // generate random positions
+        // Generate random positions for snowflakes
         for (let i = 0; i < particleCount; i++) {
             pos[i * 3] = (Math.random() - 0.5) * 100;
             pos[i * 3 + 1] = Math.random() * 15;
@@ -45,11 +45,11 @@ function Snowflake(props) {
             <pointsMaterial
                 size={0.6}
                 color="#ffffff"
-                sizeAttenuation={true} // make further objects look smaller
-                depthWrite={false} // prevent depth of snowflake causes visual glitches
-                blending={AdditiveBlending} // remove background
-                alphaTest={0.5} // remove background
-                transparent={true} // translucent snowflake
+                sizeAttenuation={true} // Make further objects look smaller
+                depthWrite={false} // Prevent depth of snowflake causing visual glitches
+                blending={AdditiveBlending} // Remove background
+                alphaTest={0.5} // Remove background
+                transparent={true} // Translucent snowflake
                 opacity={0.8}
                 map={texture}
             />

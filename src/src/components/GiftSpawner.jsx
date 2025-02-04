@@ -4,6 +4,7 @@ import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import * as THREE from "three";
 
 const GiftSpawner = ({ parentGiftDatas = [], showAuthor, hideAuthor }) => {
+    // Calculate gift positions based on the number of gifts
     const giftPositions = useMemo(() => {
         const positions = parentGiftDatas.map((_, i) => {
             const radius = 1;
@@ -15,6 +16,7 @@ const GiftSpawner = ({ parentGiftDatas = [], showAuthor, hideAuthor }) => {
         return positions;
     }, [parentGiftDatas]);
 
+    // Function to prepare a gift model based on its type and color
     const prepareGift = useCallback((giftType, color, author) => {
         const gift = useLoader(
             GLTFLoader,
@@ -52,6 +54,7 @@ const GiftSpawner = ({ parentGiftDatas = [], showAuthor, hideAuthor }) => {
     const [giftDatas, setGiftDatas] = useState([]);
 
     useEffect(() => {
+        // Set gift data based on parentGiftDatas
         setGiftDatas(
             parentGiftDatas.map((gift, index) => ({
                 id: index,

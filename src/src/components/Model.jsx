@@ -4,7 +4,7 @@ import { useLoader, useFrame, useThree } from "@react-three/fiber";
 import { PointLight, AnimationMixer, MeshBasicMaterial } from "three";
 
 function Model(props) {
-    const gltf = useLoader(GLTFLoader, props.file);
+    const gltf = useLoader(GLTFLoader, props.file); // Load the GLTF model
     const rotate = useRef();
     let mixer;
 
@@ -15,10 +15,12 @@ function Model(props) {
                 child.receiveShadow = true;
             }
 
+            // Increase emissive intensity for specific meshes
             if (child.name.substring(0, 11) == "GN_Instance") {
                 child.material.emissiveIntensity = 3;
             }
 
+            // Add a point light to the "Fire" mesh
             if (child.name == "Fire") {
                 child.children = [];
 
@@ -40,6 +42,7 @@ function Model(props) {
             }
         });
 
+        // Set up animation mixer if there are animations
         if (gltf.animations.length) {
             mixer = new AnimationMixer(gltf.scene);
             for (const anim of gltf.animations) {
