@@ -122,15 +122,6 @@ function Quiz({ roomId, onComplete }) {
     return (
         <>
             {/* <ResponseCollectedCard cardNum={6} props={responses}/> */}
-            {finalCard ?
-                <motion.div
-                    initial={{ top: "-50vh", left: "50vw", transform: "translate(-50%, -50%)" }}
-                    animate={animateToCenter(3.5)}
-                    style={{ position: "absolute" }}>
-                    <ResponseCollectedCard onComplete={onComplete} cardNum={6} responses={responses}/>
-                </motion.div> : null}
-
-                
             {cards.map((card, index) => {
                 let rotation = (45 / 5 * index) - 45 / 5 - 45;
                 return (
@@ -139,7 +130,7 @@ function Quiz({ roomId, onComplete }) {
                         initial={{ transformOrigin: "50% 100%", rotateZ: rotation, left: "100%" }}
 
                         style={{ position: "absolute", zIndex: `${5 - index}`, backfaceVisibility: "hidden", transformStyle: "preserve-3d" }}>
-                        <QuizCard />
+                        <QuizCard index={index} sendDataToParent={dataHandler} subtitle={card.subtitle} placeholder={card.placeholder} cardNum={card.cardNum} />
                     </motion.div>
                 )
             })}
