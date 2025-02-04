@@ -346,16 +346,8 @@ export default function Home() {
                         Settings
                     </button>
                     <button onClick={() => startSecretSanta(id)}>Start Secret Santa</button>
-                    <button>Start Next Activity</button>
-                    {eventRunning && (
-                        <button
-                            onClick={() => {
-                                setChooseOrnament(!chooseOrnament);
-                            }}
-                        >
-                            Add Ornaments
-                        </button>
-                    )}
+                    <button  onClick={() => startQuiz(id)}>Start Quiz</button>
+                    {eventRunning && ( <button onClick={() => {setChooseOrnament(!chooseOrnament);}}>Add Ornaments</button> )}
                 </div>
                 {room.hasOwnProperty("secret_santa") && room.secret_santa.started && (
                     <div className={style.giftbutton}>
