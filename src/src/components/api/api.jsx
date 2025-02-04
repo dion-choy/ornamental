@@ -46,6 +46,7 @@ export async function createUser(password, name) {
         is_admin: false,
         has_seen_celebration: false,
         answers: [],
+	hasDoneQuiz: false,
     };
     const client = await clientPromise;
     const db = client.db("Ornamental");
@@ -255,7 +256,6 @@ export async function hasSeenOnboarding(userId, answers){
     let user = await db.collection("users").updateOne({ _id: userId }, {$set:{has_seen_onboarding:true}});
 }
 export async function startQuiz(roomcode){
-    
     const client = await clientPromise;
     const db = client.db("Ornamental");
     let room = await db.collection("rooms").findOne({ code: roomCode.toString() });
@@ -285,6 +285,21 @@ export async function hasSeenCelebration(userId){
     const client = await clientPromise;
     const db = client.db("Ornamental");
     let user = await db.collection("users").updateOne({ _id: userId }, {$set:{has_seen_celebration:true}});
+
+}
+export async function DoneQuiz(userId){
+    userId = EJSON.parse(userId);
+    const client = await clientPromise;
+    const db = client.db("Ornamental");
+    let user = await db.collection("users").updateOne({ _id: userId }, {$set:{hasDoneQuiz:true}});
+
+}
+export async function hasDoneQuiz(userId){
+    userId = EJSON.parse(userId);
+    const client = await clientPromise;
+    const db = client.db("Ornamental");
+    let user = await db.collection("users").findOne({ _id: userId });
+    return user["hasDoneQuiz"]
 
 }
 export async function getReceiverFromSanta(authorid) {
