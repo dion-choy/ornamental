@@ -27,7 +27,7 @@ export default function Celebration() {
                             <img src="/assets/yatta.gif" alt="yatta" />
                         </div>
                     </div>
-                    <audio ref={audioRef} src="/assets/yatta.mp3" preload="auto" />;
+                    <audio ref={audioRef} src="/assets/yatta.mp3" preload="auto" />
                 </>
             )}
         </>
