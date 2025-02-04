@@ -207,6 +207,13 @@ export async function hasSecretSantaStarted(roomcode){
     let room = await db.collection("rooms").findOne({ code: roomcode.toString() });
     return (room["secret_santa"]["started"])
 }
+export async function hasQuizStarted(roomcode){
+    const client = await clientPromise;
+    const db = client.db("Ornamental");
+	
+    let room = await db.collection("rooms").findOne({ code: roomcode.toString() });
+    return ((room["current_question"]==1)?true:false)
+}
 export async function getQuestions(roomcode, userid){
     const client = await clientPromise;
     const db = client.db("Ornamental");
@@ -247,7 +254,32 @@ export async function hasSeenOnboarding(userId, answers){
     updateAnswers(userId, formattedAnswers)
     let user = await db.collection("users").updateOne({ _id: userId }, {$set:{has_seen_onboarding:true}});
 }
+export async function startQuiz(roomcode){
+    
+    const client = await clientPromise;
+    const db = client.db("Ornamental");
+    let room = await db.collection("rooms").findOne({ code: roomCode.toString() });
+    let users = room.list_of_users;
+    let pairs = [];
+    let used = [];
+    for (let i = 0; i < users.length; i++) {
+        let index = Math.floor(Math.random() * users.length);
+        while (used.includes(index) || index == i) {
+            index = Math.floor(Math.random() * users.length);
 
+        }
+        used.push(index);
+        pairs.push({ author: users[i], target: users[index], has_been_bought: false });
+        console.log(await db.collection("users").updateOne({ _id: users[i] }, {$set:{target:users[index]}}));
+    }
+    console.log(pairs);
+    return await db
+        .collection("rooms")
+        .updateOne(
+            { code: roomCode.toString() },
+            { $set: { "current_question": 1 } }
+    );
+}
 export async function hasSeenCelebration(userId){
     userId = EJSON.parse(userId);
     const client = await clientPromise;
