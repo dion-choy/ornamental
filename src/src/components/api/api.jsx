@@ -208,6 +208,8 @@ export async function hasSecretSantaStarted(roomcode){
     let room = await db.collection("rooms").findOne({ code: roomcode.toString() });
     return (room["secret_santa"]["started"])
 }
+
+
 export async function hasQuizStarted(roomcode){
     const client = await clientPromise;
     const db = client.db("Ornamental");

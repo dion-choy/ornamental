@@ -2,8 +2,8 @@
 import React, { useState, useEffect } from "react";
 import { redirect } from 'next/navigation';
 import "@/styles/name.css";
-import "@/styles/Cards.css";
-import { ResponseCollectedCard, ResultCard, InputCard } from "@/components/SetupCards";
+import "@/styles/Cards.module.css"
+import { ResponseCollectedCard, ResultCard, InputCard, QuizCard } from "@/components/SetupCards";
 import SnowingBG from "@/components/SnowingBG";
 import { motion } from "motion/react";
 import { delay, easeIn, easeInOut } from "motion";
@@ -139,7 +139,7 @@ function Quiz({ roomId, onComplete }) {
                         initial={{ transformOrigin: "50% 100%", rotateZ: rotation, left: "100%" }}
 
                         style={{ position: "absolute", zIndex: `${5 - index}`, backfaceVisibility: "hidden", transformStyle: "preserve-3d" }}>
-                        <InputCard index={index} sendDataToParent={dataHandler} subtitle={card.subtitle} placeholder={card.placeholder} cardNum={card.cardNum}/>
+                        <QuizCard />
                     </motion.div>
                 )
             })}

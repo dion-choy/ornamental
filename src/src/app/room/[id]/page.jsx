@@ -17,6 +17,7 @@ import { EJSON } from "bson";
 import { useCookies } from "next-client-cookies";
 import { stringToDate } from "@/lib/myDateFunction";
 import Celebration from "@/components/Celebration";
+import Quiz from "@/components/Quiz";
 
 export default function Home() {
     const { id } = useParams();
@@ -34,6 +35,8 @@ export default function Home() {
     const [selectedGift, setSelectedGift] = useState("");
     const [giftData, setGiftData] = useState([]);
     const [timeLeft, setTimeLeft] = useState("-- Days --:--:--");
+    const [quizVisible, setQuizVisible] = useState(false); // State to control Quiz visibility
+
     function load() {
         console.log(id);
         getNoPlayers(id).then((no) => {
@@ -148,6 +151,10 @@ export default function Home() {
     const [rotation, setRotation] = useState(true);
     const [resChanged, setResChanged] = useState(false);
 
+    function startQuiz() {
+        setQuizVisible(true); // Show the Quiz component
+    }
+
     return (
         <div className={style.scene}>
             {firstTime && (
@@ -213,7 +220,6 @@ export default function Home() {
                     giftClickHandler={giftClickHandler}
                     giftData={giftData}
                     shadows={cookies.get("shadows") || shadows}
-                    timeLeft={timeLeft}
                 />
                 <Controls
                     rotate={firstTime || !rotation ? 0 : cookies.get("rotation") || rotation}
@@ -347,7 +353,7 @@ export default function Home() {
                         Settings
                     </button>
                     <button onClick={() => startSecretSanta(id)}>Start Secret Santa</button>
-                    <button onClick={() => startQuiz(id)}>Start Quiz</button>
+                    <button onClick={() => startQuiz()}>Start Quiz</button>
                     {eventRunning && (
                         <button
                             onClick={() => {
@@ -375,6 +381,8 @@ export default function Home() {
                     </div>
                 )}
             </div>
+
+            {quizVisible && <Quiz onClose={() => setQuizVisible(false)} />} {/* Render Quiz component conditionally */}
         </div>
     );
 }
