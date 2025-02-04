@@ -16,6 +16,7 @@ import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
 import { EJSON } from "bson";
 import { useCookies } from "next-client-cookies";
 import { stringToDate } from "@/lib/myDateFunction";
+import Celebration from "@/components/Celebration";
 
 export default function Home() {
     const { id } = useParams();
@@ -160,6 +161,7 @@ export default function Home() {
                 />
             )}
             <Auth code={id} load={load} />
+            {cookies.get("userId") && <Celebration />}
             <Canvas
                 style={{ visibility: firstTime ? "hidden" : "visible" }}
                 shadows={!firstTime && (cookies.get("shadows") != 0 || shadows)}
@@ -211,6 +213,7 @@ export default function Home() {
                     giftClickHandler={giftClickHandler}
                     giftData={giftData}
                     shadows={cookies.get("shadows") || shadows}
+                    timeLeft={timeLeft}
                 />
                 <Controls
                     rotate={firstTime || !rotation ? 0 : cookies.get("rotation") || rotation}
@@ -344,7 +347,7 @@ export default function Home() {
                         Settings
                     </button>
                     <button onClick={() => startSecretSanta(id)}>Start Secret Santa</button>
-                    <button>Start Next Activity</button>
+                    <button onClick={() => startQuiz(id)}>Start Quiz</button>
                     {eventRunning && (
                         <button
                             onClick={() => {
