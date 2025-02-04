@@ -353,7 +353,7 @@ export default function Home() {
                         Settings
                     </button>
                     <button onClick={() => startSecretSanta(id)}>Start Secret Santa</button>
-                    <button onClick={() => showQuiz(id)}>Show Quiz</button>
+                    <button onClick={() => showQuiz()}>Show Quiz</button>
                     {eventRunning && (
                         <button
                             onClick={() => {
@@ -382,7 +382,7 @@ export default function Home() {
                 )}
             </div>
 
-            {quizVisible && <Quiz onClose={() => setQuizVisible(false)} />} {/* Render Quiz component conditionally */}
+            {quizVisible && <Quiz roomId={id} onComplete={() => setQuizVisible(false)} />} {/* Render Quiz component conditionally */}
         </div>
     );
 }
