@@ -61,6 +61,24 @@ img.logo {
     transform: translateY(0);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
+.close-btn {
+    position: absolute; 
+    top: 12px; 
+    right: 12px; 
+    background-color: #DDDBFF;
+    color: #000;
+    border: none; 
+    border-radius: 4px; 
+    padding: 4px 8px; 
+    cursor: pointer; 
+    font-size: 14px; 
+    font-weight: bold; 
+    transition: background-color 0.2s ease; 
+}
+
+.close-btn:hover {
+    background-color: darkgray; 
+}
 
 
 .circle {

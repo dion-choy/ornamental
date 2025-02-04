@@ -151,8 +151,8 @@ export default function Home() {
     const [rotation, setRotation] = useState(true);
     const [resChanged, setResChanged] = useState(false);
 
-    function startQuiz() {
-        setQuizVisible(true); // Show the Quiz component
+    function showQuiz() {
+        setQuizVisible((prev) => !prev); 
     }
 
     return (
@@ -353,7 +353,7 @@ export default function Home() {
                         Settings
                     </button>
                     <button onClick={() => startSecretSanta(id)}>Start Secret Santa</button>
-                    <button onClick={() => startQuiz()}>Start Quiz</button>
+                    <button onClick={() => showQuiz()}>Show Quiz</button>
                     {eventRunning && (
                         <button
                             onClick={() => {
