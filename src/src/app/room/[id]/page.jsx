@@ -353,7 +353,7 @@ export default function Home() {
                         Settings
                     </button>
                     <button onClick={() => startSecretSanta(id)}>Start Secret Santa</button>
-                    <button onClick={() => showQuiz()}>Show Quiz</button>
+                    <button onClick={() => showQuiz(id)}>Show Quiz</button>
                     {eventRunning && (
                         <button
                             onClick={() => {
