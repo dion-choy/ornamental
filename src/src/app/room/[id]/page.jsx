@@ -56,9 +56,11 @@ export default function Home() {
         });
         getRoom(id).then((roomStr) => {
             let userId = cookies.get("userId");
-            hasSeenCelebration(userId).then((res) => {
-                setSeenCelebration(res);
-            });
+            if (userId) {
+                hasSeenCelebration(userId).then((res) => {
+                    setSeenCelebration(res);
+                });
+            }
 
             const room = EJSON.parse(roomStr);
             setRoom(room);
