@@ -12,15 +12,16 @@ import {
 import SnowingBG from "@/components/SnowingBG";
 import { motion } from "motion/react";
 import { delay, easeIn, easeInOut } from "motion";
-import { getRoom } from "@/components/api/api";
+import { getQuestions, getRoom } from "@/components/api/api";
 import { EJSON } from "bson";
 
-function Quiz({ roomId, onComplete }) {
+function Quiz({ roomId, userId, onComplete }) {
   const [cards, setCards] = useState(
     Array(5).fill({
       placeholder: "",
       subtitle: "Loading...",
       cardNum: "Loading...",
+      options: ["Loading... option1", "Loading... option2", "Loading...option3", "Loading...option4"],
     }),
   );
 
@@ -42,7 +43,7 @@ function Quiz({ roomId, onComplete }) {
       left: `15.${offset}vw`,
       transform:
         `translate(-50%, -50%) rotateY(180deg) rotateZ(${randAngle}deg)`,
-      zIndex: 0,
+      zIndex: 1,
       transition: { easeInOut, duration: 1 },
     };
   };
@@ -61,7 +62,7 @@ function Quiz({ roomId, onComplete }) {
       top: "-50vh",
       left: "15vw",
       transform: `translate(-50%, -50%) rotateY(180deg) rotateZ(0deg)`,
-      zIndex: 0,
+      zIndex: 1,
       transition: { delay: delay, easeInOut, duration: 0.5 },
     };
   };
@@ -70,23 +71,25 @@ function Quiz({ roomId, onComplete }) {
   const [finalCard, setFinalCard] = useState(false);
 
   useEffect(() => {
-    // Fetch room data and set cards
-    getRoom(roomId).then((room) => {
-      console.log(EJSON.parse(room));
-      const cardsDetails = EJSON.parse(room).questions.map((
-        question,
-        index,
-      ) => ({
-        subtitle: question,
-        placeholder: "Enter your response",
-        cardNum: index + 1,
+    getQuestions(roomId, userId).then((questionObjects) => {
+      console.log(questionObjects);
+
+      const questionObject = questionObjects.map((questionObject) => ({
+        answer: questionObject.answer,
+        placeholder: questionObject.question,
+        cardNum: questionObject.questionNumber,
+        options: Object.values(questionObject.responses),
       }));
-      setCards(cardsDetails);
-    });
-  }, [roomId]);
+
+      setCards(questionObject);
+    }).catch((error) => {
+      console.log(error);
+    })
+  }, []);
 
   const dataHandler = (data) => {
     setResponses([...responses, data]);
+    console.log(data.stage)
     switch (data.stage) {
       case 0:
         setAnimations([
@@ -138,7 +141,7 @@ function Quiz({ roomId, onComplete }) {
               "translate(-50%, -50%) rotateY(180deg) rotateZ(0deg)",
               "translate(-50%, -50%) rotateY(180deg) rotateZ(0deg)",
             ],
-            zIndex: 0,
+            zIndex: 1,
             transition: { easeInOut, duration: 2, times: [0, 0.5, 1] },
           },
         ]);
@@ -174,6 +177,7 @@ function Quiz({ roomId, onComplete }) {
               subtitle={card.subtitle}
               placeholder={card.placeholder}
               cardNum={card.cardNum}
+              options={card.options}
             />
           </motion.div>
         );

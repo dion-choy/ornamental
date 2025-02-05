@@ -186,7 +186,7 @@ export default function Home() {
                 />
             )}
 
-            {quizVisible && <Quiz roomId={id} onComplete={() => setQuizVisible(false)} />}{" "}
+            {quizVisible && <Quiz roomId={id} userId={cookies.get("userId")} onComplete={() => setQuizVisible(false)} />}{" "}
             {/* Render Quiz component conditionally */}
 
             <Auth code={id} load={load} />
