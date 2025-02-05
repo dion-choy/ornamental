@@ -272,12 +272,21 @@ export async function getQuestions(roomCode, userid) {
     code: roomCode.toString(),
   });
   let users = room.list_of_users;
+  let recepients=room.secret_santa.user_pair
   let questions = room["questions"];
-  let correctuser = EJSON.parse(await getReceiverFromSanta(userid))["_id"];
+  let userId = EJSON.parse(userid);
+  let correctuser=null;
+  for (let i=0;i<recepients.length;i++){
+	if (recepients[i].author.equals(userId)){
+	   correctuser=recepients[i].target
+	}
+  }
+
   let answers = {};
   for (let i = 0; i < users.length; i++) {
+    
     let user = await db.collection("users").findOne({ _id: users[i] });
-    answers[user[i]] = user["answers"];
+    answers[user["_id"]] = user["answers"];
   }
   let qna = [];
   for (let i = 0; i < questions.length; i++) {
@@ -285,7 +294,10 @@ export async function getQuestions(roomCode, userid) {
     let ures = {};
     let i = 0;
     for (let user in answers) {
-      if (user == correctuser) {
+      console.log(user)
+      console.log(correctuser)
+      console.log(userId.equals(correctuser))
+      if (user== correctuser.toString()) {
         questObj["answer"] = i;
       }
       i += 1;
@@ -294,7 +306,6 @@ export async function getQuestions(roomCode, userid) {
     questObj["responses"] = ures;
     questObj["question"] = questions[i];
 
-    console.log(questObj);
     qna.push(questObj);
   }
   return qna;
@@ -386,6 +397,7 @@ export async function hasDoneQuiz(userId) {
 }
 export async function getReceiverFromSanta(authorid) {
   authorid = EJSON.parse(authorid);
+  console.log(authorid)
   const authorOid = new ObjectId(authorid);
 
   const client = await clientPromise;
