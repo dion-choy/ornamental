@@ -1,26 +1,26 @@
 .snowflake {
-    position: absolute;
-    width: 50px;
-    opacity: 0;
-    animation: fall 5s linear;
-    z-index: -1;
+  position: absolute;
+  width: 50px;
+  opacity: 0;
+  animation: fall 5s linear;
+  z-index: -1;
 }
-  
+
 @keyframes fall {
-    0% {
-        opacity: 0;
-    }
+  0% {
+    opacity: 0;
+  }
 
-    3% {
-        opacity: 0.9;
-    }
+  3% {
+    opacity: 0.9;
+  }
 
-    90% {
-        opacity: 0.9;
-    }
+  90% {
+    opacity: 0.9;
+  }
 
-    100% {
-        transform: translate(0, 97vh);
-        opacity: 0;
-    }
+  100% {
+    transform: translate(0, 97vh);
+    opacity: 0;
+  }
 }

@@ -1,13 +1,13 @@
 .btn {
-    background-color: #DDDBFF;
-    color: #404f1b;
-    border: none;
-    border-radius: 8px;
-    padding: 12px 20px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    width: 25vw;
-    margin: 0 auto;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  background-color: #dddbff;
+  color: #404f1b;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 25vw;
+  margin: 0 auto;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
