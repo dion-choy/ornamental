@@ -9,7 +9,15 @@ import Controls from "@/components/Controls";
 import { redirect, useParams } from "next/navigation";
 import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
 import { ColorKeyframeTrack, PerspectiveCamera } from "three";
-import { addGift, getNoPlayers, getRoom, getUser, hasSeenOnboarding, startSecretSanta } from "@/components/api/api";
+import {
+    addGift,
+    getNoPlayers,
+    getRoom,
+    getUser,
+    hasSeenOnboarding,
+    hasSeenCelebration,
+    startSecretSanta,
+} from "@/components/api/api";
 import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
 import { SAOPass } from "three/addons/postprocessing/SAOPass.js";
 import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
@@ -35,7 +43,11 @@ export default function Home() {
     const [selectedGift, setSelectedGift] = useState("");
     const [giftData, setGiftData] = useState([]);
     const [timeLeft, setTimeLeft] = useState("-- Days --:--:--");
+    const [seenCelebration, setSeenCelebration] = useState(true);
     const [quizVisible, setQuizVisible] = useState(false); // State to control Quiz visibility
+    useEffect(() => {
+        console.log(seenCelebration);
+    }, [seenCelebration]);
 
     function load() {
         console.log(id);
@@ -44,6 +56,10 @@ export default function Home() {
         });
         getRoom(id).then((roomStr) => {
             let userId = cookies.get("userId");
+            hasSeenCelebration(userId).then((res) => {
+                setSeenCelebration(res);
+            });
+
             const room = EJSON.parse(roomStr);
             setRoom(room);
             setOrnaments(room.ornaments);
@@ -172,7 +188,7 @@ export default function Home() {
             {/* Render Quiz component conditionally */}
 
             <Auth code={id} load={load} />
-            {cookies.get("userId") && <Celebration />}
+            {!seenCelebration && timeLeft == "0 Days 00:00:00" && <Celebration userId={cookies.get("userId")} />}
             <Canvas
                 style={{ visibility: firstTime ? "hidden" : "visible" }}
                 shadows={!firstTime && (cookies.get("shadows") != 0 || shadows)}
