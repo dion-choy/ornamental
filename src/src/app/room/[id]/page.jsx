@@ -185,6 +185,10 @@ export default function Home() {
                     }}
                 />
             )}
+
+            {quizVisible && <Quiz roomId={id} onComplete={() => setQuizVisible(false)} />}{" "}
+            {/* Render Quiz component conditionally */}
+
             <Auth code={id} load={load} />
             {!seenCelebration && timeLeft == "0 Days 00:00:00" && <Celebration userId={cookies.get("userId")} />}
             <Canvas
@@ -399,8 +403,7 @@ export default function Home() {
                     </div>
                 )}
             </div>
-            {quizVisible && <Quiz roomId={id} onComplete={() => setQuizVisible(false)} />}{" "}
-            {/* Render Quiz component conditionally */}
+            
         </div>
     );
 }

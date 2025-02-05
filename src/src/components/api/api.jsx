@@ -256,38 +256,51 @@ export async function hasQuizStarted(roomcode) {
     return room["current_question"] == 1 ? true : false;
 }
 export async function getQuestions(roomCode, userid) {
-    const client = await clientPromise;
-    const db = client.db("Ornamental");
-    let room = await db.collection("rooms").findOne({
-        code: roomCode.toString(),
-    });
-    let users = room.list_of_users;
-    let questions = room["questions"];
-    let correctuser = EJSON.parse(await getReceiverFromSanta(userid))["_id"];
-    let answers = {};
-    for (let i = 0; i < users.length; i++) {
-        let user = await db.collection("users").findOne({ _id: users[i] });
-        answers[user[i]] = user["answers"];
-    }
-    let qna = [];
-    for (let i = 0; i < questions.length; i++) {
-        let questObj = {};
-        let ures = {};
-        let i = 0;
-        for (let user in answers) {
-            if (user == correctuser) {
-                questObj["answer"] = i;
-            }
-            i += 1;
-            ures[user] = answers[user][i];
+  const client = await clientPromise;
+  const db = client.db("Ornamental");
+  let room = await db.collection("rooms").findOne({
+    code: roomCode.toString(),
+  });
+  let users = room.list_of_users;
+  let recepients=room.secret_santa.user_pair
+  let questions = room["questions"];
+  let userId = EJSON.parse(userid);
+  let correctuser=null;
+  for (let i=0;i<recepients.length;i++){
+	if (recepients[i].author.equals(userId)){
+	   correctuser=recepients[i].target
+	}
+  }
+
+  let answers = {};
+  for (let i = 0; i < users.length; i++) {
+    
+    let user = await db.collection("users").findOne({ _id: users[i] });
+    answers[user["_id"]] = user["answers"];
+  }
+  let qna = [];
+  for (let i = 0; i < questions.length; i++) {
+    let questObj = {};
+    let ures = {};
+    let i = 0;
+    for (let user in answers) {
+      console.log(user)
+      console.log(correctuser)
+      console.log(userId.equals(correctuser))
+      if (user== correctuser.toString()) {
+        questObj["answer"] = i;
+      }
+      i += 1;
+      ures[user] = answers[user][i];
+
         }
         questObj["responses"] = ures;
         questObj["question"] = questions[i];
 
-        console.log(questObj);
-        qna.push(questObj);
-    }
-    return qna;
+    qna.push(questObj);
+  }
+  return qna;
+
 }
 // TODO: add a function to update users answers to the questions
 export async function updateAnswers(userid, answers) {
@@ -385,6 +398,7 @@ export async function hasDoneQuiz(userId) {
     return user["hasDoneQuiz"];
 }
 export async function getReceiverFromSanta(authorid) {
+
     authorid = EJSON.parse(authorid);
     const authorOid = new ObjectId(authorid);
 
