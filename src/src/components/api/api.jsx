@@ -271,7 +271,7 @@ export async function getQuestions(roomCode, userid) {
 	   correctuser=recepients[i].target
 	}
   }
-
+  let rName= (await db.collection("users").findOne({ _id: correctuser })).name;
   let answers = {};
   for (let i = 0; i < users.length; i++) {
     
@@ -280,24 +280,24 @@ export async function getQuestions(roomCode, userid) {
   }
   let qna = [];
   for (let i = 0; i < questions.length; i++) {
-    let questObj = {};
-    let ures = {};
-    let i = 0;
-    for (let user in answers) {
-      console.log(user)
-      console.log(correctuser)
-      console.log(userId.equals(correctuser))
-      if (user== correctuser.toString()) {
-        questObj["answer"] = i;
-      }
-      i += 1;
-      ures[user] = answers[user][i];
+	  let questObj = {};
+	  let ures = {};
+	  let j = 0;
+	  for (let user in answers) {
+		  console.log(user)
+		  console.log(correctuser)
+		  console.log(userId.equals(correctuser))
+		  if (user== correctuser.toString()) {
+			  questObj["answer"] = j;
+		  }
+		  j += 1;
+		  ures[user] = answers[user][j];
 
-        }
-        questObj["responses"] = ures;
-        questObj["question"] = questions[i];
+	  }
+	  questObj["responses"] = ures;
+	  questObj["question"] = questions[i].replace("your", rName).replace("you", rName);
 
-    qna.push(questObj);
+	  qna.push(questObj);
   }
   return qna;
 
