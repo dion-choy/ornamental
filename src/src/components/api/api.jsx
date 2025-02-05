@@ -265,7 +265,7 @@ export async function hasQuizStarted(roomcode) {
   });
   return ((room["current_question"] == 1) ? true : false);
 }
-export async function getQuestions(roomcode, userid) {
+export async function getQuestions(roomCode, userid) {
   const client = await clientPromise;
   const db = client.db("Ornamental");
   let room = await db.collection("rooms").findOne({
@@ -273,11 +273,11 @@ export async function getQuestions(roomcode, userid) {
   });
   let users = room.list_of_users;
   let questions = room["questions"];
-  let correctuser = getReceiverFromSanta(userid);
+  let correctuser = EJSON.parse(await getReceiverFromSanta(userid))["_id"];
   let answers = {};
   for (let i = 0; i < users.length; i++) {
     let user = await db.collection("users").findOne({ _id: users[i] });
-    answer[user[i]] = user["answers"];
+    answers[user[i]] = user["answers"];
   }
   let qna = [];
   for (let i = 0; i < questions.length; i++) {
@@ -291,8 +291,11 @@ export async function getQuestions(roomcode, userid) {
       i += 1;
       ures[user] = answers[user][i];
     }
-    questobj["responses"] = ures;
-    qna.push(questobj);
+    questObj["responses"] = ures;
+    questObj["question"] = questions[i];
+
+    console.log(questObj);
+    qna.push(questObj);
   }
   return qna;
 }
@@ -351,7 +354,7 @@ export async function startQuiz(roomcode) {
       { $set: { "current_question": 1 } },
     );
 }
-export async function hasSeenCelebration(userId) {
+export async function seenCelebration(userId) {
   userId = EJSON.parse(userId);
   const client = await clientPromise;
   const db = client.db("Ornamental");
@@ -359,13 +362,20 @@ export async function hasSeenCelebration(userId) {
     $set: { has_seen_celebration: true },
   });
 }
-export async function DoneQuiz(userId) {
+export async function doneQuiz(userId) {
   userId = EJSON.parse(userId);
   const client = await clientPromise;
   const db = client.db("Ornamental");
   let user = await db.collection("users").updateOne({ _id: userId }, {
     $set: { hasDoneQuiz: true },
   });
+}
+export async function hasSeenCelebration(userId) {
+  userId = EJSON.parse(userId);
+  const client = await clientPromise;
+  const db = client.db("Ornamental");
+  let user = await db.collection("users").findOne({ _id: userId });
+  return user["has_seen_celebration"];
 }
 export async function hasDoneQuiz(userId) {
   userId = EJSON.parse(userId);
