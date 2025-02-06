@@ -21,7 +21,6 @@ function Draggable(props) {
         }
 
         controlsRef.current.addEventListener("hoveron", function (event) {
-            console.log(event);
             scene.orbitControls.enabled = false; // Prevent rotation when 3d object is hovered/clicked on
             if (event.object.name == "avail_ornament") {
                 event.object.material.opacity = 1; // Highlight available positions
@@ -47,11 +46,9 @@ function Draggable(props) {
             }
             if (event.object.name == "ornament") {
                 event.object.hideAuthor(); // Hide author objects
-                console.log(event.object.material);
             }
             if (event.object.name == "treeGift") {
                 event.object.hideAuthor(); // Hide author objects
-                console.log(event.object.parent.parent);
             }
             if (event.object.name == "gift" && props.camSetting == 1) {
                 event.object.parent.children.map((object) => {

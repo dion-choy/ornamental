@@ -134,7 +134,7 @@ export default function Home() {
     }, []);
 
     const hideAuthor = useCallback(() => {
-        setTimeout(() => setAuthorVisible(false), 3000);
+        setTimeout(() => setAuthorVisible(false), 2000);
     }, []);
 
     function giftClickHandler(object) {

@@ -3,7 +3,7 @@ import { useLoader } from "@react-three/fiber";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import * as THREE from "three";
 
-// LEROY File
+// DION File
 const GiftSpawner = ({ parentGiftDatas = [], showAuthor, hideAuthor }) => {
     // Calculate gift positions based on the number of gifts
     const giftPositions = useMemo(() => {
