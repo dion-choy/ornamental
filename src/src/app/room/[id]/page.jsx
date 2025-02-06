@@ -1,6 +1,6 @@
 "use client";
 import style from "@/styles/Room.module.css";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Auth from "@/components/auth.jsx";
 import { SecretSantaAnnouncement, SpiralAnimation } from "@/components/SecretSantaAnnouncement";
 import { redirect, useParams } from "next/navigation";
@@ -109,15 +109,15 @@ export default function Home() {
         setInterval(load, 60000);
     }, []);
 
-    function showAuthor() {
+    const showAuthor = useCallback((authorId) => {
         console.log("Show author");
-        getUser(EJSON.stringify(this.authorId)).then((authorStr) => {
+        getUser(EJSON.stringify(authorId)).then((authorStr) => {
             const author = EJSON.parse(authorStr);
             setAuthorVisible(author.name);
         });
         clearTimeout(hideAuthor);
-        setTimeout(hideAuthor, 1000);
-    }
+        setTimeout(hideAuthor, 2000);
+    }, []);
 
     function hideAuthor() {
         console.log("Hide author");
