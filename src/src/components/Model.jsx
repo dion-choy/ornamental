@@ -43,14 +43,20 @@ function Model(props) {
             }
         });
 
-        // Set up animation mixer if there are animations
-        if (gltf.animations.length) {
-            mixer = new AnimationMixer(gltf.scene);
-            for (const anim of gltf.animations) {
-                mixer.clipAction(anim).play();
-            }
-        }
     }, [gltf, props.shadows]);
+
+    // Set up animation mixer if there are animations
+    if (gltf.animations.length) {
+        mixer = new AnimationMixer(gltf.scene);
+        gltf.animations.forEach(clip => {
+            const action = mixer.clipAction(clip)
+            action.play();
+        });
+    }
+
+    useFrame((state, delta) => {
+        mixer?.update(delta)
+    })
 
     return (
         <mesh position={props.position}>
