@@ -267,6 +267,9 @@ export async function getQuestions(roomCode, userid) {
   let userId = EJSON.parse(userid);
   let correctuser=null;
   for (let i=0;i<recepients.length;i++){
+	console.log(recepients[i].author);
+	console.log(userId);
+	console.log("next")
 	if (recepients[i].author.equals(userId)){
 	   correctuser=recepients[i].target
 	}
@@ -291,7 +294,7 @@ export async function getQuestions(roomCode, userid) {
 			  questObj["answer"] = j;
 		  }
 		  j += 1;
-		  ures[user] = answers[user][j];
+		  ures[user] = answers[user][i];
 
 	  }
 	  questObj["responses"] = ures;
