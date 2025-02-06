@@ -8,8 +8,16 @@ import GiftSpawner from "@/components/GiftSpawner";
 import OrnamentSpot from "@/components/OrnamentSpot";
 import Draggable from "@/components/Draggable";
 import Gift from "@/components/Gift";
+import { Canvas } from "@react-three/fiber";
+import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
+import Controls from "@/components/Controls";
+import style from "@/styles/Room.module.css";
+import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
+import { SAOPass } from "three/addons/postprocessing/SAOPass.js";
+import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
+import { useCookies } from "next-client-cookies";
 
-export default function CanvasScene(props) {
+function CanvasScene(props) {
     let shadows;
     switch (props.shadows) {
         case "high":
@@ -64,5 +72,79 @@ export default function CanvasScene(props) {
             <Model file="/models/christmas_tree.glb" position={[0, 0, 0]} shadows={shadows} />
             <Model file="/models/ChristmasRoomVer2.glb" position={[0, 0, 0]} shadows={shadows} />
         </group>
+    );
+}
+
+export default function RoomCanvas({
+    firstTime,
+    numReindeers,
+    choose,
+    ornaments,
+    hideAuthor,
+    showAuthor,
+    camSetting,
+    giftClickHandler,
+    giftData,
+    timeLeft,
+    shadows,
+    rotation,
+}) {
+    const cookies = useCookies();
+    return (
+        <Canvas
+            style={{ visibility: firstTime ? "hidden" : "visible" }}
+            shadows={!firstTime && shadows}
+            className={style.canvas}
+            camera={{
+                position: [7, 4, 7],
+                fov: 100,
+            }}
+            onCreated={({ gl, scene, camera }) => {
+                const composer = new EffectComposer(gl);
+                gl.setPixelRatio(window.devicePixelRatio);
+                gl.setSize(
+                    window.innerWidth / (cookies.get("resolution") ? cookies.get("resolution") : 2.5),
+                    window.innerHeight / (cookies.get("resolution") ? cookies.get("resolution") : 2.5),
+                    false
+                );
+
+                const renderPass = new RenderPass(scene, camera);
+                composer.addPass(renderPass);
+
+                const saoPass = new SAOPass(scene, camera);
+                composer.addPass(saoPass);
+
+                const outputPass = new OutputPass();
+                composer.addPass(outputPass);
+                saoPass.resolution.set(1024, 1024);
+                saoPass.setSize(1024, 1024);
+
+                saoPass.params.saoBias = -1;
+                saoPass.params.saoIntensity = 0.5;
+                saoPass.params.saoScale = 1;
+                saoPass.params.saoKernelRadius = 20;
+                saoPass.params.saoMinResolution = 0.01;
+                saoPass.params.saoBlur = true;
+                saoPass.params.saoBlurRadius = 10;
+                saoPass.params.saoBlurStdDev = 5;
+                saoPass.params.saoBlurDepthCutoff = 0.01;
+
+                gl.setAnimationLoop(() => composer.render());
+            }}
+        >
+            <CanvasScene
+                numReindeers={numReindeers}
+                choose={choose}
+                ornaments={ornaments}
+                showAuthor={showAuthor}
+                hideAuthor={hideAuthor}
+                camSetting={camSetting}
+                giftClickHandler={giftClickHandler}
+                giftData={giftData}
+                timeLeft={timeLeft}
+                shadows={shadows}
+            />
+            <Controls rotate={firstTime || !rotation ? 0 : rotation} camSetting={camSetting} />
+        </Canvas>
     );
 }

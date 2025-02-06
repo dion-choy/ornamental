@@ -1,14 +1,9 @@
 "use client";
 import style from "@/styles/Room.module.css";
 import { useEffect, useRef, useState } from "react";
-import { Canvas, invalidate } from "@react-three/fiber";
-import CanvasScene from "@/components/CanvasScene";
 import Auth from "@/components/auth.jsx";
 import { SecretSantaAnnouncement, SpiralAnimation } from "@/components/SecretSantaAnnouncement";
-import Controls from "@/components/Controls";
 import { redirect, useParams } from "next/navigation";
-import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
-import { ColorKeyframeTrack, PerspectiveCamera } from "three";
 import {
     addGift,
     getNoPlayers,
@@ -18,15 +13,13 @@ import {
     hasSeenCelebration,
     startSecretSanta,
 } from "@/components/api/api";
-import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
-import { SAOPass } from "three/addons/postprocessing/SAOPass.js";
-import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
 import { EJSON } from "bson";
 import { useCookies } from "next-client-cookies";
 import { stringToDate } from "@/lib/myDateFunction";
 import Celebration from "@/components/Celebration";
 import Quiz from "@/components/Quiz";
 import Settings from "@/components/Settings";
+import RoomCanvas from "@/components/CanvasScene";
 
 export default function Home() {
     const { id } = useParams();
@@ -198,64 +191,20 @@ export default function Home() {
             {/* Render Quiz component conditionally */}
             <Auth code={id} load={load} />
             {!seenCelebration && timeLeft == "0 Days 00:00:00" && <Celebration userId={cookies.get("userId")} />}
-            <Canvas
-                style={{ visibility: firstTime ? "hidden" : "visible" }}
-                shadows={!firstTime && (cookies.get("shadows") != 0 || shadows)}
-                className={style.canvas}
-                camera={{
-                    position: [7, 4, 7],
-                    fov: 100,
-                }}
-                onCreated={({ gl, scene, camera }) => {
-                    const composer = new EffectComposer(gl);
-                    gl.setPixelRatio(window.devicePixelRatio);
-                    gl.setSize(
-                        window.innerWidth / (cookies.get("resolution") ? cookies.get("resolution") : 2.5),
-                        window.innerHeight / (cookies.get("resolution") ? cookies.get("resolution") : 2.5),
-                        false
-                    );
-
-                    const renderPass = new RenderPass(scene, camera);
-                    composer.addPass(renderPass);
-
-                    const saoPass = new SAOPass(scene, camera);
-                    composer.addPass(saoPass);
-
-                    const outputPass = new OutputPass();
-                    composer.addPass(outputPass);
-                    saoPass.resolution.set(1024, 1024);
-                    saoPass.setSize(1024, 1024);
-
-                    saoPass.params.saoBias = -1;
-                    saoPass.params.saoIntensity = 0.5;
-                    saoPass.params.saoScale = 1;
-                    saoPass.params.saoKernelRadius = 20;
-                    saoPass.params.saoMinResolution = 0.01;
-                    saoPass.params.saoBlur = true;
-                    saoPass.params.saoBlurRadius = 10;
-                    saoPass.params.saoBlurStdDev = 5;
-                    saoPass.params.saoBlurDepthCutoff = 0.01;
-
-                    gl.setAnimationLoop(() => composer.render());
-                }}
-            >
-                <CanvasScene
-                    numReindeers={numReindeers}
-                    choose={chooseOrnament}
-                    ornaments={ornaments}
-                    showAuthor={showAuthor}
-                    hideAuthor={hideAuthor}
-                    camSetting={camSetting}
-                    giftClickHandler={giftClickHandler}
-                    giftData={giftData}
-                    timeLeft={timeLeft}
-                    shadows={cookies.get("shadows") || shadows}
-                />
-                <Controls
-                    rotate={firstTime || !rotation ? 0 : cookies.get("rotation") || rotation}
-                    camSetting={camSetting}
-                />
-            </Canvas>
+            <RoomCanvas
+                firstTime={firstTime}
+                rotation={cookies.get("rotation") || rotation}
+                numReindeers={numReindeers}
+                choose={chooseOrnament}
+                ornaments={ornaments}
+                showAuthor={showAuthor}
+                hideAuthor={hideAuthor}
+                camSetting={camSetting}
+                giftClickHandler={giftClickHandler}
+                giftData={giftData}
+                timeLeft={timeLeft}
+                shadows={cookies.get("shadows") || shadows}
+            />
             <div className={style.overlay}>
                 {room.hasOwnProperty("secret_santa") && room.secret_santa.started && (
                     <>
