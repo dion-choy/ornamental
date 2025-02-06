@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import style from "@/styles/Room.module.css";
 import { useCookies } from "next-client-cookies";
 
+// DION File
 export default function Settings({ visible, setVis, setShadows, setRotation }) {
     const [resChanged, setResChanged] = useState(false);
 
@@ -13,6 +14,7 @@ export default function Settings({ visible, setVis, setShadows, setRotation }) {
                 <h2>Settings</h2>
                 <select
                     onChange={(s) => {
+                        // Change resolution settings
                         let divider;
                         switch (s.target.value) {
                             case "high":
@@ -33,8 +35,8 @@ export default function Settings({ visible, setVis, setShadows, setRotation }) {
                             default:
                                 divider = 5;
                         }
-                        cookies.set("resolution", divider);
-                        setResChanged(true);
+                        cookies.set("resolution", divider); // Set cookies
+                        setResChanged(true); // Indicate resolution changed to reload page
                     }}
                 >
                     <option>Resolution:</option>
@@ -47,6 +49,7 @@ export default function Settings({ visible, setVis, setShadows, setRotation }) {
 
                 <select
                     onChange={(s) => {
+                        // Change shadows state in page.jsx
                         if (s.target.value === "off") {
                             setShadows(0);
                             cookies.set("shadows", 0);
@@ -73,15 +76,16 @@ export default function Settings({ visible, setVis, setShadows, setRotation }) {
                         step={0.01}
                         defaultValue={cookies.get("rotation") || 1}
                         onChange={(e) => {
-                            setRotation(e.target.value);
+                            setRotation(e.target.value); // Change rotation state in page.jsx
                             cookies.set("rotation", e.target.value);
                         }}
                     />
                 </span>
                 <button
                     onClick={() => {
-                        setVis(false);
+                        setVis(false); // Close settings overlay
                         if (resChanged) {
+                            // Reload window if resolution was changed
                             window.location.reload();
                         }
                     }}

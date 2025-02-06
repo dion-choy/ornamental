@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import style from "@/styles/Room.module.css";
 import { seenCelebration } from "@/components/api/api";
 
+// XIN JUN file
 export default function Celebration({ userId }) {
     // State to track if the timeout has finished
     const [timeoutFinished, setFinished] = useState(false);

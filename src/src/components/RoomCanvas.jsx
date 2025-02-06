@@ -1,4 +1,3 @@
-import Box from "@/components/Box";
 import LightBulb from "./LightBulb";
 import Model from "@/components/Model";
 import Skybox from "@/components/Skybox";
@@ -16,10 +15,10 @@ import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
 import { SAOPass } from "three/addons/postprocessing/SAOPass.js";
 import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
 import { useCookies } from "next-client-cookies";
-import { memo } from "react";
 
+// DION File
 function CanvasScene(props) {
-    let shadows;
+    let shadows; // Determine shadows from the props and get shadow resolution
     switch (props.shadows) {
         case "high":
             shadows = 4096;
@@ -93,8 +92,8 @@ export default function RoomCanvas({
     const cookies = useCookies();
     return (
         <Canvas
-            style={{ visibility: firstTime ? "hidden" : "visible" }}
-            shadows={!firstTime && shadows}
+            style={{ visibility: firstTime ? "hidden" : "visible" }} // if viewing onboarding, hide canvas for performance
+            shadows={!firstTime && shadows} // if viewing onboarding, turn shadows off for performance
             className={style.canvas}
             camera={{
                 position: [7, 4, 7],
@@ -103,23 +102,23 @@ export default function RoomCanvas({
             onCreated={({ gl, scene, camera }) => {
                 const composer = new EffectComposer(gl);
                 gl.setPixelRatio(window.devicePixelRatio);
+                // Set resolution by downscaling canvas size
                 gl.setSize(
                     window.innerWidth / (cookies.get("resolution") ? cookies.get("resolution") : 2.5),
                     window.innerHeight / (cookies.get("resolution") ? cookies.get("resolution") : 2.5),
                     false
                 );
 
+                // add scene renderer
                 const renderPass = new RenderPass(scene, camera);
                 composer.addPass(renderPass);
 
+                // Scalable Ambient Occlusion (SAO) shader
                 const saoPass = new SAOPass(scene, camera);
-                composer.addPass(saoPass);
-
-                const outputPass = new OutputPass();
-                composer.addPass(outputPass);
                 saoPass.resolution.set(1024, 1024);
                 saoPass.setSize(1024, 1024);
 
+                // configure shader and add
                 saoPass.params.saoBias = -1;
                 saoPass.params.saoIntensity = 0.5;
                 saoPass.params.saoScale = 1;
@@ -129,6 +128,11 @@ export default function RoomCanvas({
                 saoPass.params.saoBlurRadius = 10;
                 saoPass.params.saoBlurStdDev = 5;
                 saoPass.params.saoBlurDepthCutoff = 0.01;
+                composer.addPass(saoPass);
+
+                // Output pass on scene
+                const outputPass = new OutputPass();
+                composer.addPass(outputPass);
 
                 gl.setAnimationLoop(() => composer.render());
             }}
@@ -145,6 +149,8 @@ export default function RoomCanvas({
                 timeLeft={timeLeft}
                 shadows={shadows}
             />
+            {/* if viewing onboarding, turn rotation off for performance
+                else, rotation follows settings */}
             <Controls rotate={firstTime || !rotation ? 0 : rotation} camSetting={camSetting} />
         </Canvas>
     );
