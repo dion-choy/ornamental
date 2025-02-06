@@ -45,6 +45,7 @@ export default function Home() {
     const [timeLeft, setTimeLeft] = useState("-- Days --:--:--");
     const [seenCelebration, setSeenCelebration] = useState(true);
     const [quizVisible, setQuizVisible] = useState(false); // State to control Quiz visibility
+    const [isAdmin, setIsAdmin] = useState(false);
     useEffect(() => {
         console.log(seenCelebration);
     }, [seenCelebration]);
@@ -59,6 +60,12 @@ export default function Home() {
             if (userId) {
                 hasSeenCelebration(userId).then((res) => {
                     setSeenCelebration(res);
+                });
+
+                getUser(userId).then((res) => {
+                    res = EJSON.parse(res);
+                    console.log(res);
+                    setIsAdmin(res.is_admin);
                 });
             }
 
@@ -185,10 +192,10 @@ export default function Home() {
                     }}
                 />
             )}
-
-            {quizVisible && <Quiz roomId={id} userId={cookies.get("userId")} onComplete={() => setQuizVisible(false)} />}{" "}
+            {quizVisible && (
+                <Quiz roomId={id} userId={cookies.get("userId")} onComplete={() => setQuizVisible(false)} />
+            )}{" "}
             {/* Render Quiz component conditionally */}
-
             <Auth code={id} load={load} />
             {!seenCelebration && timeLeft == "0 Days 00:00:00" && <Celebration userId={cookies.get("userId")} />}
             <Canvas
@@ -374,8 +381,12 @@ export default function Home() {
                     >
                         Settings
                     </button>
-                    <button onClick={() => startSecretSanta(id)}>Start Secret Santa</button>
-                    <button onClick={() => showQuiz()}>Show Quiz</button>
+                    {isAdmin && (
+                        <>
+                            <button onClick={() => startSecretSanta(id)}>Start Secret Santa</button>
+                            <button onClick={() => showQuiz()}>Show Quiz</button>
+                        </>
+                    )}
                     {eventRunning && (
                         <button
                             onClick={() => {
@@ -403,7 +414,6 @@ export default function Home() {
                     </div>
                 )}
             </div>
-            
         </div>
     );
 }
