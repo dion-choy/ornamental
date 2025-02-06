@@ -286,7 +286,7 @@ export async function getQuestions(roomCode, userid) {
 	  let questObj = {};
 	  let ures = {};
 	  let j = 0;
-	  questObj["answer"]=0
+      questObj["answer"] = "";
 	  for (let user in answers) {
 		  console.log(user)
 		  console.log(correctuser)
@@ -299,7 +299,7 @@ export async function getQuestions(roomCode, userid) {
 
 	  }
 	  questObj["responses"] = ures;
-	  questObj["question"] = questions[i].replace("your", rName).replace("you", rName);
+	  questObj["question"] = questions[i].replace("your", `${rName}'s`).replace("you", rName).replace("do","does");
 
 	  qna.push(questObj);
   }
