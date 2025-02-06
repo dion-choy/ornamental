@@ -3,6 +3,7 @@ import { useLoader } from "@react-three/fiber";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import * as THREE from "three";
 
+// LEROY File
 const GiftSpawner = ({ parentGiftDatas = [], showAuthor, hideAuthor }) => {
     // Calculate gift positions based on the number of gifts
     const giftPositions = useMemo(() => {
@@ -38,8 +39,8 @@ const GiftSpawner = ({ parentGiftDatas = [], showAuthor, hideAuthor }) => {
         gift.traverse((child) => {
             if (child.isMesh) {
                 child.name = "treeGift";
-                child.authorId = author;
-                child.showAuthor = showAuthor;
+                child.authorId = author; // set author id
+                child.showAuthor = showAuthor; // set callback functions to show and hide name
                 child.hideAuthor = hideAuthor;
                 child.castShadow = true;
                 child.receiveShadow = true;
