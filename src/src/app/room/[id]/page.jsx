@@ -14,6 +14,7 @@ import {
     startSecretSanta,
     hasDoneQuiz,
     doneQuiz,
+    startQuiz,
 } from "@/components/api/api";
 import { EJSON } from "bson";
 import { useCookies } from "next-client-cookies";
@@ -81,12 +82,18 @@ export default function Home() {
                     }
                 });
             }
+            console.log("ROOM: ", room.current_question);
             if (room.current_question) {
-                hasDoneQuiz(userId, id).then((res) => {
+                console.log("IM IN");
+
+                hasDoneQuiz(userId).then((res) => {
+                    console.log("RES: ", res);
                     if (res == false) {
                         setQuizVisible(true);
                     }
-                })
+                }).catch((err) => {
+                    console.log(err);
+                });
             }
             const endDate = stringToDate(room.secret_santa.end_date);
             if (jsLoaded) {
@@ -175,10 +182,6 @@ export default function Home() {
     const [shadows, setShadows] = useState("high");
     const [rotation, setRotation] = useState(true);
 
-    function showQuiz() {
-        setQuizVisible((prev) => !prev);
-    }
-
     return (
         <div className={style.scene}>
             {firstTime && (
@@ -263,7 +266,7 @@ export default function Home() {
                     {isAdmin && (
                         <>
                             <button onClick={() => startSecretSanta(id)}>Start Secret Santa</button>
-                            <button onClick={() => showQuiz()}>Show Quiz</button>
+                            <button onClick={() => startQuiz(id)}>Show Quiz</button>
                         </>
                     )}
                     {eventRunning && (

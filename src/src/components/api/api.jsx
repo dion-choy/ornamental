@@ -333,7 +333,7 @@ export async function hasSeenOnboarding(userId, answers) {
         }
     );
 }
-export async function startQuiz(roomcode) {
+export async function startQuiz(roomCode) {
     const client = await clientPromise;
     const db = client.db("Ornamental");
     let room = await db.collection("rooms").findOne({
