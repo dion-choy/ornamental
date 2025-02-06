@@ -110,7 +110,6 @@ export default function Home() {
     }, []);
 
     const showAuthor = useCallback((authorId) => {
-        console.log("Show author");
         getUser(EJSON.stringify(authorId)).then((authorStr) => {
             const author = EJSON.parse(authorStr);
             setAuthorVisible(author.name);
@@ -119,10 +118,9 @@ export default function Home() {
         setTimeout(hideAuthor, 2000);
     }, []);
 
-    function hideAuthor() {
-        console.log("Hide author");
+    const hideAuthor = useCallback(() => {
         setAuthorVisible(false);
-    }
+    }, []);
 
     function giftClickHandler(object) {
         if (object.giftType == selectedGift || selectedGift == "") {

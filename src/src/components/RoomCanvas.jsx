@@ -16,6 +16,7 @@ import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
 import { SAOPass } from "three/addons/postprocessing/SAOPass.js";
 import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
 import { useCookies } from "next-client-cookies";
+import { memo } from "react";
 
 function CanvasScene(props) {
     let shadows;
