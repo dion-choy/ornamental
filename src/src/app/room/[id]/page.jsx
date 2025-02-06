@@ -12,6 +12,8 @@ import {
     hasSeenOnboarding,
     hasSeenCelebration,
     startSecretSanta,
+    hasDoneQuiz,
+    doneQuiz,
 } from "@/components/api/api";
 import { EJSON } from "bson";
 import { useCookies } from "next-client-cookies";
@@ -78,6 +80,13 @@ export default function Home() {
                         setFirstTime(true);
                     }
                 });
+            }
+            if (room.current_question) {
+                hasDoneQuiz(userId, id).then((res) => {
+                    if (res == false) {
+                        setQuizVisible(true);
+                    }
+                })
             }
             const endDate = stringToDate(room.secret_santa.end_date);
             if (jsLoaded) {
@@ -183,7 +192,7 @@ export default function Home() {
                 />
             )}
             {quizVisible && (
-                <Quiz roomId={id} userId={cookies.get("userId")} onComplete={() => setQuizVisible(false)} />
+                <Quiz roomId={id} userId={cookies.get("userId")} onComplete={() => {setQuizVisible(false); doneQuiz(cookies.get("userId"))}} />
             )}{" "}
             {/* Render Quiz component conditionally */}
             <Auth code={id} load={load} />
