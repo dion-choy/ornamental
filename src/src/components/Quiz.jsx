@@ -6,6 +6,7 @@ import "@/styles/Cards.module.css";
 import {
   InputCard,
   QuizCard,
+  QuizResultsCard,
   ResponseCollectedCard,
   ResultCard,
 } from "@/components/SetupCards";
@@ -18,8 +19,8 @@ import { EJSON } from "bson";
 function Quiz({ roomId, userId, onComplete }) {
   const [cards, setCards] = useState(
     Array(5).fill({
-      placeholder: "",
-      subtitle: "Loading...",
+      answer: "",
+      placeholder: "Loading...",
       cardNum: "Loading...",
       options: ["Loading... option1", "Loading... option2", "Loading...option3", "Loading...option4"],
     }),
@@ -74,14 +75,16 @@ function Quiz({ roomId, userId, onComplete }) {
     getQuestions(roomId, userId).then((questionObjects) => {
       console.log(questionObjects);
 
-      const questionObject = questionObjects.map((questionObject) => ({
+      const myQuestionObjects = questionObjects.map((questionObject, index) => ({
         answer: questionObject.answer,
         placeholder: questionObject.question,
-        cardNum: questionObject.questionNumber,
+        cardNum: index + 1,
         options: Object.values(questionObject.responses),
       }));
 
-      setCards(questionObject);
+      console.log("MYOBJECT:", myQuestionObjects[0].answer)
+
+      setCards(myQuestionObjects);
     }).catch((error) => {
       console.log(error);
     })
@@ -89,6 +92,7 @@ function Quiz({ roomId, userId, onComplete }) {
 
   const dataHandler = (data) => {
     setResponses([...responses, data]);
+    // console.log("RESPONSES:", responses);
     console.log(data.stage)
     switch (data.stage) {
       case 0:
@@ -152,7 +156,26 @@ function Quiz({ roomId, userId, onComplete }) {
 
   return (
     <>
-      {/* <ResponseCollectedCard cardNum={6} props={responses}/> */}
+      {finalCard
+        ? (
+          <motion.div
+            initial={{
+              top: "-50vh",
+              left: "50vw",
+              transform: "translate(-50%, -50%)",
+              zIndex: 1,
+            }}
+            animate={animateToCenter(3.5)}
+            style={{ position: "absolute" }}
+          >
+            <QuizResultsCard
+              onComplete={onComplete}
+              cardNum={6}
+              responses={responses}
+            />
+          </motion.div>
+        )
+        : null}
       {cards.map((card, index) => {
         let rotation = (45 / 5 * index) - 45 / 5 - 45;
         return (
@@ -178,6 +201,7 @@ function Quiz({ roomId, userId, onComplete }) {
               placeholder={card.placeholder}
               cardNum={card.cardNum}
               options={card.options}
+              answer={card.answer}
             />
           </motion.div>
         );
