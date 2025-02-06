@@ -76,6 +76,7 @@ const GiftSpawner = ({ parentGiftDatas = [], showAuthor, hideAuthor }) => {
     }, [groupRef]);
 
     useEffect(() => {
+        groupRef.current.children = [];
         giftPositions.map((giftPos) => {
             const giftData = giftDatas.find((gift) => gift.id === giftPos.id);
             if (giftData) {
