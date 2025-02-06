@@ -114,12 +114,11 @@ export default function Home() {
             const author = EJSON.parse(authorStr);
             setAuthorVisible(author.name);
         });
-        clearTimeout(hideAuthor);
-        setTimeout(hideAuthor, 2000);
+        hideAuthor();
     }, []);
 
     const hideAuthor = useCallback(() => {
-        setAuthorVisible(false);
+        setTimeout(() => setAuthorVisible(false), 3000);
     }, []);
 
     function giftClickHandler(object) {

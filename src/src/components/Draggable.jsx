@@ -45,8 +45,13 @@ function Draggable(props) {
             if (event.object.name == "avail_ornament") {
                 event.object.material.opacity = 0.3; // Unhighlight objects
             }
-            if (event.object.name == "ornament" || event.object.name == "treeGift") {
+            if (event.object.name == "ornament") {
                 event.object.hideAuthor(); // Hide author objects
+                console.log(event.object.material);
+            }
+            if (event.object.name == "treeGift") {
+                event.object.hideAuthor(); // Hide author objects
+                console.log(event.object.parent.parent);
             }
             if (event.object.name == "gift" && props.camSetting == 1) {
                 event.object.parent.children.map((object) => {

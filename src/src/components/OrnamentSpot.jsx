@@ -83,7 +83,6 @@ export default function OrnamentSpot(props) {
 
             groupRef.current.add(takenOrn);
         }
-        console.log(groupRef.current);
     }, [groupRef, taken]);
 
     return (

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useLoader } from "@react-three/fiber";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import * as THREE from "three";
@@ -19,7 +19,7 @@ const GiftSpawner = ({ parentGiftDatas = [], showAuthor, hideAuthor }) => {
 
     // Function to prepare a gift model based on its type and color
     let i = 0;
-    const prepareGift = useCallback((giftType, color, author) => {
+    const prepareGift = /*useCallback(*/ (giftType, color, author) => {
         const gift = useLoader(
             GLTFLoader,
             (() => {
@@ -51,7 +51,7 @@ const GiftSpawner = ({ parentGiftDatas = [], showAuthor, hideAuthor }) => {
         });
 
         return gift;
-    }, []);
+    }; //, []);
 
     const [giftDatas, setGiftDatas] = useState([]);
 
@@ -69,25 +69,26 @@ const GiftSpawner = ({ parentGiftDatas = [], showAuthor, hideAuthor }) => {
         );
     }, [parentGiftDatas]);
 
-    return (
-        <group>
-            {giftPositions.map((giftPos) => {
-                const giftData = giftDatas.find((gift) => gift.id === giftPos.id);
-                if (giftData) {
-                    return (
-                        <mesh key={giftPos.id} position={giftPos.position} scale={giftData.scale}>
-                            <primitive
-                                object={prepareGift(giftData.giftType, giftData.color, giftData.author)}
-                                rotation={[0, giftData.rotation || 0, 0]}
-                                scale={0.2}
-                            />
-                        </mesh>
-                    );
-                }
-                return null;
-            })}
-        </group>
-    );
+    const groupRef = useRef(null);
+
+    useEffect(() => {
+        console.log(groupRef.current);
+    }, [groupRef]);
+
+    useEffect(() => {
+        giftPositions.map((giftPos) => {
+            const giftData = giftDatas.find((gift) => gift.id === giftPos.id);
+            if (giftData) {
+                const gift = prepareGift(giftData.giftType, giftData.color, giftData.author);
+                gift.scale.set(giftData.scale * 0.2, giftData.scale * 0.2, giftData.scale * 0.2);
+                gift.position.set(...giftPos.position);
+                groupRef.current.add(gift);
+            }
+            return null;
+        });
+    }, [giftPositions, groupRef, giftDatas]);
+
+    return <group ref={groupRef} name="giftGroup" />;
 };
 
 export default GiftSpawner;

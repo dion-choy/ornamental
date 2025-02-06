@@ -93,7 +93,7 @@ export default function RoomCanvas({
     return (
         <Canvas
             style={{ visibility: firstTime ? "hidden" : "visible" }} // if viewing onboarding, hide canvas for performance
-            shadows={!firstTime && shadows} // if viewing onboarding, turn shadows off for performance
+            shadows={!firstTime && shadows != 0} // if viewing onboarding, turn shadows off for performance
             className={style.canvas}
             camera={{
                 position: [7, 4, 7],
