@@ -19,7 +19,7 @@ import { stringToDate } from "@/lib/myDateFunction";
 import Celebration from "@/components/Celebration";
 import Quiz from "@/components/Quiz";
 import Settings from "@/components/Settings";
-import RoomCanvas from "@/components/CanvasScene";
+import RoomCanvas from "@/components/RoomCanvas";
 
 export default function Home() {
     const { id } = useParams();

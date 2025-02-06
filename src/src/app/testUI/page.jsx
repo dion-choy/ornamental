@@ -2,7 +2,7 @@
 import style from "@/styles/Room.module.css";
 import { useEffect, useRef, useState } from "react";
 import { Canvas } from "@react-three/fiber";
-import CanvasScene from "@/components/CanvasScene";
+import CanvasScene from "@/components/RoomCanvas";
 import Auth from "@/components/auth.jsx";
 import { SecretSantaAnnouncement, SpiralAnimation } from "@/components/SecretSantaAnnouncement";
 import Controls from "@/components/Controls";

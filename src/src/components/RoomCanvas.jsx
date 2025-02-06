@@ -1,5 +1,5 @@
 import Box from "@/components/Box";
-import LightBulb from "../components/LightBulb";
+import LightBulb from "./LightBulb";
 import Model from "@/components/Model";
 import Skybox from "@/components/Skybox";
 import Snowflake from "@/components/Snowflake";
