@@ -270,7 +270,7 @@ export async function getQuestions(roomCode, userid) {
 	console.log(recepients[i].author);
 	console.log(userId);
 	console.log("next")
-	if (recepients[i].author.equals(userId)){
+	if (recepients[i].author.toString()==userId.toString()){
 	   correctuser=recepients[i].target
 	}
   }
@@ -286,6 +286,7 @@ export async function getQuestions(roomCode, userid) {
 	  let questObj = {};
 	  let ures = {};
 	  let j = 0;
+	  questObj["answer"]=0
 	  for (let user in answers) {
 		  console.log(user)
 		  console.log(correctuser)
