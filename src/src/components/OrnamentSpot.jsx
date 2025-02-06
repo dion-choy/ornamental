@@ -5,26 +5,29 @@ import { useParams } from "next/navigation";
 import { useCookies } from "next-client-cookies";
 import { EJSON } from "bson";
 
+// DION File
 export default function OrnamentSpot(props) {
     const cookies = useCookies();
 
     // Function to remove an available spot and add an ornament
     function removeAvail(event) {
-        const randColor = new THREE.Color();
+        const randColor = new THREE.Color(); // set random color
         randColor.setHSL(Math.random(), 1, 0.5);
         const material = new THREE.MeshPhysicalMaterial({ color: randColor });
+
         const usedOrn = new THREE.Mesh(new THREE.SphereGeometry(0.1, 30, 10), material);
         usedOrn.name = "ornament";
         usedOrn.position.set(...event.object.position);
-        usedOrn.showAuthor = props.showAuthor;
+        usedOrn.showAuthor = props.showAuthor; // set show and hide callbacks
         usedOrn.hideAuthor = props.hideAuthor;
-        usedOrn.authorId = EJSON.parse(cookies.get("userId"));
-        event.object.parent.add(usedOrn);
+        usedOrn.authorId = EJSON.parse(cookies.get("userId")); // set user id
+        event.object.parent.add(usedOrn); // replace old position with new ornament
         event.object.parent.remove(event.object);
         console.log(event.object);
     }
 
     const { id } = useParams();
+    // Positions of ornaments
     const viableSpots = [
         [0.1, 1.9, 0.7],
         [-0.25, 2.38, 0.25],
@@ -40,11 +43,13 @@ export default function OrnamentSpot(props) {
     const [taken, setTaken] = useState([]);
     const [avail, setAvail] = useState([]);
 
+    // when ornaments are updated reloaod on tree.
     useEffect(() => {
         const availIndex = [...viableSpots.keys()];
         setTaken(
             props.ornaments?.map((orn) => {
                 if (availIndex.includes(orn.position)) {
+                    // if position is full, remove index from available indices
                     availIndex.splice(availIndex.indexOf(orn.position), 1);
                 }
                 return viableSpots[orn.position];
@@ -61,6 +66,7 @@ export default function OrnamentSpot(props) {
     const groupRef = useRef();
 
     useEffect(() => {
+        // load all taken ornament spots and add to groupRef
         for (let i = 0; i < taken.length; i++) {
             const coord = taken[i];
 
