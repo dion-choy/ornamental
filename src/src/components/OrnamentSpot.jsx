@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { use, useEffect, useMemo, useRef, useState } from "react";
 import { addOrnament } from "@/components/api/api";
 import * as THREE from "three";
 import { useParams } from "next/navigation";
@@ -8,23 +8,6 @@ import { EJSON } from "bson";
 // DION File
 export default function OrnamentSpot(props) {
     const cookies = useCookies();
-
-    // Function to remove an available spot and add an ornament
-    function removeAvail(event) {
-        const randColor = new THREE.Color(); // set random color
-        randColor.setHSL(Math.random(), 1, 0.5);
-        const material = new THREE.MeshPhysicalMaterial({ color: randColor });
-
-        const usedOrn = new THREE.Mesh(new THREE.SphereGeometry(0.1, 30, 10), material);
-        usedOrn.name = "ornament";
-        usedOrn.position.set(...event.object.position);
-        usedOrn.showAuthor = props.showAuthor; // set show and hide callbacks
-        usedOrn.hideAuthor = props.hideAuthor;
-        usedOrn.authorId = EJSON.parse(cookies.get("userId")); // set user id
-        event.object.parent.add(usedOrn); // replace old position with new ornament
-        event.object.parent.remove(event.object);
-        console.log(event.object);
-    }
 
     const { id } = useParams();
     // Positions of ornaments
@@ -63,30 +46,16 @@ export default function OrnamentSpot(props) {
         );
     }, [props.ornaments]);
 
-    const groupRef = useRef();
-
-    useEffect(() => {
-        // load all taken ornament spots and add to groupRef
-        for (let i = 0; i < taken.length; i++) {
-            const coord = taken[i];
-
-            const sphere = new THREE.SphereGeometry(0.1, 30, 10);
+    const randColors = useMemo(() => {
+        return taken.map(() => {
             const randColor = new THREE.Color();
             randColor.setHSL(Math.random(), 1, 0.5);
-            const material = new THREE.MeshPhysicalMaterial({ color: randColor });
-            const takenOrn = new THREE.Mesh(sphere, material);
-            takenOrn.name = "ornament";
-            takenOrn.position.set(...coord);
-            takenOrn.showAuthor = props.showAuthor;
-            takenOrn.hideAuthor = props.hideAuthor;
-            takenOrn.authorId = props.ornaments[i].authorid;
-
-            groupRef.current.add(takenOrn);
-        }
-    }, [groupRef, taken]);
+            return randColor;
+        });
+    }, [taken]);
 
     return (
-        <group ref={groupRef}>
+        <group>
             {avail.map((coord, index) => (
                 <mesh
                     visible={props.choose}
@@ -95,7 +64,7 @@ export default function OrnamentSpot(props) {
                     key={index + taken.length}
                     onClick={(event) => {
                         if (props.choose) {
-                            removeAvail(event);
+                            props.setChoose(false);
                             let position;
                             for (position = 0; position < viableSpots.length; position++) {
                                 if (
@@ -107,13 +76,41 @@ export default function OrnamentSpot(props) {
                                 }
                             }
                             addOrnament(id, cookies.get("userId"), position, 0);
+                            props.load();
                         }
+                    }}
+                    onPointerEnter={(event) => {
+                        event.object.material.opacity = 1; // Highlight available positions
+                    }}
+                    onPointerLeave={(event) => {
+                        event.object.material.opacity = 0.3; // Unhighlight objects
                     }}
                 >
                     <sphereGeometry args={[0.1, 30, 10]} />
                     <meshPhysicalMaterial color={"white"} transparent={true} opacity={0.3} />
                 </mesh>
             ))}
+            {taken.map((coord, index) => {
+                // load all taken ornament spots and add to groupRef
+                const randColor = new THREE.Color();
+                randColor.setHSL(Math.random(), 1, 0.5);
+
+                return (
+                    <mesh
+                        name="ornament"
+                        onPointerEnter={(event) => event.object.showAuthor(event.object.authorId)}
+                        onPointerLeave={(event) => event.object.hideAuthor(event.object.authorId)}
+                        position={coord}
+                        showAuthor={props.showAuthor}
+                        hideAuthor={props.hideAuthor}
+                        key={index}
+                        authorId={props.ornaments[index].authorid}
+                    >
+                        <sphereGeometry args={[0.1, 30, 10]} />
+                        <meshPhysicalMaterial color={randColors != null ? randColors[index] : randColor} />
+                    </mesh>
+                );
+            })}
         </group>
     );
 }

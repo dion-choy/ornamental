@@ -86,14 +86,16 @@ export default function Home() {
             if (room.current_question) {
                 console.log("IM IN");
 
-                hasDoneQuiz(userId).then((res) => {
-                    console.log("RES: ", res);
-                    if (res == false) {
-                        setQuizVisible(true);
-                    }
-                }).catch((err) => {
-                    console.log(err);
-                });
+                hasDoneQuiz(userId)
+                    .then((res) => {
+                        console.log("RES: ", res);
+                        if (res == false) {
+                            setQuizVisible(true);
+                        }
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
             }
             const endDate = stringToDate(room.secret_santa.end_date);
             if (jsLoaded) {
@@ -130,11 +132,12 @@ export default function Home() {
             const author = EJSON.parse(authorStr);
             setAuthorVisible(author.name);
         });
-        hideAuthor();
+        clearTimeout(hideTimeout);
     }, []);
 
+    let hideTimeout;
     const hideAuthor = useCallback(() => {
-        setTimeout(() => setAuthorVisible(false), 2000);
+        hideTimeout = setTimeout(() => setAuthorVisible(false), 1000);
     }, []);
 
     function giftClickHandler(object) {
@@ -195,7 +198,14 @@ export default function Home() {
                 />
             )}
             {quizVisible && (
-                <Quiz roomId={id} userId={cookies.get("userId")} onComplete={() => {setQuizVisible(false); doneQuiz(cookies.get("userId"))}} />
+                <Quiz
+                    roomId={id}
+                    userId={cookies.get("userId")}
+                    onComplete={() => {
+                        setQuizVisible(false);
+                        doneQuiz(cookies.get("userId"));
+                    }}
+                />
             )}{" "}
             {/* Render Quiz component conditionally */}
             <Auth code={id} load={load} />
@@ -205,6 +215,7 @@ export default function Home() {
                 rotation={cookies.get("rotation") || rotation}
                 numReindeers={numReindeers}
                 choose={chooseOrnament}
+                setChoose={setChooseOrnament}
                 ornaments={ornaments}
                 showAuthor={showAuthor}
                 hideAuthor={hideAuthor}
@@ -213,6 +224,7 @@ export default function Home() {
                 giftData={giftData}
                 timeLeft={timeLeft}
                 shadows={cookies.get("shadows") || shadows}
+                load={load}
             />
             <div className={style.overlay}>
                 {room.hasOwnProperty("secret_santa") && room.secret_santa.started && (

@@ -5,7 +5,7 @@ import Snowflake from "@/components/Snowflake";
 import DeerSpawner from "@/components/DeerSpawner";
 import GiftSpawner from "@/components/GiftSpawner";
 import OrnamentSpot from "@/components/OrnamentSpot";
-import Draggable from "@/components/Draggable";
+import HoverEvents from "@/components/HoverEvents";
 import Gift from "@/components/Gift";
 import { Canvas } from "@react-three/fiber";
 import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
@@ -41,13 +41,7 @@ function CanvasScene(props) {
             <Snowflake count={500} />
 
             <ambientLight intensity={0.5} color={"white"} />
-            <Draggable camSetting={props.camSetting} giftClickHandler={props.giftClickHandler}>
-                <OrnamentSpot
-                    ornaments={props.ornaments}
-                    choose={props.choose}
-                    showAuthor={props.showAuthor}
-                    hideAuthor={props.hideAuthor}
-                />
+            <HoverEvents camSetting={props.camSetting} giftClickHandler={props.giftClickHandler}>
                 <Gift
                     file="/models/CylinderGift.glb"
                     type={"Gift Cylinder"}
@@ -61,7 +55,16 @@ function CanvasScene(props) {
                     showAuthor={props.showAuthor}
                     hideAuthor={props.hideAuthor}
                 />
-            </Draggable>
+            </HoverEvents>
+
+            <OrnamentSpot
+                ornaments={props.ornaments}
+                choose={props.choose}
+                setChoose={props.setChoose}
+                showAuthor={props.showAuthor}
+                hideAuthor={props.hideAuthor}
+                load={props.load}
+            />
 
             <LightBulb position={[0, 5, 0]} size={[0.2, 30, 10]} intensity={5.5} color={"beige"} shadows={shadows} />
 
@@ -75,25 +78,13 @@ function CanvasScene(props) {
     );
 }
 
-export default function RoomCanvas({
-    firstTime,
-    numReindeers,
-    choose,
-    ornaments,
-    hideAuthor,
-    showAuthor,
-    camSetting,
-    giftClickHandler,
-    giftData,
-    timeLeft,
-    shadows,
-    rotation,
-}) {
+export default function RoomCanvas(props) {
     const cookies = useCookies();
+
     return (
         <Canvas
-            style={{ visibility: firstTime ? "hidden" : "visible" }} // if viewing onboarding, hide canvas for performance
-            shadows={!firstTime && shadows != 0} // if viewing onboarding, turn shadows off for performance
+            style={{ visibility: props.firstTime ? "hidden" : "visible" }} // if viewing onboarding, hide canvas for performance
+            shadows={!props.firstTime && props.shadows != 0} // if viewing onboarding, turn shadows off for performance
             className={style.canvas}
             camera={{
                 position: [7, 4, 7],
@@ -138,20 +129,22 @@ export default function RoomCanvas({
             }}
         >
             <CanvasScene
-                numReindeers={numReindeers}
-                choose={choose}
-                ornaments={ornaments}
-                showAuthor={showAuthor}
-                hideAuthor={hideAuthor}
-                camSetting={camSetting}
-                giftClickHandler={giftClickHandler}
-                giftData={giftData}
-                timeLeft={timeLeft}
-                shadows={shadows}
+                numReindeers={props.numReindeers}
+                choose={props.choose}
+                setChoose={props.setChoose}
+                ornaments={props.ornaments}
+                showAuthor={props.showAuthor}
+                hideAuthor={props.hideAuthor}
+                camSetting={props.camSetting}
+                giftClickHandler={props.giftClickHandler}
+                giftData={props.giftData}
+                timeLeft={props.timeLeft}
+                shadows={props.shadows}
+                load={props.load}
             />
             {/* if viewing onboarding, turn rotation off for performance
                 else, rotation follows settings */}
-            <Controls rotate={firstTime || !rotation ? 0 : rotation} camSetting={camSetting} />
+            <Controls rotate={props.firstTime || !props.rotation ? 0 : props.rotation} camSetting={props.camSetting} />
         </Canvas>
     );
 }
