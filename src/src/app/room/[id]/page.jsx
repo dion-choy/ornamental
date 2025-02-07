@@ -25,51 +25,53 @@ import Settings from "@/components/Settings";
 import RoomCanvas from "@/components/RoomCanvas";
 
 export default function Home() {
-    const { id } = useParams();
+    const { id } = useParams(); // Room code id
     const cookies = useCookies();
-    const [numReindeers, setNumReindeers] = useState(0);
-    const [chooseOrnament, setChooseOrnament] = useState(false);
-    const [camSetting, setCamSetting] = useState(0);
-    const [ornaments, setOrnaments] = useState([]);
-    const [firstTime, setFirstTime] = useState(false);
-    const [eventRunning, setEventRunning] = useState(false);
-    const [room, setRoom] = useState({});
-    const [jsLoaded, setLoaded] = useState(true);
-    const [authorVisible, setAuthorVisible] = useState(false);
-    const [giftGUIVisible, setGiftGUIVisible] = useState(false);
-    const [selectedGift, setSelectedGift] = useState("");
-    const [giftData, setGiftData] = useState([]);
-    const [timeLeft, setTimeLeft] = useState("-- Days --:--:--");
-    const [seenCelebration, setSeenCelebration] = useState(true);
+    const [numReindeers, setNumReindeers] = useState(0); // State for number of reindeers
+    const [ornaments, setOrnaments] = useState([]); // State to hold all ornaments in room
+    const [giftData, setGiftData] = useState([]); // State for gifts displayed below tree
+
+    const [chooseOrnament, setChooseOrnament] = useState(false); // State to indicate if user is choosing a gift
+    const [authorVisible, setAuthorVisible] = useState(false); // State for author name GUI visible or not
+    const [giftGUIVisible, setGiftGUIVisible] = useState(false); // State for whether selecting a gift GUI is open (at gift table)
+    const [selectedGift, setSelectedGift] = useState(""); // State for selected gift from above gift GUI
+
+    const [camSetting, setCamSetting] = useState(0); // State for orbiting vs viewing gift table
+    const [firstTime, setFirstTime] = useState(false); // State to indicate first time viewing onboarding
+    const [eventRunning, setEventRunning] = useState(false); // State to indicate if secret santa has started
+    const [room, setRoom] = useState({}); // State to hold room object
+    const [jsLoaded, setLoaded] = useState(true); // State to load timer once
+    const [timeLeft, setTimeLeft] = useState("-- Days --:--:--"); // State for countdown timer
+    const [seenCelebration, setSeenCelebration] = useState(true); // State for whether user seen celebration yet
     const [quizVisible, setQuizVisible] = useState(false); // State to control Quiz visibility
-    const [isAdmin, setIsAdmin] = useState(false);
-    useEffect(() => {
-        console.log(seenCelebration);
-    }, [seenCelebration]);
+    const [isAdmin, setIsAdmin] = useState(false); // State if user is admin
+
+    const [settingsVisible, setSettingsVisible] = useState(false); // State for settings GUI
+    const [shadows, setShadows] = useState("high"); // State for shadows settings
+    const [rotation, setRotation] = useState(true); // State for rotation settings
 
     function load() {
         console.log(id);
         getNoPlayers(id).then((no) => {
-            setNumReindeers(no);
+            setNumReindeers(no); //
         });
         getRoom(id).then((roomStr) => {
             let userId = cookies.get("userId");
             if (userId) {
                 hasSeenCelebration(userId).then((res) => {
-                    setSeenCelebration(res);
+                    setSeenCelebration(res); // Load seen celebration
                 });
 
                 getUser(userId).then((res) => {
                     res = EJSON.parse(res);
-                    console.log(res);
-                    setIsAdmin(res.is_admin);
+                    setIsAdmin(res.is_admin); // load admin
                 });
             }
 
             const room = EJSON.parse(roomStr);
-            setRoom(room);
-            setOrnaments(room.ornaments);
-            setGiftData(room.gifts);
+            setRoom(room); // set room
+            setOrnaments(room.ornaments); // set ornaments
+            setGiftData(room.gifts); // set gifts
             if (room.secret_santa.started == true) {
                 setEventRunning(true);
                 let userId = cookies.get("userId");
@@ -101,8 +103,10 @@ export default function Home() {
             if (jsLoaded) {
                 setLoaded(false);
                 setInterval(() => {
+                    // Interval to update time
                     const curDate = new Date();
                     let timeDelta = endDate - curDate;
+                    // If after event, time delta set 0
                     timeDelta = timeDelta < 0 ? 0 : timeDelta;
                     let days = Math.floor(timeDelta / 86400000);
                     timeDelta %= 86400000;
@@ -112,6 +116,7 @@ export default function Home() {
                     timeDelta %= 60000;
                     let secs = Math.floor(timeDelta / 1000);
 
+                    // If hours, min, sec smaller than 10 append 0 in front
                     setTimeLeft(
                         `${days} Days ${hours >= 10 ? hours : "0" + hours}:${mins >= 10 ? mins : "0" + mins}:${
                             secs >= 10 ? secs : "0" + secs
@@ -123,23 +128,28 @@ export default function Home() {
     }
 
     useEffect(() => {
+        // Reload page every min
         load();
         setInterval(load, 60000);
     }, []);
 
+    // Callback to show author when object hovered
     const showAuthor = useCallback((authorId) => {
         getUser(EJSON.stringify(authorId)).then((authorStr) => {
             const author = EJSON.parse(authorStr);
             setAuthorVisible(author.name);
         });
+        // if prev hideAuthor timeout created, remove it
         clearTimeout(hideTimeout);
     }, []);
 
+    // Callback to hide author when object hovered
     let hideTimeout;
     const hideAuthor = useCallback(() => {
         hideTimeout = setTimeout(() => setAuthorVisible(false), 1000);
     }, []);
 
+    // Callback to pass to gift 3D object for toggling giftGUI
     function giftClickHandler(object) {
         if (object.giftType == selectedGift || selectedGift == "") {
             setGiftGUIVisible(!giftGUIVisible);
@@ -147,6 +157,7 @@ export default function Home() {
         setSelectedGift(object.giftType);
     }
 
+    // Handler to add gift to room
     function addGiftHandler() {
         let userId = cookies.get("userId");
         getRoom(id).then((roomStr) => {
@@ -176,14 +187,6 @@ export default function Home() {
             });
         });
     }
-
-    useEffect(() => {
-        console.log(`Gift gui is ${giftGUIVisible ? "on" : "off"}`);
-    }, [giftGUIVisible]);
-
-    const [settingsVisible, setSettingsVisible] = useState(false);
-    const [shadows, setShadows] = useState("high");
-    const [rotation, setRotation] = useState(true);
 
     return (
         <div className={style.scene}>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { useLoader } from "@react-three/fiber";
 
@@ -16,9 +16,7 @@ export default function Gift(props) {
         setGift(clonedGift); // Update the state with the cloned model
     }, []);
 
-    return (
-        <mesh position={props.position}>
-            <primitive object={gift} scale={props.scale} />
-        </mesh>
-    );
+    const testRef = useRef();
+
+    return <primitive object={gift} scale={props.scale} position={props.position} />;
 }

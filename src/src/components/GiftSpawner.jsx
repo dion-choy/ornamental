@@ -56,7 +56,6 @@ const GiftSpawner = ({ parentGiftDatas = [], showAuthor, hideAuthor }) => {
     const [giftDatas, setGiftDatas] = useState([]);
 
     useEffect(() => {
-        console.log(parentGiftDatas);
         // Set gift data based on parentGiftDatas
         setGiftDatas(
             parentGiftDatas.map((gift, index) => ({
@@ -70,10 +69,6 @@ const GiftSpawner = ({ parentGiftDatas = [], showAuthor, hideAuthor }) => {
     }, [parentGiftDatas]);
 
     const groupRef = useRef(null);
-
-    useEffect(() => {
-        console.log(groupRef.current);
-    }, [groupRef]);
 
     useEffect(() => {
         groupRef.current.children = [];
