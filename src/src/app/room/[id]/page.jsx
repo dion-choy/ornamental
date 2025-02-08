@@ -85,7 +85,6 @@ export default function Home() {
             }
             console.log("ROOM: ", room.current_question);
             if (room.current_question) {
-                console.log("IM IN");
 
                 hasDoneQuiz(userId)
                     .then((res) => {
@@ -122,8 +121,7 @@ export default function Home() {
 
             // If hours, min, sec smaller than 10 append 0 in front
             setTimeLeft(
-                `${days} Days ${hours >= 10 ? hours : "0" + hours}:${mins >= 10 ? mins : "0" + mins}:${
-                    secs >= 10 ? secs : "0" + secs
+                `${days} Days ${hours >= 10 ? hours : "0" + hours}:${mins >= 10 ? mins : "0" + mins}:${secs >= 10 ? secs : "0" + secs
                 }`
             );
         }, 1000);
@@ -189,20 +187,22 @@ export default function Home() {
             });
         });
     }
-    
+
     //function to copy room code
     const copyToClipboard = () => {
-          navigator.clipboard.writeText(id).then(() => {
+        navigator.clipboard.writeText(id).then(() => {
             setCopied(true);
             setTimeout(() => setCopied(false), 2000);
-          });
-    };
-    
-    const toggleDropdown = () => {
-        setIsDropdownVisible(!isDropdownVisible);
+        });
     };
 
-    
+    //function to toggle room info dropdown visibility
+    const toggleDropdown = () => {
+        setIsDropdownVisible((prevState) => !prevState);
+    };
+
+
+
 
     return (
         <div className={style.scene}>
@@ -279,7 +279,7 @@ export default function Home() {
                     </div>
                 )}
 
-                
+
 
                 <Settings
                     visible={settingsVisible}
@@ -317,30 +317,28 @@ export default function Home() {
                     )}
                 </div>
 
-                <div>
-                    <button onClick={toggleDropdown} id={style["toggle-button"]}>
-                        {isDropdownVisible ? "Hide Room Info" : "Show Room Info"}
-                    </button>
-                    {isDropdownVisible && (
-                        <div id={style["room-info"]}>
-                        Room Name: {room.hasOwnProperty("name") && room.name}
-                        <br />
-                        Description: {room.hasOwnProperty("secret_santa") &&
-                            room.secret_santa.description}
-                        <br />
-                        <button
-                            id={style["code-button"]}
-                            onClick={() => {
-                            copyToClipboard();
-                            }}
-                        >
-                            Code: {id} {copied && "✅"}
-                        </button>
-                        </div>
-                    )}
-                </div>
 
-            
+                <button onClick={toggleDropdown} id={style["toggle-button"]}>
+                    {isDropdownVisible ? "Hide Room Info" : "Show Room Info"}
+                </button>
+
+                {isDropdownVisible && <div id={style["room-info"]} >
+                    Room Name: {room.hasOwnProperty("name") && room.name}
+                    <br />
+
+                    Description:{" "}
+                    {room.hasOwnProperty("secret_santa") && room.secret_santa.description}
+
+                    <br />
+
+                    <button id={style["code-button"]} onClick={copyToClipboard}>
+                        Code: {id} {copied && "✅"}
+                    </button>
+                </div>
+                }
+
+
+
 
                 {room.hasOwnProperty("secret_santa") && room.secret_santa.started && (
                     <div className={style.giftbutton}>
