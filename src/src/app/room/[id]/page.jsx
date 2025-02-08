@@ -297,9 +297,9 @@ export default function Home() {
                             {room.hasOwnProperty("secret_santa") && !room.secret_santa.started && (
                                 <button onClick={() => startSecretSanta(id)}>Start Secret Santa</button>
                             )}
-                            {room.hasOwnProperty("secret_santa") && room.secret_santa.started && (
-                                <button onClick={() => startQuiz(id)}>Show Quiz</button>
-                            )}
+                            {room.hasOwnProperty("secret_santa") &&
+                                room.secret_santa.started &&
+                                !room.current_question && <button onClick={() => startQuiz(id)}>Show Quiz</button>}
                         </>
                     )}
                     {room.hasOwnProperty("secret_santa") && room.secret_santa.started && (
