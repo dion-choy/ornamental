@@ -19,7 +19,7 @@ const GiftSpawner = ({ parentGiftDatas = [], showAuthor, hideAuthor }) => {
 
     // Function to prepare a gift model based on its type and color
     let i = 0;
-    const prepareGift = /*useCallback(*/ (giftType, color, author) => {
+    const prepareGift = (giftType, color, author) => {
         const gift = useLoader(
             GLTFLoader,
             (() => {
@@ -51,7 +51,15 @@ const GiftSpawner = ({ parentGiftDatas = [], showAuthor, hideAuthor }) => {
         });
 
         return gift;
-    }; //, []);
+    };
+
+    const randColors = useMemo(
+        () =>
+            parentGiftDatas.map(
+                () => new THREE.Color().setHSL(Math.random(), 1, 0.5) // Assign a random color once
+            ),
+        [parentGiftDatas.length]
+    );
 
     const [giftDatas, setGiftDatas] = useState([]);
 
@@ -63,7 +71,7 @@ const GiftSpawner = ({ parentGiftDatas = [], showAuthor, hideAuthor }) => {
                 scale: gift.size || 1,
                 author: gift.authorid,
                 giftType: gift.shape,
-                color: new THREE.Color().setHSL(Math.random(), 1, 0.5), // Assign a random color once
+                color: randColors[index],
             }))
         );
     }, [parentGiftDatas]);

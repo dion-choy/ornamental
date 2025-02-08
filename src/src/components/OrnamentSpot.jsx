@@ -52,7 +52,7 @@ export default function OrnamentSpot(props) {
             randColor.setHSL(Math.random(), 1, 0.5);
             return randColor;
         });
-    }, [taken]);
+    }, [taken.length]);
 
     return (
         <group>

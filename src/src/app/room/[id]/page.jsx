@@ -38,9 +38,7 @@ export default function Home() {
 
     const [camSetting, setCamSetting] = useState(0); // State for orbiting vs viewing gift table
     const [firstTime, setFirstTime] = useState(false); // State to indicate first time viewing onboarding
-    const [eventRunning, setEventRunning] = useState(false); // State to indicate if secret santa has started
     const [room, setRoom] = useState({}); // State to hold room object
-    const [jsLoaded, setLoaded] = useState(true); // State to load timer once
     const [timeLeft, setTimeLeft] = useState("-- Days --:--:--"); // State for countdown timer
     const [seenCelebration, setSeenCelebration] = useState(true); // State for whether user seen celebration yet
     const [quizVisible, setQuizVisible] = useState(false); // State to control Quiz visibility
@@ -99,33 +97,36 @@ export default function Home() {
                         console.log(err);
                     });
             }
-            const endDate = stringToDate(room.secret_santa.end_date);
-            if (jsLoaded) {
-                setLoaded(false);
-                setInterval(() => {
-                    // Interval to update time
-                    const curDate = new Date();
-                    let timeDelta = endDate - curDate;
-                    // If after event, time delta set 0
-                    timeDelta = timeDelta < 0 ? 0 : timeDelta;
-                    let days = Math.floor(timeDelta / 86400000);
-                    timeDelta %= 86400000;
-                    let hours = Math.floor(timeDelta / 3600000);
-                    timeDelta %= 3600000;
-                    let mins = Math.floor(timeDelta / 60000);
-                    timeDelta %= 60000;
-                    let secs = Math.floor(timeDelta / 1000);
-
-                    // If hours, min, sec smaller than 10 append 0 in front
-                    setTimeLeft(
-                        `${days} Days ${hours >= 10 ? hours : "0" + hours}:${mins >= 10 ? mins : "0" + mins}:${
-                            secs >= 10 ? secs : "0" + secs
-                        }`
-                    );
-                }, 1000);
-            }
         });
     }
+
+    useEffect(() => {
+        if (!room.secret_santa) {
+            return;
+        }
+        const endDate = stringToDate(room.secret_santa.end_date);
+        setInterval(() => {
+            // Interval to update time
+            const curDate = new Date();
+            let timeDelta = endDate - curDate;
+            // If after event, time delta set 0
+            timeDelta = timeDelta < 0 ? 0 : timeDelta;
+            let days = Math.floor(timeDelta / 86400000);
+            timeDelta %= 86400000;
+            let hours = Math.floor(timeDelta / 3600000);
+            timeDelta %= 3600000;
+            let mins = Math.floor(timeDelta / 60000);
+            timeDelta %= 60000;
+            let secs = Math.floor(timeDelta / 1000);
+
+            // If hours, min, sec smaller than 10 append 0 in front
+            setTimeLeft(
+                `${days} Days ${hours >= 10 ? hours : "0" + hours}:${mins >= 10 ? mins : "0" + mins}:${
+                    secs >= 10 ? secs : "0" + secs
+                }`
+            );
+        }, 1000);
+    }, [room]);
 
     useEffect(() => {
         // Reload page every min
@@ -280,11 +281,15 @@ export default function Home() {
                     </button>
                     {isAdmin && (
                         <>
-                            <button onClick={() => startSecretSanta(id)}>Start Secret Santa</button>
-                            <button onClick={() => startQuiz(id)}>Show Quiz</button>
+                            {room.hasOwnProperty("secret_santa") && !room.secret_santa.started && (
+                                <button onClick={() => startSecretSanta(id)}>Start Secret Santa</button>
+                            )}
+                            {room.hasOwnProperty("secret_santa") && room.secret_santa.started && (
+                                <button onClick={() => startQuiz(id)}>Show Quiz</button>
+                            )}
                         </>
                     )}
-                    {eventRunning && (
+                    {room.hasOwnProperty("secret_santa") && room.secret_santa.started && (
                         <button
                             onClick={() => {
                                 setChooseOrnament(!chooseOrnament);
