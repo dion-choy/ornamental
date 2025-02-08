@@ -47,6 +47,7 @@ export default function Home() {
     const [settingsVisible, setSettingsVisible] = useState(false); // State for settings GUI
     const [shadows, setShadows] = useState("high"); // State for shadows settings
     const [rotation, setRotation] = useState(true); // State for rotation settings
+    const [copied, setCopied] = useState(false); // State for copied room code
 
     function load() {
         console.log(id);
@@ -188,6 +189,16 @@ export default function Home() {
             });
         });
     }
+    
+    //function to copy room code
+    const copyToClipboard = () => {
+          navigator.clipboard.writeText(id).then(() => {
+            setCopied(true);
+            setTimeout(() => setCopied(false), 2000);
+          });
+        };
+
+    
 
     return (
         <div className={style.scene}>
@@ -264,6 +275,8 @@ export default function Home() {
                     </div>
                 )}
 
+                
+
                 <Settings
                     visible={settingsVisible}
                     setVis={setSettingsVisible}
@@ -298,6 +311,12 @@ export default function Home() {
                             Add Ornaments
                         </button>
                     )}
+                </div>
+                <div id={style["room-code"]} >
+                <button onClick={() => {copyToClipboard();}}>
+                    Code: {id} {copied && "✅"}
+                </button>
+                    
                 </div>
                 {room.hasOwnProperty("secret_santa") && room.secret_santa.started && (
                     <div className={style.giftbutton}>
