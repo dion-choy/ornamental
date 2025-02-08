@@ -17,7 +17,10 @@ import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
 import { useCookies } from "next-client-cookies";
 
 // DION File
-function CanvasScene(props) {
+
+export default function RoomCanvas(props) {
+    const cookies = useCookies();
+
     let shadows; // Determine shadows from the props and get shadow resolution
     switch (props.shadows) {
         case "high":
@@ -34,52 +37,6 @@ function CanvasScene(props) {
         default:
             shadows = 1024;
     }
-    return (
-        <group>
-            <Skybox />
-
-            <Snowflake count={500} />
-
-            <ambientLight intensity={0.5} color={"white"} />
-            <HoverEvents camSetting={props.camSetting} giftClickHandler={props.giftClickHandler}>
-                <Gift
-                    file="/models/CylinderGift.glb"
-                    type={"Gift Cylinder"}
-                    scale={0.31}
-                    position={[-3.64, 1.05, -1.54]}
-                />
-                <Gift file="/models/BagGift.glb" type={"Gift Bag"} scale={0.31} position={[-3.64, 1.05, -2.54]} />
-                <Gift file="/models/BoxGift.glb" type={"Gift Box"} scale={0.31} position={[-3.66, 1.05, -3.645]} />
-                <GiftSpawner
-                    parentGiftDatas={props.giftData}
-                    showAuthor={props.showAuthor}
-                    hideAuthor={props.hideAuthor}
-                />
-            </HoverEvents>
-
-            <OrnamentSpot
-                ornaments={props.ornaments}
-                choose={props.choose}
-                setChoose={props.setChoose}
-                showAuthor={props.showAuthor}
-                hideAuthor={props.hideAuthor}
-                load={props.load}
-            />
-
-            <LightBulb position={[0, 5, 0]} size={[0.2, 30, 10]} intensity={5.5} color={"beige"} shadows={shadows} />
-
-            <DeerSpawner deerCount={props.numReindeers}></DeerSpawner>
-            {props.timeLeft == "0 Days 00:00:00" && (
-                <Model file="/models/TreeStar.glb" position={[0, 0, 0]} shadows={shadows} />
-            )}
-            <Model file="/models/christmas_tree.glb" position={[0, 0, 0]} shadows={shadows} />
-            <Model file="/models/ChristmasRoomVer2.glb" position={[0, 0, 0]} shadows={shadows} />
-        </group>
-    );
-}
-
-export default function RoomCanvas(props) {
-    const cookies = useCookies();
 
     return (
         <Canvas
@@ -128,20 +85,49 @@ export default function RoomCanvas(props) {
                 gl.setAnimationLoop(() => composer.render());
             }}
         >
-            <CanvasScene
-                numReindeers={props.numReindeers}
+            <Skybox />
+
+            <Snowflake count={500} />
+
+            <ambientLight intensity={0.5} color={"white"} />
+            <HoverEvents camSetting={props.camSetting} giftClickHandler={props.giftClickHandler}>
+                <Gift
+                    file="/models/CylinderGift.glb"
+                    type={"Gift Cylinder"}
+                    scale={0.31}
+                    position={[-3.64, 1.05, -1.54]}
+                />
+                <Gift file="/models/BagGift.glb" type={"Gift Bag"} scale={0.31} position={[-3.64, 1.05, -2.54]} />
+                <Gift file="/models/BoxGift.glb" type={"Gift Box"} scale={0.31} position={[-3.66, 1.05, -3.645]} />
+                <GiftSpawner
+                    parentGiftDatas={props.giftData}
+                    showAuthor={props.showAuthor}
+                    hideAuthor={props.hideAuthor}
+                />
+            </HoverEvents>
+
+            <OrnamentSpot
+                ornaments={props.ornaments}
                 choose={props.choose}
                 setChoose={props.setChoose}
-                ornaments={props.ornaments}
                 showAuthor={props.showAuthor}
                 hideAuthor={props.hideAuthor}
-                camSetting={props.camSetting}
-                giftClickHandler={props.giftClickHandler}
-                giftData={props.giftData}
-                timeLeft={props.timeLeft}
-                shadows={props.shadows}
                 load={props.load}
             />
+
+            <LightBulb position={[0, 5, 0]} size={[0.2, 30, 10]} intensity={5.5} color={"beige"} shadows={shadows} />
+
+            <DeerSpawner deerCount={props.numReindeers}></DeerSpawner>
+
+            <Model
+                visible={props.timeLeft == "0 Days 00:00:00"}
+                file="/models/TreeStar.glb"
+                position={[0, 0, 0]}
+                shadows={shadows}
+            />
+            <Model file="/models/christmas_tree.glb" position={[0, 0, 0]} shadows={shadows} />
+            <Model file="/models/ChristmasRoomVer2.glb" position={[0, 0, 0]} shadows={shadows} />
+
             {/* if viewing onboarding, turn rotation off for performance
                 else, rotation follows settings */}
             <Controls rotate={props.firstTime || !props.rotation ? 0 : props.rotation} camSetting={props.camSetting} />

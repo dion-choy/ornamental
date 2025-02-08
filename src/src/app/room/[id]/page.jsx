@@ -15,6 +15,7 @@ import {
     hasDoneQuiz,
     doneQuiz,
     startQuiz,
+    listener,
 } from "@/components/api/api";
 import { EJSON } from "bson";
 import { useCookies } from "next-client-cookies";
@@ -85,7 +86,6 @@ export default function Home() {
             }
             console.log("ROOM: ", room.current_question);
             if (room.current_question) {
-
                 hasDoneQuiz(userId)
                     .then((res) => {
                         console.log("RES: ", res);
@@ -121,7 +121,8 @@ export default function Home() {
 
             // If hours, min, sec smaller than 10 append 0 in front
             setTimeLeft(
-                `${days} Days ${hours >= 10 ? hours : "0" + hours}:${mins >= 10 ? mins : "0" + mins}:${secs >= 10 ? secs : "0" + secs
+                `${days} Days ${hours >= 10 ? hours : "0" + hours}:${mins >= 10 ? mins : "0" + mins}:${
+                    secs >= 10 ? secs : "0" + secs
                 }`
             );
         }, 1000);
@@ -130,7 +131,7 @@ export default function Home() {
     useEffect(() => {
         // Reload page every min
         load();
-        setInterval(load, 60000);
+        setInterval(load, 10000);
     }, []);
 
     // Callback to show author when object hovered
@@ -200,9 +201,6 @@ export default function Home() {
     const toggleDropdown = () => {
         setIsDropdownVisible((prevState) => !prevState);
     };
-
-
-
 
     return (
         <div className={style.scene}>
@@ -279,8 +277,6 @@ export default function Home() {
                     </div>
                 )}
 
-
-
                 <Settings
                     visible={settingsVisible}
                     setVis={setSettingsVisible}
@@ -317,28 +313,21 @@ export default function Home() {
                     )}
                 </div>
 
-
                 <button onClick={toggleDropdown} id={style["toggle-button"]}>
                     {isDropdownVisible ? "Hide Room Info" : "Show Room Info"}
                 </button>
 
-                {isDropdownVisible && <div id={style["room-info"]} style={{ overflowY: "auto", height: "300px" }} >
-                    Room Name: {room.hasOwnProperty("name") && room.name}
-                    <br />
-
-                    Description:{" "}
-                    {room.hasOwnProperty("secret_santa") && room.secret_santa.description}
-
-                    <br />
-
-                    <button id={style["code-button"]} onClick={copyToClipboard}>
-                        Code: {id} {copied && "✅"}
-                    </button>
-                </div>
-                }
-
-
-
+                {isDropdownVisible && (
+                    <div id={style["room-info"]} style={{ overflowY: "auto", height: "300px" }}>
+                        Room Name: {room.hasOwnProperty("name") && room.name}
+                        <br />
+                        Description: {room.hasOwnProperty("secret_santa") && room.secret_santa.description}
+                        <br />
+                        <button id={style["code-button"]} onClick={copyToClipboard}>
+                            Code: {id} {copied && "✅"}
+                        </button>
+                    </div>
+                )}
 
                 {room.hasOwnProperty("secret_santa") && room.secret_santa.started && (
                     <div className={style.giftbutton}>

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { useFrame, useLoader, useThree } from "@react-three/fiber";
 import { AnimationMixer, MeshBasicMaterial, PointLight } from "three";
@@ -6,8 +6,14 @@ import { AnimationMixer, MeshBasicMaterial, PointLight } from "three";
 // DION File
 function Model(props) {
     const gltf = useLoader(GLTFLoader, props.file); // Load the GLTF model
-    const rotate = useRef();
     let mixer;
+
+    const [visibility, setVisibility] = useState(true);
+    useEffect(() => {
+        if (props.visible != null) {
+            setVisibility(props.visible);
+        }
+    }, [props.visible]);
 
     gltf.scene.traverse(function (child) {
         if (child.isMesh) {
@@ -58,7 +64,7 @@ function Model(props) {
         mixer?.update(delta);
     });
 
-    return <primitive object={gltf.scene} ref={rotate} scale={2} position={props.position} />;
+    return <primitive object={gltf.scene} visible={visibility} scale={2} position={props.position} />;
 }
 
 export default Model;
