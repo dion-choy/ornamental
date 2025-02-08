@@ -126,11 +126,11 @@
   gap: 10px;
   z-index: 15;
   pointer-events: auto;
-  font-weight: bold;
+  font-weight: 600;
 }
 
 #admin-panel button {
-  background-color: #333;
+  background-color: #0D1117;
   color: white;
   border: none;
   padding: 10px 15px;
@@ -143,23 +143,83 @@
   background-color: #555;
 }
 
-#room-code{
-  font-weight: bold;
-  background-color: #333;
+#room-info{
+  font-weight: 600;
+  background-color: #0D1117;
   color: white;
   border: none;
-  padding: 10px 15px;
-  border-radius: 5px;
+  padding: 15px 20px;
+  border-radius: 10px;
   font-size: 14px;
+  position: absolute;
+  bottom: 70px;
+  right: 20px;
+  z-index: 15;
+  display: none;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  animation: dropdown 0.3s ease;
+}
+
+#room-info.visible {
+  display: block;
+}
+
+#code-button{
+  background-color: #24223F;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
   cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+
+#code-button:hover {
+  background-color: #433F75;
+  transform: scale(1.05);
+}
+
+#code-button:active {
+  transform: scale(0.95);
+}
+
+#toggle-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
   position: absolute;
   bottom: 20px;
   right: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  z-index: 15;
-  pointer-events: auto;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#toggle-button:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+#toggle-button:active {
+  background-color: #003d80;
+  transform: scale(0.95);
+}
+
+@keyframes dropdown {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .settings_menu {

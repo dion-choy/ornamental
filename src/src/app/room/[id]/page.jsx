@@ -48,6 +48,7 @@ export default function Home() {
     const [shadows, setShadows] = useState("high"); // State for shadows settings
     const [rotation, setRotation] = useState(true); // State for rotation settings
     const [copied, setCopied] = useState(false); // State for copied room code
+    const [isDropdownVisible, setIsDropdownVisible] = useState(false); // State for room details dropdown
 
     function load() {
         console.log(id);
@@ -72,7 +73,6 @@ export default function Home() {
             setOrnaments(room.ornaments); // set ornaments
             setGiftData(room.gifts); // set gifts
             if (room.secret_santa.started == true) {
-                setEventRunning(true);
                 let userId = cookies.get("userId");
                 getUser(userId).then((res) => {
                     res = EJSON.parse(res);
@@ -196,7 +196,11 @@ export default function Home() {
             setCopied(true);
             setTimeout(() => setCopied(false), 2000);
           });
-        };
+    };
+    
+    const toggleDropdown = () => {
+        setIsDropdownVisible(!isDropdownVisible);
+    };
 
     
 
@@ -312,12 +316,32 @@ export default function Home() {
                         </button>
                     )}
                 </div>
-                <div id={style["room-code"]} >
-                <button onClick={() => {copyToClipboard();}}>
-                    Code: {id} {copied && "✅"}
-                </button>
-                    
+
+                <div>
+                    <button onClick={toggleDropdown} id={style["toggle-button"]}>
+                        {isDropdownVisible ? "Hide Room Info" : "Show Room Info"}
+                    </button>
+                    {isDropdownVisible && (
+                        <div id={style["room-info"]}>
+                        Room Name: {room.hasOwnProperty("name") && room.name}
+                        <br />
+                        Description: {room.hasOwnProperty("secret_santa") &&
+                            room.secret_santa.description}
+                        <br />
+                        <button
+                            id={style["code-button"]}
+                            onClick={() => {
+                            copyToClipboard();
+                            }}
+                        >
+                            Code: {id} {copied && "✅"}
+                        </button>
+                        </div>
+                    )}
                 </div>
+
+            
+
                 {room.hasOwnProperty("secret_santa") && room.secret_santa.started && (
                     <div className={style.giftbutton}>
                         <button
