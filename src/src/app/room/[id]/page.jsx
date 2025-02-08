@@ -325,12 +325,12 @@ export default function Home() {
                 {isDropdownVisible && <div id={style["room-info"]} style={{ overflowY: "auto", height: "300px" }} >
                     Room Name: {room.hasOwnProperty("name") && room.name}
                     <br />
-
+                    <br />
                     Description:{" "}
                     {room.hasOwnProperty("secret_santa") && room.secret_santa.description}
 
                     <br />
-
+                    <br />
                     <button id={style["code-button"]} onClick={copyToClipboard}>
                         Code: {id} {copied && "✅"}
                     </button>
