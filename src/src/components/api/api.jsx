@@ -290,9 +290,9 @@ export async function getQuestions(roomCode, userid) {
     let userId = EJSON.parse(userid);
     let correctuser = null;
     for (let i = 0; i < recepients.length; i++) {
-        console.log(recepients[i].author);
-        console.log(userId);
-        console.log("next");
+        // console.log(recepients[i].author);
+        // console.log(userId);
+        // console.log("next");
         if (recepients[i].author.toString() == userId.toString()) {
             correctuser = recepients[i].target;
         }
@@ -309,10 +309,22 @@ export async function getQuestions(roomCode, userid) {
         let ures = {};
         let j = 0;
         questObj["answer"] = "";
-        for (let user in answers) {
+        let users = Object.keys(answers);
+
+        // shuffle users
+        for (let k = users.length - 1; k >= 0; k--) {
+            let l = Math.floor(Math.random() * (k + 1));
+            let temp = users[k];
+            users[k] = users[l];
+            users[l] = temp;
+        }
+
+        console.log(answers);
+        console.log(users);
+        for (let user of users) {
             console.log(user);
-            console.log(correctuser);
-            console.log(userId.equals(correctuser));
+            // console.log(correctuser);
+            // console.log(userId.equals(correctuser));
             if (user == correctuser.toString()) {
                 questObj["answer"] = j;
             }
@@ -324,6 +336,7 @@ export async function getQuestions(roomCode, userid) {
 
         qna.push(questObj);
     }
+    console.log(qna);
     return qna;
 }
 // TODO: add a function to update users answers to the questions
