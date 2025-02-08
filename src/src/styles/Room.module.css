@@ -157,6 +157,10 @@
   z-index: 15;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
   animation: dropdown 0.3s ease;
+  max-width: 300px;
+  word-wrap: break-word;
+  word-break: break-word;
+  overflow-wrap: break-word; 
 }
 
 
