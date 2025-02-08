@@ -322,7 +322,7 @@ export default function Home() {
                     {isDropdownVisible ? "Hide Room Info" : "Show Room Info"}
                 </button>
 
-                {isDropdownVisible && <div id={style["room-info"]} >
+                {isDropdownVisible && <div id={style["room-info"]} style={{ overflowY: "auto", height: "300px" }} >
                     Room Name: {room.hasOwnProperty("name") && room.name}
                     <br />
 
