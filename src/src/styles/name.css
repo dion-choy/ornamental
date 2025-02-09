@@ -119,9 +119,9 @@ body {
 
 .react-calendar {
   width: 100%;
-  max-width: 280px; /* Adjust the width to better fit your card */
-  background: #1c1f26; /* Match the card's background */
-  border: none; /* Remove the default border */
+  max-width: 280px; 
+  background: #1c1f26; 
+  border: none; 
   border-radius: 10px;
   color: white;
   font-family: "Arial", sans-serif;
@@ -148,7 +148,7 @@ body {
 
 .react-calendar__navigation button:enabled:hover {
   background: #3a3f4b;
-  color: #00ff7f; /* Highlight hover effect */
+  color: #00ff7f; 
 }
 
 .react-calendar__month-view__weekdays {
@@ -174,33 +174,32 @@ body {
 
 .react-calendar__tile:enabled:hover {
   background: #3a3f4b;
-  color: #00ff7f; /* Add a green hover highlight */
+  color: #00ff7f; 
   transform: scale(1.05);
 }
 
 .react-calendar__tile--now {
-  background: #ffcc00; /* Highlight today */
+  background: #ffcc00;
   color: black;
 }
 
 .react-calendar__tile--now:enabled:hover {
-  background: #ffd700; /* Slightly darker highlight on hover */
+  background: #ffd700; 
   color: black;
 }
 
 .react-calendar__tile--active {
-  background: #00ff7f; /* Match the theme with green */
+  background: #00ff7f; 
   color: black;
 }
 
 .react-calendar__tile--active:enabled:hover {
-  background: #32cd32; /* Slightly darker green on hover */
+  background: #32cd32; 
   color: black;
 }
 
-/* Adjust weekend styles */
 .react-calendar__month-view__days__day--weekend {
-  color: #d10000; /* Red for weekends */
+  color: #d10000; 
 }
 
 .custom-calendar-container {
@@ -210,7 +209,7 @@ body {
   padding: 15px;
 }
 
-/* Adjust the card-front container to prevent overflow */
+
 .card-front {
-  overflow: hidden; /* Prevent content overflow */
+  overflow: hidden; 
 }
